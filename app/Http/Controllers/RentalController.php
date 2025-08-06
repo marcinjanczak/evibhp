@@ -4,9 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-class Worker extends Controller
+class RentalController
 {
     public function index(){
-        return 'Witaj cwelu';
+        return "Widok wydań";
     }
 }
