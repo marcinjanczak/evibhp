@@ -9,7 +9,7 @@ use App\Http\Controllers\Start;
 Route::get('/', [Start::class, 'index']);
 
 
-Route::get('/employees', [EmployeeController::class, 'index']);
+Route::get('/employees', [EmployeeController::class, 'index'])-> name('employees.index');
 Route::get('/rentals', [RentalController::class, 'index']);
 Route::get('/items', [ItemController::class, 'index']);
 

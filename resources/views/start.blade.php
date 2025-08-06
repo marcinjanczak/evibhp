@@ -3,7 +3,6 @@
 @section('title', 'Strona główna')
 
 @section('content')
-
 <main>
     <h1>Witaj w aplikacji do zarządzania przedmotami</h1>
     <div class="links">
@@ -19,7 +18,4 @@
         </div>
     </div>
 </main>
-
-
-    
 @endsection
