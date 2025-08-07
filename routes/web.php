@@ -8,9 +8,9 @@ use App\Http\Controllers\Start;
 
 Route::get('/', [Start::class, 'index']);
 
+
+// Routy Dla Employee
 Route::resource('employee', EmployeeController::class);
-
-
 Route::get('/employees', [EmployeeController::class, 'index'])-> name('employees.index');
 Route::delete('/employees/{employee}', [EmployeeController::class, 'destroy'])-> name('employees.destroy');
 Route::get('/employees/{employee}/edit', [EmployeeController::class, 'edit'])-> name('employees.edit');
@@ -19,11 +19,17 @@ Route::get('/employees/create', [EmployeeController::class, 'create'])->name('em
 Route::post('/employees', [EmployeeController::class, 'store'])->name('employees.store');
 
 
+// Routy Dla items
+// Route::resource('items', ItemController::class);
+// Route::get('/items', [ItemController::class, 'index']) -> name('item.index');
+// Route::delete('/item/{item}');
+// Route::get('/item/{item}/edit'), ItemController::class, 'edit']) -> name('employees.edit');
+// Route::put('/item/{item}/edit'), ItemController::class, 'update']) -> name('employees.update');
+// Route::get('/item/create', ItemController::class, 'create')->name('item.store');
+// Route::post('/item', [ItemController::class, 'store'])->name('item.store');
 
-// Routr::edit('/employees/{employee}',[EmployeeController::class, 'destroy']);
+
 
 Route::get('/rentals', [RentalController::class, 'index']);
 
-Route::get('/items', [ItemController::class, 'index']) -> name('item.index');
-Route::resource('items', \App\Http\Controllers\ItemController::class);
 

@@ -8,7 +8,6 @@
                 <div class="card-header bg-primary text-white">
                     <h5 class="mb-0">Dodaj nowego pracownika</h5>
                 </div>
-
                 <div class="card-body">
                     <form method="POST" action="{{ route('employees.store') }}">
                         @csrf
