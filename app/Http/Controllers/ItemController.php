@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Przedmiot;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -9,6 +10,7 @@ class ItemController
 {
     public function index()
     {
+        // $przedmiot = Przedmiot::all();
         $przedmioty = DB::table('przedmiot')
             ->leftJoin('stanprzedmiotow', 'przedmiot.IdPrzedmiot', '=', 'stanprzedmiotow.IdPrzedmiot')
             ->select(

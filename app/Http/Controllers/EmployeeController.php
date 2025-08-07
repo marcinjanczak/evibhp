@@ -34,8 +34,6 @@ class EmployeeController
     public function create(){
         return view('employees.create');
     }
-
-
     public function store(Request $request){
             $validateData = $request->validate([
             'imie' => 'required|string|max:50',
@@ -43,6 +41,5 @@ class EmployeeController
             ]);
         Pracownik::create($validateData);
         return redirect()->route('employees.index')->with('success', 'Pracownik został pomyślnie dodany');
-        
     }
 }
