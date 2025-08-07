@@ -11,8 +11,9 @@ Route::get('/', [Start::class, 'index']);
 
 Route::get('/employees', [EmployeeController::class, 'index'])-> name('employees.index');
 Route::delete('/employees/{employee}', [EmployeeController::class, 'destroy'])-> name('employees.destroy');
-
+// Routr::edit('/employees/{employee}',[EmployeeController::class, 'destroy']);
 
 Route::get('/rentals', [RentalController::class, 'index']);
+
 Route::get('/items', [ItemController::class, 'index']);
 
