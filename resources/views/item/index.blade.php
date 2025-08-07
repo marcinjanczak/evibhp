@@ -10,7 +10,7 @@
                         <h3>Lista przedmiotów</h3>
                         <a href="{{ route('items.create') }}" class="btn btn-success">
                             <i class="fas fa-plus"></i> Dodaj nowy przedmiot
-                        </a>
+                        </a> 
                     </div>
                 </div>
                 <div class="card-body">
