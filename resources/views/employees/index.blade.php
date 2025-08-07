@@ -21,6 +21,10 @@
             <td>{{ $employee->nazwisko }}</td>
             <td class="text-end">
               <div class="d-flex gap-2 justify-content-end">
+                <a href="{{ route('employees.edit', $employee->id) }}" 
+           class="btn btn-sm btn-outline-primary">
+           <i class="fas fa-edit"></i> Edytuj
+        </a>
                 <form action="{{ route('employees.destroy', $employee->id) }}" method="POST">
                   @csrf
                   @method('DELETE')
@@ -35,6 +39,9 @@
           @endforeach
         </tbody>
       </table>
+      <a href="{{ route('employees.create') }}" class="btn btn-success align-self-center">
+        <i class="fas fa-plus"></i> Dodaj pracownika
+    </a>
 </main>
 
 @endsection
