@@ -15,7 +15,7 @@
         </div>
         
         <div class="links-vievs">
-            <a href="/items">Zarządzanie przedmiotami</a>
+            <a href="/items/items.blade.php">Zarządzanie przedmiotami</a>
         </div>
     </div>
 </main>
