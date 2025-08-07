@@ -38,12 +38,12 @@
                     <td>{{ $przedmiot->Rozmiar }}</td>
                     <td>{{ $przedmiot->Ilosc ?? 0 }}</td>
                     <td>
-                        <button onclick="openEditModal({{ $przedmiot->IdPrzedmiot }}, '{{ $przedmiot->Nazwa }}', '{{ $przedmiot->Typ }}', '{{ $przedmiot->Rozmiar }}', {{ $przedmiot->Ilosc ?? 0 }})">Edytuj</button>
+                        {{-- <button onclick="openEditModal({{ $przedmiot->IdPrzedmiot }}, '{{ $przedmiot->Nazwa }}', '{{ $przedmiot->Typ }}', '{{ $przedmiot->Rozmiar }}', {{ $przedmiot->Ilosc ?? 0 }})">Edytuj</button>
                         <form action="{{ route('items.destroy', $przedmiot->IdPrzedmiot) }}" method="POST" style="display:inline;">
                             @csrf
                             @method('DELETE')
                             <button type="submit" onclick="return confirm('Na pewno usunąć?')">Usuń</button>
-                        </form>
+                        </form> --}}
                     </td>
                 </tr>
             @endforeach
@@ -55,7 +55,7 @@
         <div >
             <button onclick="closeEditModal()">X</button>
             <h3>Edytuj przedmiot</h3>
-            <form id="editForm" method="POST">
+            {{-- <form id="editForm" method="POST">
                 @csrf
                 @method('PUT')
                 <input type="hidden" name="IdPrzedmiot" id="editIdPrzedmiot">
@@ -64,7 +64,7 @@
                 <label>Rozmiar: <input type="text" name="Rozmiar" id="editRozmiar"></label><br>
                 <label>Ilość: <input type="number" name="Ilosc" id="editIlosc" min="0"></label><br>
                 <button type="submit">Zapisz</button>
-            </form>
+            </form> --}}
         </div>
     </div>
 
