@@ -24,6 +24,6 @@ Route::post('/employees', [EmployeeController::class, 'store'])->name('employees
 
 Route::get('/rentals', [RentalController::class, 'index']);
 
-Route::get('/items', [ItemController::class, 'index']);
+Route::get('/items', [ItemController::class, 'index']) -> name('item.index');
 Route::resource('items', \App\Http\Controllers\ItemController::class);
 
