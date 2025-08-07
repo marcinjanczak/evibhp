@@ -89,6 +89,29 @@ main h1 {
     color: #2980b9;
 }
 
+/* stylizacja tabeli w pracownicy */
+
+.table {
+    font-size: 0.9rem;
+    border-collapse: separate;
+    border-spacing: 0;
+  }
+  
+  .table thead th {
+    border-bottom: 2px solid #dee2e6;
+    border-top: none;
+    font-weight: 500;
+  }
+  
+  .table tbody tr:hover {
+    background-color: rgba(0, 0, 0, 0.02);
+  }
+  
+  .table td, .table th {
+    padding: 0.75rem;
+    vertical-align: middle;
+  }
+
 /* Stopka */
 .site-footer {
     background: #34495e;
