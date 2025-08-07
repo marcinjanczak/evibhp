@@ -10,7 +10,7 @@ return new class extends Migration {
             $table->increments('IdPrzedmiot');
             $table->char('Nazwa', 100);
             $table->char('Typ', 30);
-            $table->char('Rozmiar', 1)->nullable();
+            $table->char('Rozmiar', 50)->nullable();
         });
     }
 
