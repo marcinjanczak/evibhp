@@ -16,9 +16,9 @@
         <tbody>
             @foreach($employees as $employee)
             <tr>
-                <td>{{ $employee['id'] }}</td>
-                <td>{{ $employee['first_name'] }}</td>
-                <td>{{ $employee['last_name'] }}</td>
+                <td>{{ $employee->id}}</td>
+                <td>{{ $employee->imie }}</td>
+                <td>{{ $employee->nazwisko }}</td>
                 <td>
                     <a href="#" class="btn btn-sm btn-primary">Edytuj</a>
                 </td>
