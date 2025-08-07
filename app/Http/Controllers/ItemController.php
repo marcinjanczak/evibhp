@@ -10,17 +10,16 @@ class ItemController
 {
     public function index()
     {
-        $przedmiot = Przedmiot::all();
-        // $przedmioty = DB::table('przedmiot')
-        //     ->leftJoin('stanprzedmiotow', 'przedmiot.IdPrzedmiot', '=', 'stanprzedmiotow.IdPrzedmiot')
-        //     ->select(
-        //         'przedmiot.IdPrzedmiot',
-        //         'przedmiot.Nazwa',
-        //         'przedmiot.Typ',
-        //         'przedmiot.Rozmiar',
-        //         'stanprzedmiotow.Ilosc'
-        //     )
-        //     ->get();
+        $przedmioty = DB::table('przedmiot')
+            ->leftJoin('stanprzedmiotow', 'przedmiot.IdPrzedmiot', '=', 'stanprzedmiotow.IdPrzedmiot')
+            ->select(
+                'przedmiot.IdPrzedmiot',
+                'przedmiot.Nazwa',
+                'przedmiot.Typ',
+                'przedmiot.Rozmiar',
+                'stanprzedmiotow.Ilosc'
+            )
+            ->get();
 
         return view('item.index', compact('przedmioty'));
     }
