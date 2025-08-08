@@ -8,7 +8,6 @@
                     <div class="card-header">
                         <div class="d-flex justify-content-between align-items-center">
                             <h3>Dodaj nowy przedmiot</h3>
-
                         </div>
                     </div>
                     <div class="card-body">
@@ -22,7 +21,7 @@
                                 </ul>
                             </div>
                         @endif
-                        <form action="{{ route('items.store') }}" method="POST">
+                        <form action="{{ route('items.store') }}" method="POST" enctype="multipart/form-data">
                             @csrf
                             <div class="mb-3">
                                 <label>Nazwa:</label>
@@ -46,6 +45,10 @@
                             <div class="mb-3">
                                 <label>Data używalności</label>
                                 <input type="date" name="data_waznosci" class="form-control" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="zdjecie_pogladowe" class="form-label">Zdjęcie poglądowe (opcjonalnie)</label>
+                                <input type="file" class="form-control" id="zdjecie_pogladowe" name="zdjecie_pogladowe">
                             </div>
                             <a href="{{ route('items.index') }}" class="btn btn-primary">
                                 <i class="fas fa-arrow-left"></i> Powrót
