@@ -14,7 +14,7 @@
                     </div>
                 </div>
                 <div class="card-body">
-                    {{-- @if ($errors->any())
+                    @if ($errors->any())
                         <div class="alert alert-danger">
                             <strong>Błąd!</strong> Sprawdź wprowadzone dane.<br><br>
                             <ul>
@@ -23,7 +23,7 @@
                                 @endforeach
                             </ul>
                         </div>
-                    @endif --}}
+                    @endif
                     <form action="{{ route('items.store') }}" method="POST">
                         @csrf
                         <div class="mb-3">
@@ -41,10 +41,14 @@
                             <input type="text" name="rozmiar" class="form-control" required>
                         </div>
 
-                        {{-- <div class="mb-3">
+                        <div class="mb-3">
                             <label>Ilość:</label>
-                            <input type="number" name="Ilosc" class="form-control" min="0" required>
-                        </div> --}}
+                            <input type="number" name="ilosc_dodanych" class="form-control" min="0" required>
+                        </div>
+                        <div class="mb-3">
+                            <label>Data używalności</label>
+                            <input type="date" name="data_waznosci" class="form-control" required>
+                        </div>
 
                         <button type="submit" class="btn btn-success">
                             <i class="fas fa-save"></i> Zapisz

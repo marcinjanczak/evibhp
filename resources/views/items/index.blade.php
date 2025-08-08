@@ -12,6 +12,7 @@
                     <th>Typ</th>
                     <th>Rozmiar</th>
                     <th>Ilość</th>
+                    <th>Data Używalności</th>
                     <th class="text-end">Akcje</th>
                 </tr>
             </thead>
@@ -22,7 +23,8 @@
                         <td>{{ $item->nazwa }}</td>
                         <td>{{ $item->typ }}</td>
                         <td>{{ $item->rozmiar }}</td>
-                        <td>Ilosc</td>
+                        <td>{{ $item->ilosc_dodanych }}</td>
+                        <td>{{ $item->data_waznosci }}</td>
                         <td class="text-end">
                             <div class="d-flex gap-2 justify-content-end">
                                 <a href="{{ route('items.edit', $item->id) }}" class="btn btn-sm btn-outline-primary">
