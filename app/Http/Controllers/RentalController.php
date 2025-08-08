@@ -6,7 +6,8 @@ use Illuminate\Http\Request;
 
 class RentalController
 {
-    public function index(){
+    public function index()
+    {
         return "Widok wydań";
     }
 }

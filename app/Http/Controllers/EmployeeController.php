@@ -11,7 +11,7 @@ class EmployeeController
     public function index()
     {
         $employees = Pracownik::all();
-        return(view('employees.index', compact('employees')));
+        return (view('employees.index', compact('employees')));
         // return "Dupa";
     }
     public function create()
