@@ -19,6 +19,16 @@ return new class extends Migration
         });
     }
 
+public function getImieAttribute($value)
+{
+    return $this->attributes['Imie'] ?? null;
+}
+
+public function getNazwiskoAttribute($value)
+{
+    return $this->attributes['Nazwisko'] ?? null;
+}
+
     /**
      * Reverse the migrations.
      */

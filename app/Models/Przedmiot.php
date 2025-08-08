@@ -16,4 +16,9 @@ class Przedmiot extends Model
         'zdjecie_pogladowe_path',
         'data_waznosci',
     ];
+
+    public function stan()
+    {
+        return $this->hasOne(StanPrzedmiotu::class, 'IdPrzedmiot');
+    }
 }
