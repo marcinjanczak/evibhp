@@ -10,10 +10,10 @@ use Illuminate\Support\Facades\DB;
 class ItemController {
     public function index() {
         $items = Przedmiot::all();
-        return view('item.index', compact('items'));
+        return view('items.index', compact('items'));
     }
     public function create() {
-        return view('item.create');
+        return view('items.create');
     }
     public function store(Request $request){
         $validateData = $request->validate([
@@ -26,24 +26,22 @@ class ItemController {
     }
 
     public function edit(Przedmiot $item) {
-        return view('item.edit', compact('item'));
+        return view('items.edit', compact('item'));
     }
 
-    public function update(Request $request, Przedmiot $przedmiot) {
+    public function update(Request $request, Przedmiot $item) {
          $validateData = $request->validate([
             'nazwa' => 'required|string|max:50',
             'typ' => 'required|string|max:50',
             'rozmiar' => 'required|string|max:50',
         ]);
-        $przedmiot->update($validateData);
+        $item->update($validateData);
 
         return redirect()->route('items.index');
     }
 
-    public function destroy($id) {
-        $przedmiot = Przedmiot::findOrFail($id);
-        $przedmiot->delete();
-
+    public function destroy(Przedmiot $item) {
+        $item->delete();
         return redirect()->route('items.index')->with('success', 'Produkt został pomyślnie usunięty');
     }
 }
