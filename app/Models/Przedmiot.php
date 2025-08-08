@@ -6,11 +6,19 @@ use Illuminate\Database\Eloquent\Model;
 
 class Przedmiot extends Model
 {
-    protected $table = 'pracownicy';
+    protected $table = 'przedmiot';
+
+    protected $primaryKey = 'IdPrzedmiot';
+    public $timestamps = false;
 
     protected $fillable = [
-        'nazwa',
-        'typ',
-        'rozmiar'
+        'Nazwa',
+        'Typ',
+        'Rozmiar',
     ];
+
+    public function stan()
+    {
+        return $this->hasOne(StanPrzedmiotu::class, 'IdPrzedmiot');
+    }
 }
