@@ -23,7 +23,23 @@
                 <td>{{ $item->typ}}</td>
                 <td>{{ $item->rozmiar}}</td>
                 <td>Ilosc</td>
-                <td>Edytuj</td>
+                <td class="text-end">
+                            <div class="d-flex gap-2 justify-content-end">
+                                <a href="{{ route('items.edit', $item->id) }}" class="btn btn-sm btn-outline-primary">
+                                    <i class="fas fa-edit"></i> Edytuj
+                                </a>
+                                <form action="{{ route('items.destroy', $item->id) }}" method="POST">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-outline-danger btn-sm"
+                                        onclick="return confirm('Na pewno usunąć?')">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </form>
+                            </div>
+                        </td>
+
+
 
             </tr>
             @endforeach
