@@ -25,8 +25,8 @@ class ItemController {
         return redirect()->route('items.index');
     }
 
-    public function edit(Przedmiot $id) {
-        return view('item.edit', compact('przedmiot'));
+    public function edit(Przedmiot $item) {
+        return view('item.edit', compact('item'));
     }
 
     public function update(Request $request, Przedmiot $przedmiot) {
