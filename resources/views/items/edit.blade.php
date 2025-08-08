@@ -1,85 +1,91 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
-    <div class="row">
-        <div class="col-md-12">
-            <div class="card">
-                <div class="card-header">
-                    <div class="d-flex justify-content-between align-items-center">
-                        <h3>Edytuj przedmiot</h3>
-                        <a href="{{ route('items.index') }}" class="btn btn-primary">
-                            <i class="fas fa-arrow-left"></i> Powrót
-                        </a>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <h3>Edytuj przedmiot</h3>
+
+                        </div>
                     </div>
-                </div>
-                <div class="card-body">
-                    {{-- @if ($errors->any())
-                        <div class="alert alert-danger">
-                            <strong>Błąd!</strong> Sprawdź wprowadzone dane.<br><br>
-                            <ul>
-                                @foreach ($errors->all() as $error)
-                                    <li>{{ $error }}</li>
-                                @endforeach
-                            </ul>
-                        </div>
-                    @endif --}}
-                    <form action="{{ route('items.update', $item->id) }}" method="POST">
-                        @csrf
-                        @method('PUT')
-                        <div class="mb-3">
-                            <label>Nazwa:</label>
-                            <input type="text" name="nazwa" class="form-control @error('nazwa') is-invalid @enderror" 
-                                   id="nazwa" name="nazwa" value="{{ old('nazwa', $item->nazwa) }}" required>
-                            @error('nazwa')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                        </div>
-                       
-                        <div class="mb-3">
-                            <label>Typ:</label>
-                            <input type="text" name="typ" class="form-control @error('typ') is-invalid @enderror" 
-                                   id="typ" name="typ" value="{{ old('typ', $item->typ) }}" required>
-                            @error('typ')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                        </div>
+                    <div class="card-body">
+                        @if ($errors->any())
+                            <div class="alert alert-danger">
+                                <strong>Błąd!</strong> Sprawdź wprowadzone dane.<br><br>
+                                <ul>
+                                    @foreach ($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @endif
+                        <form action="{{ route('items.update', $item->id) }}" method="POST">
+                            @csrf
+                            @method('PUT')
+                            <div class="mb-3">
+                                <label>Nazwa:</label>
+                                <input type="text" name="nazwa"
+                                    class="form-control @error('nazwa') is-invalid @enderror" id="nazwa" name="nazwa"
+                                    value="{{ old('nazwa', $item->nazwa) }}" required>
+                                @error('nazwa')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
 
-                        <div class="mb-3">
-                            <label>Rozmiar:</label>
-                            <input type="text" name="rozmiar" class="form-control @error('rozmiar') is-invalid @enderror" 
-                                   id="rozmiar" name="rozmiar" value="{{ old('rozmiar', $item->rozmiar) }}" required>
-                            @error('rozmiar')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror 
-                        </div>
+                            <div class="mb-3">
+                                <label>Typ:</label>
+                                <input type="text" name="typ" class="form-control @error('typ') is-invalid @enderror"
+                                    id="typ" name="typ" value="{{ old('typ', $item->typ) }}" required>
+                                @error('typ')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
 
-                         <div class="mb-3">
-                            <label>Ilość:</label>
-                            <input type="number" name="ilosc_dodanych" class="form-control @error('ilosc_dodanych') is-invalid @enderror" 
-                                   id="ilosc_dodanych" name="ilosc_dodanych" value="{{ old('ilosc_dodanych', $item->ilosc_dodanych) }}" required>
-                            @error('ilosc_dodanych')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                        </div>
-                        <div class="mb-3">
-                            <label>Data używalności</label>
-                            <input type="date" name="data_waznosci" class="form-control @error('data_waznosci') is-invalid @enderror" 
-                                   id="data_waznosci" name="data_waznosci" value="{{ old('data_waznosci', $item->data_waznosci) }}" required>
-                            @error('data_waznosci')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                        </div>
+                            <div class="mb-3">
+                                <label>Rozmiar:</label>
+                                <input type="text" name="rozmiar"
+                                    class="form-control @error('rozmiar') is-invalid @enderror" id="rozmiar"
+                                    name="rozmiar" value="{{ old('rozmiar', $item->rozmiar) }}" required>
+                                @error('rozmiar')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
 
-                        
-                        <button type="submit" class="btn btn-success">
-                            <i class="fas fa-save"></i> Zapisz
-                        </button>
-                    </form>
+                            <div class="mb-3">
+                                <label>Ilość:</label>
+                                <input type="number" name="ilosc_dodanych"
+                                    class="form-control @error('ilosc_dodanych') is-invalid @enderror" id="ilosc_dodanych"
+                                    name="ilosc_dodanych" value="{{ old('ilosc_dodanych', $item->ilosc_dodanych) }}"
+                                    required>
+                                @error('ilosc_dodanych')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+                            <div class="mb-3">
+                                <label>Data używalności</label>
+                                <input type="date" name="data_waznosci"
+                                    class="form-control @error('data_waznosci') is-invalid @enderror" id="data_waznosci"
+                                    name="data_waznosci" value="{{ old('data_waznosci', $item->data_waznosci) }}" required>
+                                @error('data_waznosci')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+
+                            <a href="{{ route('items.index') }}" class="btn btn-primary">
+                                <i class="fas fa-arrow-left"></i> Powrót
+                            </a>
+                            <button type="submit" class="btn btn-success">
+                                <i class="fas fa-save"></i> Zapisz
+                            </button>
+
+                        </form>
 
 
 
-                    {{-- <form action="{{ route('items.store') }}" method="POST">
+                        {{-- <form action="{{ route('items.store') }}" method="POST">
                         @csrf
                         <div class="row">
                             <div class="col-md-6">
@@ -112,11 +118,11 @@
                             </div>
                         </div>
                     </form> --}}
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 @endsection
 
 
