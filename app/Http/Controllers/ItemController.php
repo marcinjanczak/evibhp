@@ -9,8 +9,8 @@ use Illuminate\Support\Facades\DB;
 
 class ItemController {
     public function index() {
-        $przedmioty = Przedmiot::all();
-        return view('item.index', compact('przedmioty'));
+        $items = Przedmiot::all();
+        return view('item.index', compact('items'));
     }
     public function create() {
         return view('item.create');

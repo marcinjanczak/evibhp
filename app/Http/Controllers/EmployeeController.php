@@ -19,20 +19,15 @@ class EmployeeController
             $validateData = $request->validate([
             'imie' => 'required|string|max:50',
             'nazwisko' => 'required|string|max:50',
-            ]);
+        ]);
         Pracownik::create($validateData);
-
         return redirect()->route('employees.index')->with('success', 'Pracownik został pomyślnie dodany');
     }
 
     public function edit(Pracownik $employee){
         return view('employees.edit', compact('employee'));
     }
-    public function destroy($id){
-        $employee = Pracownik::findOrFail($id);
-        $employee->delete();
-        return redirect()->route('employees.index')->with('success', 'Pracownik został usunięty');
-    }
+   
     public function update(Request $request, Pracownik $employee){
         $validateData = $request->validate([
             'imie' => 'required|string|max:50',
@@ -42,5 +37,10 @@ class EmployeeController
         $employee->update($validateData);
 
         return redirect()->route('employees.index')->with('success', 'Dane pracownika zostały zaktualizowane');
+    }
+     public function destroy($id){
+        $employee = Pracownik::findOrFail($id);
+        $employee->delete();
+        return redirect()->route('employees.index')->with('success', 'Pracownik został usunięty');
     }
 }
