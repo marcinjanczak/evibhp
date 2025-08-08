@@ -8,7 +8,7 @@
                 <div class="card-header site-header">
                     <div class="d-flex justify-content-between align-items-center">
                         <h3 class="mb-0 text-white">Archiwum wypożyczeń</h3>
-                        <a href="{{ route('wypozyczone.index') }}" class="btn btn-primary link-box">
+                        <a href="{{ route('rentals.index') }}" class="btn btn-primary link-box">
                             <i class="fas fa-arrow-left"></i> Powrót
                         </a>
                     </div>

@@ -9,8 +9,8 @@ return new class extends Migration {
         Schema::create('stanprzedmiotow', function (Blueprint $table) {
             $table->increments('Id');
             $table->integer('Ilosc');
-            $table->unsignedInteger('IdPrzedmiot');
-            $table->foreign('IdPrzedmiot')->references('IdPrzedmiot')->on('przedmiot');
+            $table->unsignedBigInteger('IdPrzedmiot');
+            $table->foreign('IdPrzedmiot')->references('id')->on('Przedmiot');
         });
     }
 

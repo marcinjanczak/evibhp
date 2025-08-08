@@ -9,10 +9,10 @@
                     <div class="d-flex justify-content-between align-items-center">
                         <h3 class="mb-0 text-white">Aktualne wypożyczenia</h3>
                         <div>
-                            <a href="{{ route('wypozyczone.date') }}" class="btn btn-info link-box me-2">
+                            {{-- <a href="{{ route('rentals.date') }}" class="btn btn-info link-box me-2">
                                 <i class="fas fa-history"></i> Archiwalne
-                            </a>
-                            <a href="{{ route('wypozyczone.create') }}" class="btn btn-success link-box">
+                            </a> --}}
+                            <a href="{{ route('rentals.create') }}" class="btn btn-success link-box">
                                 <i class="fas fa-plus"></i> Nowe wypożyczenie
                             </a>
                         </div>
@@ -43,27 +43,27 @@
                                     <td>{{ \Carbon\Carbon::parse($wypozyczenie->DataDoZwrotu)->format('d.m.Y H:i') }}</td>
 
                                     <td class="links-container">
-                                        <a href="{{ route('wypozyczone.edit', $wypozyczenie->IdWypozyczenia) }}" 
+                                        <a href="{{ route('rentals.edit', $wypozyczenie->IdWypozyczenia) }}" 
                                            class="btn btn-primary btn-sm links-vievs">
                                             <i class="fas fa-edit"></i> Edytuj
                                         </a>
-                                        <form action="{{ route('wypozyczone.destroy', $wypozyczenie->IdWypozyczenia) }}" 
+                                        {{-- <form action="{{ route('rentals.destroy', $wypozyczenie->IdWypozyczenia) }}" 
                                               method="POST" class="d-inline">
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" class="btn btn-danger btn-sm links-vievs" 
                                                     onclick="return confirm('Czy na pewno chcesz usunąć to wypożyczenie?')">
                                                 <i class="fas fa-trash"></i> Usuń
-                                            </button>
+                                            </button> --}}
                                         </form>
-                                        <form action="{{ route('wypozyczone.return', $wypozyczenie->IdWypozyczenia) }}" 
+                                        {{-- <form action="{{ route('rentals.return', $wypozyczenie->IdWypozyczenia) }}" 
                                               method="POST" class="d-inline">
                                             @csrf
                                             <button type="submit" class="btn btn-success btn-sm links-vievs" 
                                                     onclick="return confirm('Zakończyć wypożyczenie?')">
                                                 <i class="fas fa-check"></i> Zakończ
                                             </button>
-                                        </form>
+                                        </form> --}}
                                     </td>
                                 </tr>
                                 @endforeach

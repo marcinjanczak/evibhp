@@ -17,7 +17,7 @@ class RentalController extends Controller
             ->orderBy('Data', 'desc')
             ->get();
 
-        return view('wypozyczone.index', compact('wypozyczenia'));
+        return view('rentals.index', compact('wypozyczenia'));
     }
 
     public function create()
@@ -27,7 +27,7 @@ class RentalController extends Controller
             $query->where('Ilosc', '>', 0);
         })->get();
 
-        return view('wypozyczone.create', compact('pracownicy', 'przedmiot'));
+        return view('rentals.create', compact('pracownicy', 'przedmiot'));
     }
 
     public function store(Request $request)
@@ -49,7 +49,7 @@ class RentalController extends Controller
         Wypozyczone::create($validated);
         $stan->decrement('Ilosc', (int) $validated['Ilosc']);
 
-        return redirect()->route('wypozyczone.index')->with('success', 'Dodano wypożyczenie');
+        return redirect()->route('rentals.index')->with('success', 'Dodano wypożyczenie');
     }
 
     public function edit($id)
@@ -58,7 +58,7 @@ class RentalController extends Controller
         $pracownicy = Pracownik::all();
         $przedmiot = Przedmiot::all();
 
-        return view('wypozyczone.edit', compact('wypozyczone', 'pracownicy', 'przedmiot'));
+        return view('rentals.edit', compact('wypozyczone', 'pracownicy', 'przedmiot'));
     }
 
     public function update(Request $request, Wypozyczone $wypozyczone)
@@ -89,7 +89,7 @@ class RentalController extends Controller
 
         $wypozyczone->update($validated);
 
-        return redirect()->route('wypozyczone.index')->with('success', 'Zaktualizowano wypożyczenie');
+        return redirect()->route('rentals.index')->with('success', 'Zaktualizowano wypożyczenie');
     }
 
     public function destroy(Wypozyczone $wypozyczone)
@@ -99,7 +99,7 @@ class RentalController extends Controller
 
         $wypozyczone->delete();
 
-        return redirect()->route('wypozyczone.index')->with('success', 'Wypożyczenie usunięte');
+        return redirect()->route('rentals.index')->with('success', 'Wypożyczenie usunięte');
     }
 
     public function date()
@@ -109,23 +109,22 @@ class RentalController extends Controller
             ->orderBy('DataZwrotu', 'desc')
             ->get();
 
-        return view('wypozyczone.date', compact('archiwalne'));
+        return view('rentals.date', compact('archiwalne'));
     }
 
-public function markAsReturned(Wypozyczone $wypozyczone)
-{
-    if ($wypozyczone->DataZwrotu !== null) {
-        return redirect()->route('wypozyczone.index')->with('info', 'To wypożyczenie zostało już zakończone.');
+    public function markAsReturned(Wypozyczone $wypozyczone)
+    {
+        if ($wypozyczone->DataZwrotu !== null) {
+            return redirect()->route('rentals.index')->with('info', 'To wypożyczenie zostało już zakończone.');
+        }
+
+        $wypozyczone->update([
+            'DataZwrotu' => now(),
+        ]);
+
+        StanPrzedmiotu::where('IdPrzedmiot', $wypozyczone->IdPrzedmiot)
+            ->increment('Ilosc', (int) $wypozyczone->Ilosc);
+
+        return redirect()->route('rentals.index')->with('success', 'Przedmiot został zwrócony i stan zaktualizowany.');
     }
-
-    $wypozyczone->update([
-        'DataZwrotu' => now(),
-    ]);
-
-    StanPrzedmiotu::where('IdPrzedmiot', $wypozyczone->IdPrzedmiot)
-        ->increment('Ilosc', (int) $wypozyczone->Ilosc);
-
-    return redirect()->route('wypozyczone.index')->with('success', 'Przedmiot został zwrócony i stan zaktualizowany.');
-}
-
 }

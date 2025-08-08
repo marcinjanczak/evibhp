@@ -15,9 +15,6 @@ class Wypozyczone extends Model
     protected $casts = [
     'Data' => 'datetime',
 ];
-
-
-
     protected $fillable = [
         'IdPracownika',
         'IdPrzedmiot',
