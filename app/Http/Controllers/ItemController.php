@@ -41,6 +41,8 @@ class ItemController
             'nazwa' => 'required|string|max:50',
             'typ' => 'required|string|max:50',
             'rozmiar' => 'required|string|max:50',
+            'ilosc_dodanych' => 'required|int',
+            'data_waznosci' => 'nullable|date|after:today',
         ]);
         $item->update($validateData);
 

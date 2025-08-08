@@ -53,6 +53,24 @@
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror 
                         </div>
+
+                         <div class="mb-3">
+                            <label>Ilość:</label>
+                            <input type="number" name="ilosc_dodanych" class="form-control @error('ilosc_dodanych') is-invalid @enderror" 
+                                   id="ilosc_dodanych" name="ilosc_dodanych" value="{{ old('ilosc_dodanych', $item->ilosc_dodanych) }}" required>
+                            @error('ilosc_dodanych')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        <div class="mb-3">
+                            <label>Data używalności</label>
+                            <input type="date" name="data_waznosci" class="form-control @error('data_waznosci') is-invalid @enderror" 
+                                   id="data_waznosci" name="data_waznosci" value="{{ old('data_waznosci', $item->data_waznosci) }}" required>
+                            @error('data_waznosci')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+
                         
                         <button type="submit" class="btn btn-success">
                             <i class="fas fa-save"></i> Zapisz
