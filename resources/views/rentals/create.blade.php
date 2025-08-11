@@ -70,7 +70,7 @@
                                     <div class="form-group mb-3">
                                         <label for="DataWypozyczenia">Data wypożyczenia:</label>
                                         <input type="datetime-local" name="DataWypozyczenia" id="DataWypozyczenia" class="form-control" 
-                                            value="{{ old('DataWypozyczenia', date('Y-m-d\TH:i')) }}" required>
+                                            value="{{ old('DataWypozyczenia', now()->format('Y-m-d')) }}" required>
                                     </div>
                                 </div>
                                 <div class="col-md-6">

@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Przedmiot extends Model
 {
-    protected $table = 'przedmiot';
+    protected $table = 'przedmioty';
     protected $fillable = [
         'nazwa',
         'typ',

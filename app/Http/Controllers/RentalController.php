@@ -42,8 +42,6 @@ class RentalController
 
         try {
             DB::beginTransaction();
-
-            // 3. Utworzenie nowego wypożyczenia
             $rental = Wypozyczenie::create([
                 'IdPracownika' => $validatedData['IdPracownika'],
                 'IdPrzedmiot' => $validatedData['IdPrzedmiot'],
@@ -52,18 +50,15 @@ class RentalController
                 'DataPlanowanegoZwrotu' => $validatedData['DataPlanowanegoZwrotu'],
             ]);
 
-            // 4. Zaktualizowanie stanu magazynowego
             $item->stanMagazynu->Ilosc -= $validatedData['Ilosc'];
             $item->stanMagazynu->save();
 
             DB::commit();
 
-            // 5. Przekierowanie z komunikatem o sukcesie
             return redirect()->route('rentals.index')
                 ->with('success', 'Wypożyczenie zostało pomyślnie utworzone.');
         } catch (\Exception $e) {
             DB::rollBack();
-            // Przekierowanie z komunikatem o błędzie w przypadku niepowodzenia
             return back()->withInput()->with('error', 'Wystąpił błąd podczas tworzenia wypożyczenia: ' . $e->getMessage());
         }
     }
