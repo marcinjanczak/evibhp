@@ -6,6 +6,7 @@ use App\Models\Pracownik;
 use App\Models\Przedmiot;
 use App\Models\StanMagazynu;
 use App\Models\Wypozyczenie;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 
 class RentalController
@@ -22,6 +23,49 @@ class RentalController
         $items = Przedmiot::with('stanMagazynu')->get();
 
         return view('rentals.create', compact('employees', 'items'));
+    }
+    public function store(Request $request)
+    {
+        $validatedData = $request->validate([
+            'IdPracownika' => 'required|exists:pracownicy,id',
+            'IdPrzedmiot' => 'required|exists:przedmioty,id',
+            'Ilosc' => 'required|integer|min:1',
+            'DataWypozyczenia' => 'required|date',
+            'DataPlanowanegoZwrotu' => 'nullable|date|after_or_equal:DataWypozyczenia',
+        ]);
+
+        $item = Przedmiot::find($validatedData['IdPrzedmiot']);
+
+        if (!$item->stanMagazynu || $item->stanMagazynu->Ilosc < $validatedData['Ilosc']) {
+            return back()->withInput()->with('error', 'Niewystarczająca ilość przedmiotu w magazynie.');
+        }
+
+        try {
+            DB::beginTransaction();
+
+            // 3. Utworzenie nowego wypożyczenia
+            $rental = Wypozyczenie::create([
+                'IdPracownika' => $validatedData['IdPracownika'],
+                'IdPrzedmiot' => $validatedData['IdPrzedmiot'],
+                'Ilosc' => $validatedData['Ilosc'],
+                'DataWypozyczenia' => $validatedData['DataWypozyczenia'],
+                'DataPlanowanegoZwrotu' => $validatedData['DataPlanowanegoZwrotu'],
+            ]);
+
+            // 4. Zaktualizowanie stanu magazynowego
+            $item->stanMagazynu->Ilosc -= $validatedData['Ilosc'];
+            $item->stanMagazynu->save();
+
+            DB::commit();
+
+            // 5. Przekierowanie z komunikatem o sukcesie
+            return redirect()->route('rentals.index')
+                ->with('success', 'Wypożyczenie zostało pomyślnie utworzone.');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            // Przekierowanie z komunikatem o błędzie w przypadku niepowodzenia
+            return back()->withInput()->with('error', 'Wystąpił błąd podczas tworzenia wypożyczenia: ' . $e->getMessage());
+        }
     }
     public function destroy(Wypozyczenie $rental)
     {

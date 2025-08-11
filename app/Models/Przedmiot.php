@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Przedmiot extends Model
 {
@@ -16,4 +17,8 @@ class Przedmiot extends Model
         'zdjecie_pogladowe_path',
         'data_waznosci',
     ];
+    public function stanMagazynu(): HasOne
+    {
+        return $this->hasOne(StanMagazynu::class, 'IdPrzedmiot');
+    }
 }

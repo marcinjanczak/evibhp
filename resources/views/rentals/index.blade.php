@@ -45,7 +45,7 @@
             <a href="#" class="btn btn-info link-box me-2">
                 <i class="fas fa-history"></i> Archiwalne
             </a>
-            <a href="#" class="btn btn-success link-box">
+            <a href="{{ route('rentals.create') }}" class="btn btn-success link-box">
                 <i class="fas fa-plus"></i> Nowe wypożyczenie
             </a>
         </div>
