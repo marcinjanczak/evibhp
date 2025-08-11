@@ -18,7 +18,7 @@ return new class extends Migration
                 ->onDelete('cascade');
 
             $table->foreignId('IdPrzedmiot')
-                ->constrained('przedmiot')
+                ->constrained('przedmioty')
                 ->onDelete('cascade');
 
             $table->integer('Ilosc');
