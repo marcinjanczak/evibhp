@@ -8,6 +8,6 @@ class RentalController
 {
     public function index()
     {
-        return "Widok wydań";
+        return view('rentals.index');
     }
 }

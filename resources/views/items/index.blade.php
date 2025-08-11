@@ -2,7 +2,6 @@
 
 @section('content')
     <main>
-
         <h3>Lista przedmiotów</h3>
         <table class="table table-hover">
             <thead class="bg-light">
