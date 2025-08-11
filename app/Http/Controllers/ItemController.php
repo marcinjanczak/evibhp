@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Przedmiot;
+use App\Models\StanMagazynu;
 use Illuminate\Http\Request;
 
 class ItemController
@@ -26,7 +27,12 @@ class ItemController
             'data_waznosci' => 'nullable|date|after:today',
 
         ]);
-        Przedmiot::create($validateData);
+        $przedmiot = Przedmiot::create($validateData);
+        StanMagazynu::create([
+            'IdPrzedmiot' => $przedmiot->id,
+            'Ilosc' => $validateData['ilosc_dodanych'],
+        ]);
+
         return redirect()->route('items.index');
     }
 
