@@ -18,7 +18,7 @@
                 @foreach ($rentals as $rental)
                 <tr>
                     <td>{{ $rental->pracownik->imie}} {{$rental->pracownik->nazwisko}}</td>
-                    <td>{{ $rental->pracownik->nazwa}}</td>
+                    <td>{{ $rental->przedmiot->nazwa}}</td>
                     <td>{{ $rental->Ilosc}}</td>
                     <td>{{$rental->DataWypozyczenia}}</td>
                     <td>{{$rental->DataPlanowanegoZwrotu}}</td>
