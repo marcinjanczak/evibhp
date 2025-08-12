@@ -2,7 +2,7 @@
 
 @section('content')
     <main>
-        <h3>Lista przedmiotów</h3>
+        <h2>Lista przedmiotów</h2>
         <table class="table table-hover">
             <thead class="bg-light">
                 <tr>
@@ -36,7 +36,7 @@
                         <td class="text-end">
                             <div class="d-flex gap-2 justify-content-end">
                                 <a href="{{ route('items.show', $item->id) }}" class="btn btn-sm btn-outline-info">
-                                    <i class="fas fa-eye"></i> Pokaż
+                                    <i class="fas fa-eye"></i> Szczegóły
                                 </a>
                                 <a href="{{ route('items.edit', $item->id) }}" class="btn btn-sm btn-outline-primary">
                                     <i class="fas fa-edit"></i> Edytuj

@@ -7,7 +7,7 @@
             <div class="card shadow">
                 <div class="card-header site-header">
                     <div class="d-flex justify-content-between align-items-center">
-                        <h3 class="mb-0 text-white">Szczegóły przedmiotu: {{ $item->nazwa }}</h3>
+                        <h3 class="mb-0">Szczegóły przedmiotu: {{ $item->nazwa }}</h3>
                         <a href="{{ route('items.index') }}" class="btn btn-primary link-box">
                             <i class="fas fa-arrow-left"></i> Powrót do listy
                         </a>
@@ -35,7 +35,7 @@
                                 <li class="list-group-item"><strong>Data ważności:</strong> {{ $item->data_waznosci ?? 'Brak danych' }}</li>
                                 @if ($item->faktura_pdf_path)
                                     <li class="list-group-item">
-                                        <strong>Faktura:</strong> <a href="{{ Storage::url($item->faktura_pdf_path) }}" target="_blank">Pobierz plik</a>
+                                        <strong>Faktura:</strong> <a href="{{ Storage::url($item->faktura_pdf_path) }}" target="_blank">Pokaż plik</a>
                                     </li>
                                 @endif
                             </ul>
@@ -45,5 +45,45 @@
             </div>
         </div>
     </div>
+      @if (!$rentals->isEmpty() )
+    <table class="table table-hover">
+            <thead class="bg-light">
+                <tr>
+                    <th>Pracownik</th>
+                    <th>Przedmiot</th>
+                    <th>Ilość</th>
+                    <th>Data wypożyczenia</th>
+                    <th>Data do zwrotu</th>
+                    <th class="text-end">Akcje</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach ($rentals as $rental)
+                <tr>
+                    <td>{{ $rental->pracownik->imie}} {{$rental->pracownik->nazwisko}}</td>
+                    <td>{{ $rental->przedmiot->nazwa}}</td>
+                    <td>{{ $rental->Ilosc}}</td>
+                    <td>{{ $rental->DataWypozyczenia}}</td>
+                    <td>{{ $rental->DataPlanowanegoZwrotu}}</td>
+                    <td>
+                        <div class="d-flex gap-2 justify-content-end">
+                            {{-- <a href="{{ route('rentals.edit', $rental->id) }}" class="btn btn-sm btn-outline-primary">
+                                <i class="fas fa-edit"></i> Edytuj
+                            </a>
+                            <form action="{{ route('rentals.destroy', $rental->id) }}" method="POST">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn btn-outline-danger btn-sm"
+                                    onclick="return confirm('Na pewno usunąć?')">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </form> --}}
+                        </div>
+                    </td>
+                </tr>
+                @endforeach
+            </tbody>
+        </table>
+        @endif
 </div>
 @endsection

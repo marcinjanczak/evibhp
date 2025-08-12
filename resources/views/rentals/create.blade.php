@@ -27,7 +27,6 @@
                 <div class="form-group mb-3">
                     <label for="IdPracownika">Pracownik:</label>
                     <select name="IdPracownika" id="IdPracownika" class="form-control" required>
-                        <option value="">Wybierz pracownika</option>
                         @foreach ($employees as $employee)
                             <option value="{{ $employee->id }}"
                                 {{ old('IdPracownika') == $employee->id ? 'selected' : '' }}>
@@ -41,7 +40,6 @@
                 <div class="form-group mb-3">
                     <label for="IdPrzedmiot">Przedmiot:</label>
                     <select name="IdPrzedmiot" id="IdPrzedmiot" class="form-control" required>
-                        <option value="">Wybierz przedmiot</option>
                         @foreach ($items as $item)
                             <option value="{{ $item->id }}" {{ old('IdPrzedmiot') == $item->id ? 'selected' : '' }}>
                                 {{ $item->nazwa }} (dostępna ilość:
@@ -72,11 +70,11 @@
                 </div>
             </div>
         </div>
-        <button type="submit" class="btn btn-success link-box">
+        <button type="submit" class="btn btn-success">
             <i class="fas fa-save"></i> Zapisz
         </button>
     </form>
-    <a href="{{ route('rentals.index') }}" class="btn btn-primary link-box">
+    <a href="{{ route('rentals.index') }}" class="btn btn-primary">
         <i class="fas fa-arrow-left"></i> Powrót
     </a>
 </div>

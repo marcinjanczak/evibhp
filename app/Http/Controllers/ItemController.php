@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Przedmiot;
 use App\Models\StanMagazynu;
+use App\Models\Wypozyczenie;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage; 
 
@@ -74,7 +75,10 @@ class ItemController
         return redirect()->route('items.index')->with('success', 'Produkt został pomyślnie usunięty');
     }
     public function show(Przedmiot $item)
-    {
-        return view('items.show', compact('item'));
+    {   
+        $rentals = Wypozyczenie::with('pracownik')
+            ->where('IdPrzedmiot', $item->id)
+            ->get();
+        return view('items.show', compact('item', 'rentals'));
     }
 }
