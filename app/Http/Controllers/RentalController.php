@@ -27,6 +27,7 @@ class RentalController
     public function store(Request $request)
     {
         $validatedData = $request->validate([
+        $validatedData = $request->validate([
             'IdPracownika' => 'required|exists:pracownicy,id',
             'IdPrzedmiot' => 'required|exists:przedmioty,id',
             'Ilosc' => 'required|integer|min:1',
@@ -34,15 +35,15 @@ class RentalController
             'DataPlanowanegoZwrotu' => 'nullable|date|after_or_equal:DataWypozyczenia',
         ]);
 
+        // Użycie relacji, która jest już poprawnie zdefiniowana w modelu Przedmiot
         $item = Przedmiot::with('stanMagazynu')->find($validatedData['IdPrzedmiot']);
 
-        if (!$item || !$item->stanMagazynu || $item->stanMagazynu->Ilosc < $validatedData['Ilosc']) {
+        if (!$item->stanMagazynu || $item->stanMagazynu->Ilosc < $validatedData['Ilosc']) {
             return back()->withInput()->with('error', 'Niewystarczająca ilość przedmiotu w magazynie.');
         }
 
         try {
             DB::beginTransaction();
-
             $rental = Wypozyczenie::create([
                 'IdPracownika' => $validatedData['IdPracownika'],
                 'IdPrzedmiot' => $validatedData['IdPrzedmiot'],
