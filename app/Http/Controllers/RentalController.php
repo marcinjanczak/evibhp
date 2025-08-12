@@ -26,7 +26,7 @@ class RentalController
     }
     public function store(Request $request)
     {
-      $validatedData = $request->validate([
+        $validatedData = $request->validate([
             'IdPracownika' => 'required|exists:pracownicy,id',
             'IdPrzedmiot' => 'required|exists:przedmioty,id',
             'Ilosc' => 'required|integer|min:1',
@@ -34,7 +34,6 @@ class RentalController
             'DataPlanowanegoZwrotu' => 'nullable|date|after_or_equal:DataWypozyczenia',
         ]);
 
-        // Użycie relacji, która jest już poprawnie zdefiniowana w modelu Przedmiot
         $item = Przedmiot::with('stanMagazynu')->find($validatedData['IdPrzedmiot']);
 
         if (!$item || !$item->stanMagazynu || $item->stanMagazynu->Ilosc < $validatedData['Ilosc']) {
@@ -49,10 +48,10 @@ class RentalController
                 'IdPrzedmiot' => $validatedData['IdPrzedmiot'],
                 'Ilosc' => $validatedData['Ilosc'],
                 'DataWypozyczenia' => $validatedData['DataWypozyczenia'],
-                'DataPlanowanegoZwrotu' => $validatedData['DataPlanowanegoZwrotu'],
+                // Poprawiona linia: użycie operatora null-coalescing
+                'DataPlanowanegoZwrotu' => $validatedData['DataPlanowanegoZwrotu'] ?? null,
             ]);
 
-            // Prawidłowe użycie relacji "stan"
             $item->stanMagazynu->Ilosc -= $validatedData['Ilosc'];
             $item->stanMagazynu->save();
 
@@ -62,7 +61,6 @@ class RentalController
                 ->with('success', 'Wypożyczenie zostało pomyślnie utworzone.');
         } catch (\Exception $e) {
             DB::rollBack();
-            // Lepsza obsługa błędów, aby wyświetlać precyzyjny komunikat
             return back()->withInput()->with('error', 'Wystąpił błąd podczas tworzenia wypożyczenia: ' . $e->getMessage());
         }
     }

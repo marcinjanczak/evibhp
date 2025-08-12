@@ -11,7 +11,7 @@
                     <th>Ilość</th>
                     <th>Data wypożyczenia</th>
                     <th>Data do zwrotu</th>
-                    <th width="250px">Akcje</th>
+                    <th width="250px"></th>
                 </tr>
             </thead>
             <tbody>

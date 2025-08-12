@@ -12,7 +12,7 @@ class Wypozyczenie extends Model
         'IdPrzedmiot',
         'Ilosc',
         'DataWypozyczenia',
-        'DataPlanowenegoZwrotu',
+        'DataPlanowanegoZwrotu',
         'DataRzeczywistegoZwrotu',
     ];
     public function pracownik(){
