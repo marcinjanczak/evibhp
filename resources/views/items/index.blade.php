@@ -6,7 +6,7 @@
         <table class="table table-hover">
             <thead class="bg-light">
                 <tr>
-                    <th>ID</th>
+                    <th>Zdjęcie poglądowe</th>
                     <th>Nazwa</th>
                     <th>Typ</th>
                     <th>Rozmiar</th>
@@ -18,7 +18,16 @@
             <tbody>
                 @foreach ($items as $item)
                     <tr>
-                        <td>{{ $item->id }}</td>
+                        <td>
+                            @if ($item->zdjecie_pogladowe_path)
+                                <img src="{{ Storage::url($item->zdjecie_pogladowe_path) }}"
+                                    alt="Zdjęcie przedmiotu {{ $item->nazwa }}" class="img-thumbnail"
+                                    style="width: 100px; height: 100px; object-fit: cover;">
+                            @else
+                                <img src="{{ asset('images/default_item_image.png') }}" alt="Brak zdjęcia"
+                                    class="img-thumbnail" style="width: 100px; height: 100px; object-fit: cover;">
+                            @endif
+                        </td>
                         <td>{{ $item->nazwa }}</td>
                         <td>{{ $item->typ }}</td>
                         <td>{{ $item->rozmiar }}</td>
@@ -26,6 +35,9 @@
                         <td>{{ $item->data_waznosci }}</td>
                         <td class="text-end">
                             <div class="d-flex gap-2 justify-content-end">
+                                <a href="{{ route('items.show', $item->id) }}" class="btn btn-sm btn-outline-info">
+                                    <i class="fas fa-eye"></i> Pokaż
+                                </a>
                                 <a href="{{ route('items.edit', $item->id) }}" class="btn btn-sm btn-outline-primary">
                                     <i class="fas fa-edit"></i> Edytuj
                                 </a>

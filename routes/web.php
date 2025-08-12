@@ -9,4 +9,5 @@ use App\Http\Controllers\Start;
 Route::get('/', [Start::class, 'index']);
 Route::resource('employees', EmployeeController::class);
 Route::resource('items', ItemController::class);
+Route::get('items/{item}', [ItemController::class, 'show'])->name('items.show');
 Route::resource('rentals', RentalController::class);

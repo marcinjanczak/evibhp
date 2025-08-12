@@ -73,4 +73,8 @@ class ItemController
         $item->delete();
         return redirect()->route('items.index')->with('success', 'Produkt został pomyślnie usunięty');
     }
+    public function show(Przedmiot $item)
+    {
+        return view('items.show', compact('item'));
+    }
 }
