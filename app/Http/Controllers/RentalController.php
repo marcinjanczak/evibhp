@@ -26,7 +26,7 @@ class RentalController
     }
     public function store(Request $request)
     {
-        $validatedData = $request->validate([
+      $validatedData = $request->validate([
             'IdPracownika' => 'required|exists:pracownicy,id',
             'IdPrzedmiot' => 'required|exists:przedmioty,id',
             'Ilosc' => 'required|integer|min:1',
@@ -34,14 +34,16 @@ class RentalController
             'DataPlanowanegoZwrotu' => 'nullable|date|after_or_equal:DataWypozyczenia',
         ]);
 
-        $item = Przedmiot::find($validatedData['IdPrzedmiot']);
+        // Użycie relacji, która jest już poprawnie zdefiniowana w modelu Przedmiot
+        $item = Przedmiot::with('stanMagazynu')->find($validatedData['IdPrzedmiot']);
 
-        if (!$item->stanMagazynu || $item->stanMagazynu->Ilosc < $validatedData['Ilosc']) {
+        if (!$item || !$item->stanMagazynu || $item->stanMagazynu->Ilosc < $validatedData['Ilosc']) {
             return back()->withInput()->with('error', 'Niewystarczająca ilość przedmiotu w magazynie.');
         }
 
         try {
             DB::beginTransaction();
+
             $rental = Wypozyczenie::create([
                 'IdPracownika' => $validatedData['IdPracownika'],
                 'IdPrzedmiot' => $validatedData['IdPrzedmiot'],
@@ -50,6 +52,7 @@ class RentalController
                 'DataPlanowanegoZwrotu' => $validatedData['DataPlanowanegoZwrotu'],
             ]);
 
+            // Prawidłowe użycie relacji "stan"
             $item->stanMagazynu->Ilosc -= $validatedData['Ilosc'];
             $item->stanMagazynu->save();
 
@@ -59,6 +62,7 @@ class RentalController
                 ->with('success', 'Wypożyczenie zostało pomyślnie utworzone.');
         } catch (\Exception $e) {
             DB::rollBack();
+            // Lepsza obsługa błędów, aby wyświetlać precyzyjny komunikat
             return back()->withInput()->with('error', 'Wystąpił błąd podczas tworzenia wypożyczenia: ' . $e->getMessage());
         }
     }

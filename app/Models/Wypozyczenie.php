@@ -11,9 +11,9 @@ class Wypozyczenie extends Model
         'IdPracownika',
         'IdPrzedmiot',
         'Ilosc',
-        'DataWydania',
-        'DataZwrotu',
-        'DataZwrotuKoncowego',
+        'DataWypozyczenia',
+        'DataPlanowenegoZwrotu',
+        'DataRzeczywistegoZwrotu',
     ];
     public function pracownik(){
         return $this->belongsTo(Pracownik::class, 'IdPracownika');

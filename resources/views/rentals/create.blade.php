@@ -69,14 +69,14 @@
                                 <div class="col-md-6">
                                     <div class="form-group mb-3">
                                         <label for="DataWypozyczenia">Data wypożyczenia:</label>
-                                        <input type="datetime-local" name="DataWypozyczenia" id="DataWypozyczenia" class="form-control" 
+                                        <input type="date" name="DataWypozyczenia" id="DataWypozyczenia" class="form-control" 
                                             value="{{ old('DataWypozyczenia', now()->format('Y-m-d')) }}" required>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group mb-3">
                                         <label for="DataPlanowanegoZwrotu">Data do zwrotu:</label>
-                                        <input type="datetime-local" name="DataPlanowanegoZwrotu" id="DataPlanowanegoZwrotu" class="form-control" 
+                                        <input type="date" name="DataPlanowanegoZwrotu" id="DataPlanowanegoZwrotu" class="form-control" 
                                             value="{{ old('DataPlanowanegoZwrotu', date('Y-m-d\TH:i', strtotime('+7 days'))) }}">
                                     </div>
                                 </div>
