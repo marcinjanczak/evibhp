@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Przedmiot;
 use App\Models\StanMagazynu;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage; 
 
 class ItemController
 {
@@ -25,15 +26,28 @@ class ItemController
             'rozmiar' => 'required|string|max:50',
             'ilosc_dodanych' => 'required|int',
             'data_waznosci' => 'nullable|date|after:today',
-
+            'zdjecie_pogladowe' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', 
+            'faktura_pdf' => 'nullable|mimes:pdf|max:2048', 
         ]);
+
+        if ($request->hasFile('zdjecie_pogladowe')) {
+            $path = $request->file('zdjecie_pogladowe')->store('zdjecia_pogladowe', 'public');
+            $path = $request->file('zdjecie_pogladowe')->store('zdjecia_pogladowe', 'public');
+            $validatedData['zdjecie_pogladowe_path'] = Storage::url($path);
+        }
+
+        if ($request->hasFile('faktura_pdf')) {
+            $path = $request->file('faktura_pdf')->store('faktury', 'public');
+            $validatedData['faktura_pdf_path'] = Storage::url($path);
+        }
+
         $przedmiot = Przedmiot::create($validateData);
         StanMagazynu::create([
             'IdPrzedmiot' => $przedmiot->id,
             'Ilosc' => $validateData['ilosc_dodanych'],
         ]);
 
-        return redirect()->route('items.index');
+        return redirect()->route('items.index')->with('success', 'Przedmiot został pomyślnie dodany.');
     }
 
     public function edit(Przedmiot $item)

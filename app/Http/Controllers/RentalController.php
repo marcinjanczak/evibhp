@@ -27,7 +27,6 @@ class RentalController
     public function store(Request $request)
     {
         $validatedData = $request->validate([
-        $validatedData = $request->validate([
             'IdPracownika' => 'required|exists:pracownicy,id',
             'IdPrzedmiot' => 'required|exists:przedmioty,id',
             'Ilosc' => 'required|integer|min:1',
