@@ -20,6 +20,9 @@
                         <td>{{ $employee->nazwisko }}</td>
                         <td class="text-end">
                             <div class="d-flex gap-2 justify-content-end">
+                                <a href="{{ route('employees.show', $employee->id) }}" class="btn btn-sm btn-outline-info">
+                                    <i class="fas fa-eye"></i> Pokaż
+                                </a>
                                 <a href="{{ route('employees.edit', $employee->id) }}" class="btn btn-sm btn-outline-primary">
                                     <i class="fas fa-edit"></i> Edytuj
                                 </a>

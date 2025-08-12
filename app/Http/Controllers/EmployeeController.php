@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Pracownik;
+use App\Models\Wypozyczenie;
 use Illuminate\Http\Request;
 use Symfony\Contracts\Service\Attribute\Required;
 
@@ -47,5 +48,12 @@ class EmployeeController
     {
         $employee->delete();
         return redirect()->route('employees.index')->with('success', 'Pracownik został usunięty');
+    }
+    public function show(Pracownik $employee)
+    {
+        $rentals = Wypozyczenie::with('pracownik')
+            ->where('IdPracownika', $employee->id)
+            ->get();
+        return view('employees.show', compact('employee', 'rentals'));
     }
 }
