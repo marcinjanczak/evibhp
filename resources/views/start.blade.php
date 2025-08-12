@@ -5,7 +5,7 @@
 @section('content')
 <main>
 <div class="start-section">
-    <h1>Witaj w systemie zarządzania</h1>
+    <h1>Witaj w systemie zarządzania odzieżą pracowniczą</h1>
     <div class="links-container">
         <div class="link-box">
             <a href="/employees">

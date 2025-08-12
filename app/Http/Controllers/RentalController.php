@@ -6,6 +6,7 @@ use App\Models\Pracownik;
 use App\Models\Przedmiot;
 use App\Models\StanMagazynu;
 use App\Models\Wypozyczenie;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 
@@ -13,9 +14,16 @@ class RentalController
 {
     public function index()
     {
-        $rentals = Wypozyczenie::with(['pracownik', 'przedmiot'])->get();
+        $today = Carbon::now();
+        $nextMonth = $today->copy()->addMonth();
 
-        return view('rentals.index', compact('rentals'));
+        $rentalsMonth = Wypozyczenie::with(['pracownik', 'przedmiot'])
+            ->whereBetween('DataPlanowanegoZwrotu', [$today, $nextMonth])
+            ->orderBy('DataPlanowanegoZwrotu')
+            ->get();
+
+        $rentals = Wypozyczenie::with(['pracownik', 'przedmiot'])->get();
+        return view('rentals.index', compact('rentals', 'rentalsMonth'));
     }
     public function create()
     {

@@ -2,6 +2,47 @@
 
 @section('content')
     <main>
+        <h3>Koniec daty w tym miesiącu</h3>
+        <table class="table table-hover">
+            <thead class="bg-light">
+                <tr>
+                    <th>Pracownik</th>
+                    <th>Przedmiot</th>
+                    <th>Ilość</th>
+                    <th>Data wypożyczenia</th>
+                    <th>Data wymiany</th>
+                    <th class="text-end">Akcje</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach ($rentalsMonth as $rental)
+                <tr>
+                    <td>{{ $rental->pracownik->imie}} {{$rental->pracownik->nazwisko}}</td>
+                    <td>{{ $rental->przedmiot->nazwa}}</td>
+                    <td>{{ $rental->Ilosc}}</td>
+                    <td>{{ $rental->DataWypozyczenia}}</td>
+                    <td>{{ $rental->DataPlanowanegoZwrotu}}</td>
+                    <td>
+                        <div class="d-flex gap-2 justify-content-end">
+                            <a href="{{ route('rentals.edit', $rental->id) }}" class="btn btn-sm btn-outline-primary">
+                                <i class="fas fa-edit"></i> Edytuj
+                            </a>
+                            <form action="{{ route('rentals.destroy', $rental->id) }}" method="POST">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn btn-outline-danger btn-sm"
+                                    onclick="return confirm('Na pewno usunąć?')">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+                @endforeach
+            </tbody>
+        </table>
+
+
         <h3>Lista wydań</h3>
         <table class="table table-hover">
             <thead class="bg-light">
@@ -10,7 +51,7 @@
                     <th>Przedmiot</th>
                     <th>Ilość</th>
                     <th>Data wypożyczenia</th>
-                    <th>Data do zwrotu</th>
+                    <th>Data wymiany</th>
                     <th class="text-end">Akcje</th>
                 </tr>
             </thead>
