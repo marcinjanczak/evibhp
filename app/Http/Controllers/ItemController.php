@@ -20,7 +20,7 @@ class ItemController
     }
     public function store(Request $request)
     {
-        $validateData = $request->validate([
+        $validatedData = $request->validate([
             'nazwa' => 'required|string|max:50',
             'typ' => 'required|string|max:50',
             'rozmiar' => 'required|string|max:50',
@@ -32,19 +32,18 @@ class ItemController
 
         if ($request->hasFile('zdjecie_pogladowe')) {
             $path = $request->file('zdjecie_pogladowe')->store('zdjecia_pogladowe', 'public');
-            $path = $request->file('zdjecie_pogladowe')->store('zdjecia_pogladowe', 'public');
-            $validatedData['zdjecie_pogladowe_path'] = Storage::url($path);
+            $validatedData['zdjecie_pogladowe_path'] = $path;
         }
 
         if ($request->hasFile('faktura_pdf')) {
             $path = $request->file('faktura_pdf')->store('faktury', 'public');
-            $validatedData['faktura_pdf_path'] = Storage::url($path);
+            $validatedData['faktura_pdf_path'] = $path;
         }
 
-        $przedmiot = Przedmiot::create($validateData);
+        $przedmiot = Przedmiot::create($validatedData);
         StanMagazynu::create([
             'IdPrzedmiot' => $przedmiot->id,
-            'Ilosc' => $validateData['ilosc_dodanych'],
+            'Ilosc' => $validatedData['ilosc_dodanych'],
         ]);
 
         return redirect()->route('items.index')->with('success', 'Przedmiot został pomyślnie dodany.');
