@@ -7,21 +7,20 @@
             <thead class="bg-light">
                 <tr>
                     {{-- <th class="text-nowrap">ID</th> --}}
-                    <th>Imię</th>
                     <th>Nazwisko</th>
+                    <th>Imię</th>
                     <th class="text-end">Akcje</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach ($employees as $employee)
                     <tr>
-                        {{-- <td class="fw-bold">{{ $employee->id }}</td> --}}
-                        <td>{{ $employee->imie }}</td>
                         <td>{{ $employee->nazwisko }}</td>
+                        <td>{{ $employee->imie }}</td>
                         <td class="text-end">
                             <div class="d-flex gap-2 justify-content-end">
                                 <a href="{{ route('employees.show', $employee->id) }}" class="btn btn-sm btn-outline-info">
-                                    <i class="fas fa-eye"></i> Pokaż
+                                    <i class="fas fa-eye"></i> Szczegóły
                                 </a>
                                 <a href="{{ route('employees.edit', $employee->id) }}" class="btn btn-sm btn-outline-primary">
                                     <i class="fas fa-edit"></i> Edytuj

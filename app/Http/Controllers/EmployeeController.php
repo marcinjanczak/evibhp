@@ -5,13 +5,12 @@ namespace App\Http\Controllers;
 use App\Models\Pracownik;
 use App\Models\Wypozyczenie;
 use Illuminate\Http\Request;
-use Symfony\Contracts\Service\Attribute\Required;
 
 class EmployeeController
 {
     public function index()
     {
-        $employees = Pracownik::all();
+        $employees = Pracownik::orderBy('nazwisko', 'asc')->get();
         return (view('employees.index', compact('employees')));
     }
     public function create()
