@@ -6,15 +6,15 @@ use App\Models\Przedmiot;
 use App\Models\StanMagazynu;
 use App\Models\Wypozyczenie;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage; 
+use Illuminate\Support\Facades\Storage;
 
 class ItemController
 {
     public function index()
     {
         $items = Przedmiot::with('stanMagazynu')
-            ->orderBy('typ','asc')
-            ->orderBy('nazwa','asc')
+            ->orderBy('typ', 'asc')
+            ->orderBy('nazwa', 'asc')
             ->get();
 
         return view('items.index', compact('items'));
@@ -31,8 +31,8 @@ class ItemController
             'rozmiar' => 'required|string|max:50',
             'ilosc_dodanych' => 'required|int',
             'data_waznosci' => 'nullable|date|after:today',
-            'zdjecie_pogladowe' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:5120', 
-            'faktura_pdf' => 'nullable|mimes:pdf|max:5120', 
+            'zdjecie_pogladowe' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:5120',
+            'faktura_pdf' => 'nullable|mimes:pdf|max:5120',
         ]);
 
         if ($request->hasFile('zdjecie_pogladowe')) {
@@ -79,7 +79,7 @@ class ItemController
         return redirect()->route('items.index')->with('success', 'Produkt został pomyślnie usunięty');
     }
     public function show(Przedmiot $item)
-    {   
+    {
         $rentals = Wypozyczenie::with('pracownik')
             ->where('IdPrzedmiot', $item->id)
             ->get();
