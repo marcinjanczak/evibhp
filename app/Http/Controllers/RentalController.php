@@ -27,8 +27,9 @@ class RentalController
     }
     public function create()
     {
-        $employees = Pracownik::all();
-        $items = Przedmiot::with('stanMagazynu')->get();
+        
+        $employees = Pracownik::orderBy('nazwisko', 'asc')->get();
+        $items = Przedmiot::orderBy('typ', 'asc')->get();
 
         return view('rentals.create', compact('employees', 'items'));
     }

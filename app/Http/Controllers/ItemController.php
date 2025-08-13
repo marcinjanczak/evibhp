@@ -12,7 +12,8 @@ class ItemController
 {
     public function index()
     {
-        $items = Przedmiot::all();
+        $items = Przedmiot::orderBy('typ','asc')->get();
+        // $stanMagazwynowy
         return view('items.index', compact('items'));
     }
     public function create()
@@ -27,8 +28,8 @@ class ItemController
             'rozmiar' => 'required|string|max:50',
             'ilosc_dodanych' => 'required|int',
             'data_waznosci' => 'nullable|date|after:today',
-            'zdjecie_pogladowe' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', 
-            'faktura_pdf' => 'nullable|mimes:pdf|max:2048', 
+            'zdjecie_pogladowe' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:5120', 
+            'faktura_pdf' => 'nullable|mimes:pdf|max:5120', 
         ]);
 
         if ($request->hasFile('zdjecie_pogladowe')) {

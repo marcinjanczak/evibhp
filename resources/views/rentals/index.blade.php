@@ -66,9 +66,6 @@
                     <td>{{ $rental->DataPlanowanegoZwrotu}}</td>
                     <td>
                         <div class="d-flex gap-2 justify-content-end">
-                            <a href="{{ route('rentals.edit', $rental->id) }}" class="btn btn-sm btn-outline-primary">
-                                <i class="fas fa-edit"></i> Edytuj
-                            </a>
                             <form action="{{ route('rentals.destroy', $rental->id) }}" method="POST">
                                 @csrf
                                 @method('DELETE')

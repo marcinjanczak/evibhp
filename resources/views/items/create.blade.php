@@ -27,34 +27,34 @@
                         <form action="{{ route('items.store') }}" method="POST" enctype="multipart/form-data">
                             @csrf
                             <div class="mb-3">
-                                <label>Nazwa:</label>
+                                <label>Nazwa*</label>
                                 <input type="text" name="nazwa" class="form-control" required>
                             </div>
 
                             <div class="mb-3">
-                                <label>Typ:</label>
+                                <label>Typ*</label>
                                 <input type="text" name="typ" class="form-control" required>
                             </div>
 
                             <div class="mb-3">
-                                <label>Rozmiar:</label>
+                                <label>Rozmiar*</label>
                                 <input type="text" name="rozmiar" class="form-control" required>
                             </div>
 
                             <div class="mb-3">
-                                <label>Ilość:</label>
+                                <label>Ilość*</label>
                                 <input type="number" name="ilosc_dodanych" class="form-control" min="0" required>
                             </div>
                             <div class="mb-3">
-                                <label>Data używalności</label>
+                                <label>Data używalności*</label>
                                 <input type="date" name="data_waznosci" class="form-control" required>
                             </div>
                             <div class="mb-3">
-                                <label for="zdjecie_pogladowe" class="form-label">Zdjęcie poglądowe (opcjonalnie)</label>
+                                <label for="zdjecie_pogladowe" class="form-label">Zdjęcie poglądowe</label>
                                 <input type="file" class="form-control" id="zdjecie_pogladowe" name="zdjecie_pogladowe">
                             </div>
                             <div class="mb-3">
-                                <label for="faktura_pdf" class="form-label">Faktura (plik PDF, opcjonalnie)</label>
+                                <label for="faktura_pdf" class="form-label">Faktura (PDF)</label>
                                 <input type="file" class="form-control" id="faktura_pdf" name="faktura_pdf">
                             </div>
 
