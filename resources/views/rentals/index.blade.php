@@ -2,6 +2,7 @@
 
 @section('content')
     <main>
+        @if(!$rentalsMonth->isEmpty());
         <h3>Koniec daty w tym miesiącu</h3>
         <table class="table table-hover">
             <thead class="bg-light">
@@ -9,7 +10,7 @@
                     <th>Pracownik</th>
                     <th>Przedmiot</th>
                     <th>Ilość</th>
-                    <th>Data wypożyczenia</th>
+                    <th>Data wydania</th>
                     <th>Data wymiany</th>
                     <th class="text-end">Akcje</th>
                 </tr>
@@ -41,7 +42,7 @@
                 @endforeach
             </tbody>
         </table>
-
+        @endif
 
         <h3>Lista wydań</h3>
         <table class="table table-hover">

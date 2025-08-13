@@ -18,14 +18,14 @@
             <a href="/items">
                 <i class="fas fa-boxes"></i>
                 <span>Przedmioty</span>
-                <span class="description">Przeglądaj zasoby firmy</span>
+                <span class="description">Przeglądaj zasoby</span>
             </a>
         </div>
         <div class="link-box">
             <a href="/rentals">
                 <i class="fas fa-handshake"></i>
-                <span>Wypożyczenia</span>
-                <span class="description">Śledź wypożyczenia</span>
+                <span>Wydania</span>
+                <span class="description">Śledź wydania</span>
             </a>
         </div>
     </div>
