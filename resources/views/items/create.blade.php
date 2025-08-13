@@ -62,42 +62,6 @@
                                 <i class="fas fa-save"></i> Zapisz
                             </button>
                         </form>
-
-
-
-                        {{-- <form action="{{ route('items.store') }}" method="POST">
-                        @csrf
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group mb-3">
-                                    <label>Nazwa:</label>
-                                    <input type="text" name="Nazwa" class="form-control" placeholder="Wprowadź nazwę" required>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group mb-3">
-                                    <label>Typ:</label>
-                                    <input type="text" name="Typ" class="form-control" placeholder="Wprowadź typ" required>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group mb-3">
-                                    <label>Rozmiar:</label>
-                                    <input type="text" name="Rozmiar" class="form-control" placeholder="Wprowadź rozmiar">
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group mb-3">
-                                    <label>Ilość:</label>
-                                    <input type="number" name="Ilosc" class="form-control" placeholder="Wprowadź ilość" min="0" value="0">
-                                </div>
-                            </div>
-                                <button type="submit" class="btn btn-success">
-                                    <i class="fas fa-save"></i> Zapisz
-                                </button>
-                            </div>
-                        </div>
-                    </form> --}}
                     </div>
                 </div>
             </div>
