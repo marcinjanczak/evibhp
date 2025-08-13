@@ -7,7 +7,7 @@
                 <div class="card">
                     <div class="card-header">
                         <div class="d-flex justify-content-between align-items-center">
-                            <h3>Dodaj nowy przedmiot</h3>
+                            <h3>Dodaj nowe wydanie</h3>
                         </div>
                     </div>
                     <div class="card-body">
@@ -60,7 +60,7 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group mb-3">
-                                        <label for="DataWypozyczenia">Data wydania</label>
+                                        <label for="DataWypozyczenia">Dzień wydania</label>
                                         <input type="date" name="DataWypozyczenia" id="DataWypozyczenia"
                                             class="form-control"
                                             value="{{ old('DataWypozyczenia', now()->format('Y-m-d')) }}" required>
@@ -68,7 +68,7 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group mb-3">
-                                        <label for="DataPlanowanegoZwrotu">Data do zwrotu (opcjonalne)</label>
+                                        <label for="DataPlanowanegoZwrotu">Data końca wydania (opcjonalne)</label>
                                         <input type="date" name="DataPlanowanegoZwrotu" id="DataPlanowanegoZwrotu"
                                             class="form-control">
                                     </div>
