@@ -31,7 +31,7 @@
                         <td>{{ $item->nazwa }}</td>
                         <td>{{ $item->typ }}</td>
                         <td>{{ $item->rozmiar }}</td>
-                        <td>{{ $item->ilosc_dodanych }}</td>
+                        <td>{{ $item->stanMagazynu->Ilosc ?? 0 }}</td>
                         <td>{{ $item->data_waznosci }}</td>
                         <td class="text-end">
                             <div class="d-flex gap-2 justify-content-end">

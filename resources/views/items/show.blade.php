@@ -29,7 +29,8 @@
                                     <li class="list-group-item"><strong>Nazwa:</strong> {{ $item->nazwa }}</li>
                                     <li class="list-group-item"><strong>Typ:</strong> {{ $item->typ }}</li>
                                     <li class="list-group-item"><strong>Rozmiar:</strong> {{ $item->rozmiar }}</li>
-                                    <li class="list-group-item"><strong>Ilość:</strong> {{ $item->ilosc_dodanych }}</li>
+                                    <li class="list-group-item"><strong>Ilość dodanych:</strong> {{ $item->ilosc_dodanych }}</li>
+                                    <li class="list-group-item"><strong>Ilość na magazynie:</strong> {{ $item->stanMagazynu->Ilosc ?? 0}}</li>
                                     <li class="list-group-item"><strong>Data ważności:</strong>
                                         {{ $item->data_waznosci ?? 'Brak danych' }}</li>
                                     @if ($item->faktura_pdf_path)

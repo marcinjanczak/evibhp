@@ -12,8 +12,11 @@ class ItemController
 {
     public function index()
     {
-        $items = Przedmiot::orderBy('typ','asc')->get();
-        // $stanMagazwynowy
+        $items = Przedmiot::with('stanMagazynu')
+            ->orderBy('typ','asc')
+            ->orderBy('nazwa','asc')
+            ->get();
+
         return view('items.index', compact('items'));
     }
     public function create()
