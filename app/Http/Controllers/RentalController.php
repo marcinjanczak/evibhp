@@ -78,7 +78,6 @@ class RentalController
     {
         StanMagazynu::where('IdPrzedmiot', $rental->IdPrzedmiot)
             ->increment('Ilosc', (int) $rental->Ilosc);
-
         $rental->delete();
 
         return redirect()->back()->with('success', 'Wypożyczenie usunięte.');
