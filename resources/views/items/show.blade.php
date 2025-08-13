@@ -29,8 +29,10 @@
                                     <li class="list-group-item"><strong>Nazwa:</strong> {{ $item->nazwa }}</li>
                                     <li class="list-group-item"><strong>Typ:</strong> {{ $item->typ }}</li>
                                     <li class="list-group-item"><strong>Rozmiar:</strong> {{ $item->rozmiar }}</li>
-                                    <li class="list-group-item"><strong>Ilość dodanych:</strong> {{ $item->ilosc_dodanych }}</li>
-                                    <li class="list-group-item"><strong>Ilość na magazynie:</strong> {{ $item->stanMagazynu->Ilosc ?? 0}}</li>
+                                    <li class="list-group-item"><strong>Ilość dodanych:</strong> {{ $item->ilosc_dodanych }}
+                                    </li>
+                                    <li class="list-group-item"><strong>Ilość na magazynie:</strong>
+                                        {{ $item->stanMagazynu->Ilosc ?? 0 }}</li>
                                     <li class="list-group-item"><strong>Data ważności:</strong>
                                         {{ $item->data_waznosci ?? 'Brak danych' }}</li>
                                     @if ($item->faktura_pdf_path)
@@ -43,8 +45,11 @@
                             </div>
                         </div>
                     </div>
+                    <br>
+                    <br>
                     @if (!$rentals->isEmpty())
                         <table class="table table-hover">
+                            <h3>Aktualny wydania przedmotu</h3>
                             <thead class="bg-light">
                                 <tr>
                                     <th>Pracownik</th>
@@ -52,6 +57,7 @@
                                     <th>Ilość</th>
                                     <th>Data wypożyczenia</th>
                                     <th>Data do zwrotu</th>
+                                    <th>Akcje</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -62,6 +68,16 @@
                                         <td>{{ $rental->Ilosc }}</td>
                                         <td>{{ $rental->DataWypozyczenia }}</td>
                                         <td>{{ $rental->DataPlanowanegoZwrotu }}</td>
+                                        <td>
+                                            <form action="{{ route('rentals.destroy', $rental->id) }}" method="POST">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="btn btn-outline-danger btn-sm"
+                                                    onclick="return confirm('Na pewno usunąć?')">
+                                                    <i class="fas fa-trash"></i>
+                                                </button>
+                                            </form>
+                                        <td>
                                     </tr>
                                 @endforeach
                             </tbody>

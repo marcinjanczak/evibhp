@@ -81,6 +81,6 @@ class RentalController
 
         $rental->delete();
 
-        return redirect()->route('rentals.index')->with('success', 'Wypożyczenie usunięte.');
+        return redirect()->back()->with('success', 'Wypożyczenie usunięte.');
     }
 }
