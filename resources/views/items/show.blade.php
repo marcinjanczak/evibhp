@@ -1,5 +1,7 @@
 @extends('layouts.app')
 
+@section('title', 'Szczegoły przdmiotu')
+
 @section('content')
     <div class="container">
         <div class="row">
@@ -48,8 +50,9 @@
                     <br>
                     <br>
                     @if (!$rentals->isEmpty())
+                        <div class="table-padding">
                         <table class="table table-hover">
-                            <h3>Aktualny wydania przedmotu</h3>
+                            <h3>Aktualne wydania przedmiotu</h3>
                             <thead class="bg-light">
                                 <tr>
                                     <th>Pracownik</th>
@@ -82,6 +85,8 @@
                                 @endforeach
                             </tbody>
                         </table>
+                        </div>
+
                     @endif
 
 

@@ -7,6 +7,6 @@ use Illuminate\Http\Request;
 class Start extends Controller
 {
     public function index(){
-        return view('Start');
+        return view('start');
     }
 }

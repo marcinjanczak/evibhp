@@ -1,5 +1,7 @@
 @extends('layouts.app')
 
+@section('title', 'Wydania')
+
 @section('content')
     <main>
         @if(!$rentalsMonth->isEmpty());
@@ -51,7 +53,7 @@
                     <th>Pracownik</th>
                     <th>Przedmiot</th>
                     <th>Ilość</th>
-                    <th>Data wypożyczenia</th>
+                    <th>Data wydania</th>
                     <th>Data wymiany</th>
                     <th class="text-end">Akcje</th>
                 </tr>
@@ -85,7 +87,7 @@
                 <i class="fas fa-history"></i> Archiwalne
             </a> --}}
             <a href="{{ route('rentals.create') }}" class="btn btn-success">
-                <i class="fas fa-plus"></i> Nowe wypożyczenie
+                <i class="fas fa-plus"></i> Nowe wydanie
             </a>
         </div>
     </main>

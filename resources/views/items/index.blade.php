@@ -1,7 +1,10 @@
 @extends('layouts.app')
 
+@section('title', 'Przedmioty')
+
 @section('content')
     <main>
+           <div class="table-padding">
         <h2>Lista przedmiotów</h2>
         <table class="table table-hover">
             <thead class="bg-light">
@@ -58,5 +61,6 @@
         <a href="{{ route('items.create') }}" class="btn btn-success">
             <i class="fas fa-plus"></i> Dodaj nowy przedmiot
         </a>
+    </div>
     </main>
 @endsection
