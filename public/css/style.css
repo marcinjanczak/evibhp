@@ -19,15 +19,33 @@ body {
 }
 
 /* Nagłówek */
+
+
 .site-header {
     background: #2c3e50;
     color: white;
     padding: 1rem 0;
+
+    align-items: center;
 }
 
 .site-header .container {
     display: flex;
     align-items: center;
+    display: flex;
+    justify-content: space-between;
+}
+
+.back-btn {
+    background-color: white;
+    padding: 10px 10px 10px 10px;
+    border-radius: 5px;
+    text-decoration: none;
+    color: black;
+}
+.back-btn:hover {
+    background-color: #3498db;
+    transition: 300ms;
 }
 
 .logo a {
@@ -36,14 +54,17 @@ body {
     font-size: 1.5rem;
     font-weight: bold;
 }
+
 /* Główna zawartość */
 main {
     max-width: 1200px;
     margin: 0 auto;
     padding: 2rem;
-    min-height: calc(100vh - 20vh); /* Odejmujemy wysokość headera i footera */
-    
+    min-height: calc(100vh - 20vh);
+    /* Odejmujemy wysokość headera i footera */
+
 }
+
 main h1 {
     margin-bottom: 2rem;
     font-size: 2.5rem;
@@ -63,12 +84,12 @@ main h1 {
     border-radius: 8px;
     padding: 1.5rem;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 .links-vievs:hover {
     transform: translateY(-5px);
-    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
 }
 
 .links-vievs a {
@@ -83,6 +104,7 @@ main h1 {
 .links-vievs a:hover {
     color: #2980b9;
 }
+
 /* widok strony głównej */
 .start-section {
     display: flex;
@@ -90,7 +112,8 @@ main h1 {
     align-items: center;
     justify-content: center;
     text-align: center;
-    min-height: 70vh; /* Dostosuj wysokość */
+    min-height: 70vh;
+    /* Dostosuj wysokość */
     padding: 2rem;
 }
 
@@ -102,7 +125,8 @@ main h1 {
     width: 100%;
     max-width: 1200px;
     margin-top: 2rem;
-    flex-wrap: wrap; /* Dla responsywności */
+    flex-wrap: wrap;
+    /* Dla responsywności */
 }
 
 /* Pojedynczy link-box */
@@ -111,14 +135,14 @@ main h1 {
     border-radius: 12px;
     padding: 2rem;
     width: 300px;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     transition: all 0.3s ease;
     text-align: center;
 }
 
 .link-box:hover {
     transform: translateY(-5px);
-    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
     background: #fff;
 }
 
@@ -151,22 +175,23 @@ main h1 {
     font-size: 0.9rem;
     border-collapse: separate;
     border-spacing: 0;
-  }
-  
-  .table thead th {
+}
+
+.table thead th {
     border-bottom: 2px solid #dee2e6;
     border-top: none;
     font-weight: 500;
-  }
-  
-  .table tbody tr:hover {
+}
+
+.table tbody tr:hover {
     background-color: rgba(0, 0, 0, 0.02);
-  }
-  
-  .table td, .table th {
+}
+
+.table td,
+.table th {
     padding: 0.75rem;
     vertical-align: middle;
-  }
+}
 
 /* Stopka */
 .site-footer {
