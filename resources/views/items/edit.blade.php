@@ -1,193 +1,85 @@
 @extends('layouts.app')
 
-@section('title', 'Edytuj Przedmioty')
+@section('title', 'Edytuj Przedmiot')
 
 @section('content')
-<div class="container">
-    <div class="row">
-        <div class="col-md-12">
-            <div class="card">
-                <div class="card-header">
-                    <div class="d-flex justify-content-between align-items-center">
-                        <h3>Edytuj przedmiot</h3>
-                        <a href="{{ route('items.index') }}" class="btn btn-primary">
-                            <i class="fas fa-arrow-left"></i> Powrót
-                        </a>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <h3>Edytuj przedmiot</h3>
+                            <a href="{{ route('items.index') }}" class="btn btn-primary">
+                                <i class="fas fa-arrow-left"></i> Powrót
+                            </a>
+                        </div>
                     </div>
-                </div>
-                <div class="card-body">
-                    {{-- @if ($errors->any())
-                        <div class="alert alert-danger">
-                            <strong>Błąd!</strong> Sprawdź wprowadzone dane.<br><br>
-                            <ul>
-                                @foreach ($errors->all() as $error)
-                                    <li>{{ $error }}</li>
-                                @endforeach
-                            </ul>
-                        </div>
-                    @endif --}}
-                    <form action="{{ route('items.update', $item->id) }}" method="POST">
-                        @csrf
-                        @method('PUT')
-                        <div class="mb-3">
-                            <label>Nazwa:</label>
-                            <input type="text" name="nazwa" class="form-control @error('nazwa') is-invalid @enderror" 
-                                   id="nazwa" name="nazwa" value="{{ old('nazwa', $item->nazwa) }}" required>
-                            @error('nazwa')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                        </div>
-                       
-                        <div class="mb-3">
-                            <label>Typ:</label>
-                            <input type="text" name="typ" class="form-control @error('typ') is-invalid @enderror" 
-                                   id="typ" name="typ" value="{{ old('typ', $item->typ) }}" required>
-                            @error('typ')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                        </div>
-
-                        <div class="mb-3">
-                            <label>Rozmiar:</label>
-                            <input type="text" name="rozmiar" class="form-control @error('rozmiar') is-invalid @enderror" 
-                                   id="rozmiar" name="rozmiar" value="{{ old('rozmiar', $item->rozmiar) }}" required>
-                            @error('rozmiar')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror 
-                        </div>
-
-                         <div class="mb-3">
-                            <label>Ilość:</label>
-                            <input type="number" name="ilosc_dodanych" class="form-control @error('ilosc_dodanych') is-invalid @enderror" 
-                                   id="ilosc_dodanych" name="ilosc_dodanych" value="{{ old('ilosc_dodanych', $item->ilosc_dodanych) }}" required>
-                            @error('ilosc_dodanych')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                        </div>
-                        <div class="mb-3">
-                            <label>Data używalności</label>
-                            <input type="date" name="data_waznosci" class="form-control @error('data_waznosci') is-invalid @enderror" 
-                                   id="data_waznosci" name="data_waznosci" value="{{ old('data_waznosci', $item->data_waznosci) }}" required>
-                            @error('data_waznosci')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                        </div>
-
-                        
-                        <button type="submit" class="btn btn-success">
-                            <i class="fas fa-save"></i> Zapisz
-                        </button>
-                    </form>
-
-
-
-                    {{-- <form action="{{ route('items.store') }}" method="POST">
-                        @csrf
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group mb-3">
-                                    <label>Nazwa:</label>
-                                    <input type="text" name="Nazwa" class="form-control" placeholder="Wprowadź nazwę" required>
-                                </div>
+                    <div class="card-body">
+                        @if ($errors->any())
+                            <div class="alert alert-danger">
+                                <strong>Błąd!</strong> Sprawdź wprowadzone dane.<br><br>
+                                <ul>
+                                    @foreach ($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
                             </div>
-                            <div class="col-md-6">
-                                <div class="form-group mb-3">
-                                    <label>Typ:</label>
-                                    <input type="text" name="Typ" class="form-control" placeholder="Wprowadź typ" required>
-                                </div>
+                        @endif
+                        {{-- Formularz do edycji z metodą PUT/PATCH --}}
+                        <form action="{{ route('items.update', $item->id) }}" method="POST" enctype="multipart/form-data">
+                            @csrf
+                            @method('PUT') {{-- Niezbędny tag dla aktualizacji w Laravelu --}}
+
+                            {{-- Pola formularza wypełnione danymi z bazy --}}
+                            <div class="mb-3">
+                                <label>Nazwa*</label>
+                                <input type="text" name="nazwa" class="form-control" value="{{ old('nazwa', $item->nazwa) }}" required>
                             </div>
-                            <div class="col-md-6">
-                                <div class="form-group mb-3">
-                                    <label>Rozmiar:</label>
-                                    <input type="text" name="Rozmiar" class="form-control" placeholder="Wprowadź rozmiar">
-                                </div>
+
+                            <div class="mb-3">
+                                <label>Typ*</label>
+                                <input type="text" name="typ" class="form-control" value="{{ old('typ', $item->typ) }}" required>
                             </div>
-                            <div class="col-md-6">
-                                <div class="form-group mb-3">
-                                    <label>Ilość:</label>
-                                    <input type="number" name="Ilosc" class="form-control" placeholder="Wprowadź ilość" min="0" value="0">
-                                </div>
+
+                            <div class="mb-3">
+                                <label>Rozmiar*</label>
+                                <input type="text" name="rozmiar" class="form-control" value="{{ old('rozmiar', $item->rozmiar) }}" required>
                             </div>
-                                <button type="submit" class="btn btn-success">
-                                    <i class="fas fa-save"></i> Zapisz
-                                </button>
+
+                            <div class="mb-3">
+                                <label>Data używalności</label>
+                                <input type="date" name="data_waznosci" class="form-control" value="{{ old('data_waznosci', $item->data_waznosci ? \Carbon\Carbon::parse($item->data_waznosci)->format('Y-m-d') : '') }}">
                             </div>
-                        </div>
-                    </form> --}}
+
+                            {{-- Sekcja do edycji zdjęcia --}}
+                            <div class="mb-3">
+                                <label for="zdjecie_pogladowe" class="form-label">Zdjęcie poglądowe</label>
+                                @if ($item->zdjecie_pogladowe_path)
+                                    <p>Obecne zdjęcie:</p>
+                                    <img src="{{ asset('storage/' . $item->zdjecie_pogladowe_path) }}" alt="Zdjęcie poglądowe" style="max-width: 200px; display: block; margin-bottom: 10px;">
+                                    <small class="form-text text-muted">Przesłanie nowego zdjęcia zastąpi obecne.</small>
+                                @endif
+                                <input type="file" class="form-control" id="zdjecie_pogladowe" name="zdjecie_pogladowe">
+                            </div>
+
+                            {{-- Sekcja do edycji faktury --}}
+                            <div class="mb-3">
+                                <label for="faktura_pdf" class="form-label">Faktura (PDF)</label>
+                                @if ($item->faktura_pdf_path)
+                                    <p>Obecna faktura: <a href="{{ asset('storage/' . $item->faktura_pdf_path) }}" target="_blank">Pokaż fakturę</a></p>
+                                    <small class="form-text text-muted">Przesłanie nowego pliku PDF zastąpi obecny.</small>
+                                @endif
+                                <input type="file" class="form-control" id="faktura_pdf" name="faktura_pdf">
+                            </div>
+
+                            <button type="submit" class="btn btn-success">
+                                <i class="fas fa-save"></i> Zapisz Zmiany
+                            </button>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 @endsection
-
-
-
-{{-- @extends('layouts.app')
-
-@section('content')
-<div class="container">
-    <div class="row">
-        <div class="col-md-12">
-            <div class="card">
-                <div class="card-header">
-                    <div class="d-flex justify-content-between align-items-center">
-                        <h3>Edytuj przedmiot</h3>
-                        <a href="{{ route('items.index') }}" class="btn btn-primary">
-                            <i class="fas fa-arrow-left"></i> Powrót
-                        </a>
-                    </div>
-                </div>
-                <div class="card-body">
-                    @if ($errors->any())
-                        <div class="alert alert-danger">
-                            <strong>Błąd!</strong> Sprawdź wprowadzone dane.<br><br>
-                            <ul>
-                                @foreach ($errors->all() as $error)
-                                    <li>{{ $error }}</li>
-                                @endforeach
-                            </ul>
-                        </div>
-                    @endif
-
-                    <form action="{{ route('items.update', $przedmiot->IdPrzedmiot) }}" method="POST">
-                        @csrf
-                        @method('PUT')
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group mb-3">
-                                    <label>Nazwa:</label>
-                                    <input type="text" name="Nazwa" class="form-control" value="{{ $przedmiot->Nazwa }}" required>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group mb-3">
-                                    <label>Typ:</label>
-                                    <input type="text" name="Typ" class="form-control" value="{{ $przedmiot->Typ }}" required>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group mb-3">
-                                    <label>Rozmiar:</label>
-                                    <input type="text" name="Rozmiar" class="form-control" value="{{ $przedmiot->Rozmiar }}">
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group mb-3">
-                                    <label>Ilość:</label>
-                                    <input type="number" name="Ilosc" class="form-control" value="{{ $przedmiot->Ilosc ?? 0 }}" min="0">
-                                </div>
-                            </div>
-                            <div class="col-md-12 text-center">
-                                <button type="submit" class="btn btn-success">
-                                    <i class="fas fa-save"></i> Zapisz zmiany
-                                </button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-@endsection --}}

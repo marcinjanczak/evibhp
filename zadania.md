@@ -1,19 +1,13 @@
-# Zadania do zrobienia
+# Do naprawy
 
-## Dodanie widoków
+## Ważne 
+- Edycja przdmiotów(nie działa nowy formularz)
+- Poprawić w widoku tabeli przedmiotów na ilość wydanych też!!
 
-1. **Pracownicy**
-- Widok ogólny(tabelka z wykazem wszystkich pracowników), oraz widok szczegółowy który zawiera informacje o wydanych, bądź nie wydanych rzeczach.
-- Widok edycji danych pracownika oraz jego stanu wydanych rzeczy.
-- Widok dodania nowego pracownika
-- Widok usunięcia pracownika.
+## Opcjonalne
+- Dodać dodanie wydania z poziomu pracownika
+- Dodać dodanie wydania z poziomu przedmiotu
+- Spróbować dodać edycję wydań
+- Postawienie tego na dockerze na docker alpine.
 
-2. **Przedmioty** 
-- Widok dostępnych rzeczy wraz z stanem na magazynie, oraz wydanym pracownikom.
-- Widok dodania przedmiotu, usunięcia, edycji.
 
-3. **Wypożyczone**
-- Widok dodania nowego wypożyczenia,
-- Widok archiwalnych wypożyczeń.
-- Widok edycji aktualnych wypożyczeń.
-- Widok usunięcia aktualnych wypożyczeń.

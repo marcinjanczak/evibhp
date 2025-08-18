@@ -58,19 +58,44 @@ class ItemController
     {
         return view('items.edit', compact('item'));
     }
-
-    public function update(Request $request, Przedmiot $item)
+    public function update(Request $request, Przedmiot $przedmiot)
     {
-        $validateData = $request->validate([
+             $validatedData = $request->validate([
             'nazwa' => 'required|string|max:50',
             'typ' => 'required|string|max:50',
             'rozmiar' => 'required|string|max:50',
-            'ilosc_dodanych' => 'required|int',
             'data_waznosci' => 'nullable|date|after:today',
+            'zdjecie_pogladowe' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:5120',
+            'faktura_pdf' => 'nullable|mimes:pdf|max:5120',
         ]);
-        $item->update($validateData);
 
-        return redirect()->route('items.index');
+        // 2. Obsługa przesyłania nowego zdjęcia
+        if ($request->hasFile('zdjecie_pogladowe')) {
+            // Jeśli istnieje stare zdjęcie, usuń je, aby nie zaśmiecać dysku
+            if ($przedmiot->zdjecie_pogladowe_path) {
+                Storage::disk('public')->delete($przedmiot->zdjecie_pogladowe_path);
+            }
+            // Zapisz nowe zdjęcie
+            $path = $request->file('zdjecie_pogladowe')->store('zdjecia_pogladowe', 'public');
+            $validatedData['zdjecie_pogladowe_path'] = $path;
+        }
+
+        // 3. Obsługa przesyłania nowej faktury
+        if ($request->hasFile('faktura_pdf')) {
+            // Jeśli istnieje stara faktura, usuń ją
+            if ($przedmiot->faktura_pdf_path) {
+                Storage::disk('public')->delete($przedmiot->faktura_pdf_path);
+            }
+            // Zapisz nową fakturę
+            $path = $request->file('faktura_pdf')->store('faktury', 'public');
+            $validatedData['faktura_pdf_path'] = $path;
+        }
+
+        // 4. Aktualizacja rekordu przedmiotu w bazie danych
+        $przedmiot->update($validatedData);
+
+        // 5. Przekierowanie z powrotem na listę przedmiotów z komunikatem sukcesu
+        return redirect()->route('items.index')->with('success', 'Przedmiot został pomyślnie zaktualizowany.');
     }
 
     public function destroy(Przedmiot $item)
