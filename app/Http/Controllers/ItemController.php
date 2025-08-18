@@ -58,7 +58,7 @@ class ItemController
     {
         return view('items.edit', compact('item'));
     }
-    public function update(Request $request, Przedmiot $przedmiot)
+    public function update(Request $request, Przedmiot $item)
     {
              $validatedData = $request->validate([
             'nazwa' => 'required|string|max:50',
@@ -72,8 +72,8 @@ class ItemController
         // 2. Obsługa przesyłania nowego zdjęcia
         if ($request->hasFile('zdjecie_pogladowe')) {
             // Jeśli istnieje stare zdjęcie, usuń je, aby nie zaśmiecać dysku
-            if ($przedmiot->zdjecie_pogladowe_path) {
-                Storage::disk('public')->delete($przedmiot->zdjecie_pogladowe_path);
+            if ($item->zdjecie_pogladowe_path) {
+                Storage::disk('public')->delete($item->zdjecie_pogladowe_path);
             }
             // Zapisz nowe zdjęcie
             $path = $request->file('zdjecie_pogladowe')->store('zdjecia_pogladowe', 'public');
@@ -83,8 +83,8 @@ class ItemController
         // 3. Obsługa przesyłania nowej faktury
         if ($request->hasFile('faktura_pdf')) {
             // Jeśli istnieje stara faktura, usuń ją
-            if ($przedmiot->faktura_pdf_path) {
-                Storage::disk('public')->delete($przedmiot->faktura_pdf_path);
+            if ($item->faktura_pdf_path) {
+                Storage::disk('public')->delete($item->faktura_pdf_path);
             }
             // Zapisz nową fakturę
             $path = $request->file('faktura_pdf')->store('faktury', 'public');
@@ -92,7 +92,7 @@ class ItemController
         }
 
         // 4. Aktualizacja rekordu przedmiotu w bazie danych
-        $przedmiot->update($validatedData);
+        $item->update($validatedData);
 
         // 5. Przekierowanie z powrotem na listę przedmiotów z komunikatem sukcesu
         return redirect()->route('items.index')->with('success', 'Przedmiot został pomyślnie zaktualizowany.');
