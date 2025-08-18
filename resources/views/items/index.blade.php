@@ -1,5 +1,7 @@
 @extends('layouts.app')
 
+@section('title', 'Przedmioty')
+
 @section('content')
     <main>
            <div class="table-padding">
