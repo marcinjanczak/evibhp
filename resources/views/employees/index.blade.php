@@ -24,9 +24,6 @@
                                 <a href="{{ route('employees.show', $employee->id) }}" class="btn btn-sm btn-outline-info">
                                     <i class="fas fa-eye"></i> Szczegóły
                                 </a>
-                                <a href="{{ route('employees.edit', $employee->id) }}" class="btn btn-sm btn-outline-primary">
-                                    <i class="fas fa-edit"></i> Edytuj
-                                </a>
                                 <form action="{{ route('employees.destroy', $employee->id) }}" method="POST">
                                     @csrf
                                     @method('DELETE')
