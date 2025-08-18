@@ -51,7 +51,7 @@
                     <th>Pracownik</th>
                     <th>Przedmiot</th>
                     <th>Ilość</th>
-                    <th>Data wypożyczenia</th>
+                    <th>Data wydania</th>
                     <th>Data wymiany</th>
                     <th class="text-end">Akcje</th>
                 </tr>
