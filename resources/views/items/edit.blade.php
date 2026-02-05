@@ -3,14 +3,14 @@
 @section('title', 'Edytuj Przedmiot')
 
 @section('content')
-    <div class="container">
+    <div class="container mt-4">
         <div class="row">
             <div class="col-md-12">
-                <div class="card">
-                    <div class="card-header">
+                <div class="card shadow-sm">
+                    <div class="card-header bg-white py-3">
                         <div class="d-flex justify-content-between align-items-center">
-                            <h3>Edytuj przedmiot</h3>
-                            <a href="{{ route('items.index') }}" class="btn btn-primary">
+                            <h3 class="mb-0">Edytuj przedmiot: {{ $item->name }}</h3>
+                            <a href="{{ route('items.index') }}" class="btn btn-outline-primary">
                                 <i class="fas fa-arrow-left"></i> Powrót
                             </a>
                         </div>
@@ -26,56 +26,63 @@
                                 </ul>
                             </div>
                         @endif
-                        {{-- Formularz do edycji z metodą PUT/PATCH --}}
+
                         <form action="{{ route('items.update', $item->id) }}" method="POST" enctype="multipart/form-data">
                             @csrf
-                            @method('PUT') {{-- Niezbędny tag dla aktualizacji w Laravelu --}}
+                            @method('PUT')
 
-                            {{-- Pola formularza wypełnione danymi z bazy --}}
-                            <div class="mb-3">
-                                <label>Nazwa*</label>
-                                <input type="text" name="nazwa" class="form-control" value="{{ old('nazwa', $item->nazwa) }}" required>
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Nazwa*</label>
+                                    <input type="text" name="name" class="form-control" value="{{ old('name', $item->name) }}" required>
+                                </div>
+
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Typ*</label>
+                                    <input type="text" name="type" class="form-control" value="{{ old('type', $item->type) }}" required>
+                                </div>
+
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Rozmiar*</label>
+                                    <input type="text" name="size" class="form-control" value="{{ old('size', $item->size) }}" required>
+                                </div>
+
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Data używalności/ważności</label>
+                                    <input type="date" name="expiration_date" class="form-control" 
+                                           value="{{ old('expiration_date', $item->expiration_date ? $item->expiration_date->format('Y-m-d') : '') }}">
+                                </div>
+
+                                <div class="col-md-6 mb-4">
+                                    <label for="preview_image" class="form-label">Zdjęcie poglądowe</label>
+                                    @if ($item->preview_image_path)
+                                        <div class="mb-2">
+                                            <img src="{{ asset('storage/' . $item->preview_image_path) }}" alt="Zdjęcie" class="img-thumbnail" style="max-width: 150px;">
+                                        </div>
+                                    @endif
+                                    <input type="file" class="form-control" id="preview_image" name="preview_image" accept="image/*">
+                                    <small class="text-muted">Wybierz plik, aby zastąpić obecne zdjęcie.</small>
+                                </div>
+
+                                <div class="col-md-6 mb-4">
+                                    <label for="invoice_pdf" class="form-label">Faktura (PDF)</label>
+                                    @if ($item->invoice_pdf_path)
+                                        <div class="mb-2">
+                                            <a href="{{ asset('storage/' . $item->invoice_pdf_path) }}" target="_blank" class="btn btn-sm btn-outline-info">
+                                                <i class="fas fa-file-pdf"></i> Pokaż obecną fakturę
+                                            </a>
+                                        </div>
+                                    @endif
+                                    <input type="file" class="form-control" id="invoice_pdf" name="invoice_pdf" accept="application/pdf">
+                                    <small class="text-muted">Wybierz plik, aby zastąpić obecny dokument PDF.</small>
+                                </div>
                             </div>
 
-                            <div class="mb-3">
-                                <label>Typ*</label>
-                                <input type="text" name="typ" class="form-control" value="{{ old('typ', $item->typ) }}" required>
+                            <div class="d-flex justify-content-end border-top pt-3">
+                                <button type="submit" class="btn btn-primary btn-lg px-5">
+                                    <i class="fas fa-save"></i> Zapisz zmiany
+                                </button>
                             </div>
-
-                            <div class="mb-3">
-                                <label>Rozmiar*</label>
-                                <input type="text" name="rozmiar" class="form-control" value="{{ old('rozmiar', $item->rozmiar) }}" required>
-                            </div>
-
-                            <div class="mb-3">
-                                <label>Data używalności</label>
-                                <input type="date" name="data_waznosci" class="form-control" value="{{ old('data_waznosci', $item->data_waznosci ? \Carbon\Carbon::parse($item->data_waznosci)->format('Y-m-d') : '') }}">
-                            </div>
-
-                            {{-- Sekcja do edycji zdjęcia --}}
-                            <div class="mb-3">
-                                <label for="zdjecie_pogladowe" class="form-label">Zdjęcie poglądowe</label>
-                                @if ($item->zdjecie_pogladowe_path)
-                                    <p>Obecne zdjęcie:</p>
-                                    <img src="{{ asset('storage/' . $item->zdjecie_pogladowe_path) }}" alt="Zdjęcie poglądowe" style="max-width: 200px; display: block; margin-bottom: 10px;">
-                                    <small class="form-text text-muted">Przesłanie nowego zdjęcia zastąpi obecne.</small>
-                                @endif
-                                <input type="file" class="form-control" id="zdjecie_pogladowe" name="zdjecie_pogladowe">
-                            </div>
-
-                            {{-- Sekcja do edycji faktury --}}
-                            <div class="mb-3">
-                                <label for="faktura_pdf" class="form-label">Faktura (PDF)</label>
-                                @if ($item->faktura_pdf_path)
-                                    <p>Obecna faktura: <a href="{{ asset('storage/' . $item->faktura_pdf_path) }}" target="_blank">Pokaż fakturę</a></p>
-                                    <small class="form-text text-muted">Przesłanie nowego pliku PDF zastąpi obecny.</small>
-                                @endif
-                                <input type="file" class="form-control" id="faktura_pdf" name="faktura_pdf">
-                            </div>
-
-                            <button type="submit" class="btn btn-success">
-                                <i class="fas fa-save"></i> Zapisz Zmiany
-                            </button>
                         </form>
                     </div>
                 </div>

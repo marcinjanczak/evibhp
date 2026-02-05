@@ -2,57 +2,72 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Pracownik;
-use App\Models\Wypozyczenie;
+use App\Models\Employee;
+use App\Models\Issue;
 use Illuminate\Http\Request;
+use Illuminate\View\View;
+use Illuminate\Http\RedirectResponse;
 
-class EmployeeController
+class EmployeeController extends Controller
 {
-    public function index()
+    public function index(): View
     {
-        $employees = Pracownik::orderBy('nazwisko', 'asc')->get();
-        return (view('employees.index', compact('employees')));
+        // Zmieniamy 'nazwisko' na 'last_name'
+        $employees = Employee::orderBy('last_name', 'asc')->get();
+        return view('employees.index', compact('employees'));
     }
-    public function create()
+
+    public function create(): View
     {
         return view('employees.create');
     }
-    public function store(Request $request)
+
+    public function store(Request $request): RedirectResponse
     {
-        $validateData = $request->validate([
-            'imie' => 'required|string|max:50',
-            'nazwisko' => 'required|string|max:50',
+        // Walidacja angielskich nazw pól
+        $validatedData = $request->validate([
+            'first_name' => 'required|string|max:50',
+            'last_name' => 'required|string|max:50',
+            'position_id' => 'nullable|exists:positions,id', // jeśli masz już stanowiska
         ]);
-        Pracownik::create($validateData);
+
+        Employee::create($validatedData);
+
         return redirect()->route('employees.index')
             ->with('success', 'Pracownik został pomyślnie dodany');
     }
 
-    public function edit(Pracownik $employee)
+    public function edit(Employee $employee): View
     {
         return view('employees.edit', compact('employee'));
     }
 
-    public function update(Request $request, Pracownik $employee)
+    public function update(Request $request, Employee $employee): RedirectResponse
     {
-        $validateData = $request->validate([
-            'imie' => 'required|string|max:50',
-            'nazwisko' => 'required|string|max:50',
+        $validatedData = $request->validate([
+            'first_name' => 'required|string|max:50',
+            'last_name' => 'required|string|max:50',
         ]);
-        $employee->update($validateData);
 
-        return redirect()->route('employees.index')->with('success', 'Dane pracownika zostały zaktualizowane');
+        $employee->update($validatedData);
+
+        return redirect()->route('employees.index')
+            ->with('success', 'Dane pracownika zostały zaktualizowane');
     }
-    public function destroy(Pracownik $employee)
+
+    public function destroy(Employee $employee): RedirectResponse
     {
         $employee->delete();
-        return redirect()->route('employees.index')->with('success', 'Pracownik został usunięty');
+        return redirect()->route('employees.index')
+            ->with('success', 'Pracownik został usunięty');
     }
-    public function show(Pracownik $employee)
+
+    public function show(Employee $employee): View
     {
-        $rentals = Wypozyczenie::with('pracownik')
-            ->where('IdPracownika', $employee->id)
-            ->get();
+        // Używamy relacji 'issues' z modelu Employee i ładujemy dane produktu
+        // Laravel sam wie, że employee_id to klucz obcy
+        $rentals = $employee->issues()->with('product')->get();
+
         return view('employees.show', compact('employee', 'rentals'));
     }
 }

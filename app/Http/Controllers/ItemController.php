@@ -2,104 +2,119 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Przedmiot;
-use App\Models\StanMagazynu;
-use App\Models\Wypozyczenie;
+use App\Models\Inventory;
+use App\Models\Product;
+use App\Models\Issue; // Zamiast Wypozyczenie
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\View\View;
+use Illuminate\Http\RedirectResponse;
 
-class ItemController
+class ItemController extends Controller
 {
-    public function index()
+    public function index(): View
     {
-        $items = Przedmiot::with('stanMagazynu')
-            ->orderBy('typ', 'asc')
-            ->orderBy('nazwa', 'asc')
+        // Zmieniamy stanMagazynu -> inventory, nazwa -> name, typ -> type
+        $items = Product::with('inventory')
+            ->orderBy('type', 'asc')
+            ->orderBy('name', 'asc')
             ->get();
 
         return view('items.index', compact('items'));
     }
-    public function create()
+
+    public function create(): View
     {
         return view('items.create');
     }
-    public function store(Request $request)
+
+    public function store(Request $request): RedirectResponse
     {
         $validatedData = $request->validate([
-            'nazwa' => 'required|string|max:50',
-            'typ' => 'required|string|max:50',
-            'rozmiar' => 'required|string|max:50',
-            'ilosc_dodanych' => 'required|int',
-            'data_waznosci' => 'nullable|date|after:today',
-            'zdjecie_pogladowe' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:5120',
-            'faktura_pdf' => 'nullable|mimes:pdf|max:5120',
+            'name' => 'required|string|max:50',
+            'type' => 'required|string|max:50',
+            'size' => 'required|string|max:50',
+            'quantity_added' => 'required|integer',
+            'expiration_date' => 'nullable|date|after:today',
+            'preview_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:5120',
+            'invoice_pdf' => 'nullable|mimes:pdf|max:5120',
         ]);
 
-        if ($request->hasFile('zdjecie_pogladowe')) {
-            $path = $request->file('zdjecie_pogladowe')->store('zdjecia_pogladowe', 'public');
-            $validatedData['zdjecie_pogladowe_path'] = $path;
+        // Obsługa zdjęcia
+        if ($request->hasFile('preview_image')) {
+            $path = $request->file('preview_image')->store('previews', 'public');
+            $validatedData['preview_image_path'] = $path;
         }
 
-        if ($request->hasFile('faktura_pdf')) {
-            $path = $request->file('faktura_pdf')->store('faktury', 'public');
-            $validatedData['faktura_pdf_path'] = $path;
+        // Obsługa PDF
+        if ($request->hasFile('invoice_pdf')) {
+            $path = $request->file('invoice_pdf')->store('invoices', 'public');
+            $validatedData['invoice_pdf_path'] = $path;
         }
 
-        $przedmiot = Przedmiot::create($validatedData);
-        StanMagazynu::create([
-            'IdPrzedmiot' => $przedmiot->id,
-            'Ilosc' => $validatedData['ilosc_dodanych'],
+        $product = Product::create($validatedData);
+
+        // Tworzymy stan magazynowy (Inventory) od razu po dodaniu produktu
+        Inventory::create([
+            'product_id' => $product->id,
+            'quantity' => $validatedData['quantity_added'],
         ]);
 
-        return redirect()->route('items.index')->with('success', 'Przedmiot został pomyślnie dodany.');
+        return redirect()->route('items.index')->with('success', 'Przedmiot został dodany.');
     }
 
-    public function edit(Przedmiot $item)
+    public function edit(Product $item): View
     {
         return view('items.edit', compact('item'));
     }
-    public function update(Request $request, Przedmiot $item)
+
+    public function update(Request $request, Product $item): RedirectResponse
     {
-             $validatedData = $request->validate([
-            'nazwa' => 'required|string|max:50',
-            'typ' => 'required|string|max:50',
-            'rozmiar' => 'required|string|max:50',
-            'data_waznosci' => 'nullable|date|after:today',
-            'zdjecie_pogladowe' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:5120',
-            'faktura_pdf' => 'nullable|mimes:pdf|max:5120',
+        $validatedData = $request->validate([
+            'name' => 'required|string|max:50',
+            'type' => 'required|string|max:50',
+            'size' => 'required|string|max:50',
+            'expiration_date' => 'nullable|date|after:today',
+            'preview_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:5120',
+            'invoice_pdf' => 'nullable|mimes:pdf|max:5120',
         ]);
 
-        if ($request->hasFile('zdjecie_pogladowe')) {
-            if ($item->zdjecie_pogladowe_path) {
-                Storage::disk('public')->delete($item->zdjecie_pogladowe_path);
+        if ($request->hasFile('preview_image')) {
+            if ($item->preview_image_path) {
+                Storage::disk('public')->delete($item->preview_image_path);
             }
-            $path = $request->file('zdjecie_pogladowe')->store('zdjecia_pogladowe', 'public');
-            $validatedData['zdjecie_pogladowe_path'] = $path;
+            $validatedData['preview_image_path'] = $request->file('preview_image')->store('previews', 'public');
         }
 
-        if ($request->hasFile('faktura_pdf')) {
-            if ($item->faktura_pdf_path) {
-                Storage::disk('public')->delete($item->faktura_pdf_path);
+        if ($request->hasFile('invoice_pdf')) {
+            if ($item->invoice_pdf_path) {
+                Storage::disk('public')->delete($item->invoice_pdf_path);
             }
-            $path = $request->file('faktura_pdf')->store('faktury', 'public');
-            $validatedData['faktura_pdf_path'] = $path;
+            $validatedData['invoice_pdf_path'] = $request->file('invoice_pdf')->store('invoices', 'public');
         }
 
         $item->update($validatedData);
 
-        return redirect()->route('items.index')->with('success', 'Przedmiot został pomyślnie zaktualizowany.');
+        return redirect()->route('items.index')->with('success', 'Przedmiot został zaktualizowany.');
     }
 
-    public function destroy(Przedmiot $item)
+    public function destroy(Product $item): RedirectResponse
     {
+        // Usuwamy pliki z dysku przed usunięciem rekordu
+        if ($item->preview_image_path) Storage::disk('public')->delete($item->preview_image_path);
+        if ($item->invoice_pdf_path) Storage::disk('public')->delete($item->invoice_pdf_path);
+
         $item->delete();
-        return redirect()->route('items.index')->with('success', 'Produkt został pomyślnie usunięty');
+        return redirect()->route('items.index')->with('success', 'Produkt usunięty.');
     }
-    public function show(Przedmiot $item)
+
+    public function show(Product $item): View
     {
-        $rentals = Wypozyczenie::with('pracownik')
-            ->where('IdPrzedmiot', $item->id)
+        // Ładujemy wydania tego przedmiotu wraz z pracownikami
+        $rentals = Issue::with('employee')
+            ->where('product_id', $item->id)
             ->get();
+
         return view('items.show', compact('item', 'rentals'));
     }
 }

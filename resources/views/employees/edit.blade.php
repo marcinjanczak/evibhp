@@ -8,7 +8,7 @@
         <div class="col-md-8">
             <div class="card shadow-sm">
                 <div class="card-header bg-primary text-white">
-                    <h5 class="mb-0">Edytuj pracownika: {{ $employee->imie }} {{ $employee->nazwisko }}</h5>
+                    <h5 class="mb-0">Edytuj pracownika: {{ $employee->first_name }} {{ $employee->last_name }}</h5>
                 </div>
 
                 <div class="card-body">
@@ -17,22 +17,23 @@
                         @method('PUT')
 
                         <div class="mb-3">
-                            <label for="imie" class="form-label">Imię</label>
-                            <input type="text" class="form-control @error('imie') is-invalid @enderror" 
-                                   id="imie" name="imie" value="{{ old('imie', $employee->imie) }}" required>
-                            @error('imie')
+                            <label for="first_name" class="form-label">Imię</label>
+                            <input type="text" class="form-control @error('first_name') is-invalid @enderror" 
+                                   id="first_name" name="first_name" value="{{ old('first_name', $employee->first_name) }}" required>
+                            @error('first_name')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
 
                         <div class="mb-3">
-                            <label for="nazwisko" class="form-label">Nazwisko</label>
-                            <input type="text" class="form-control @error('nazwisko') is-invalid @enderror" 
-                                   id="nazwisko" name="nazwisko" value="{{ old('nazwisko', $employee->nazwisko) }}" required>
-                            @error('nazwisko')
+                            <label for="last_name" class="form-label">Nazwisko</label>
+                            <input type="text" class="form-control @error('last_name') is-invalid @enderror" 
+                                   id="last_name" name="last_name" value="{{ old('last_name', $employee->last_name) }}" required>
+                            @error('last_name')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
+
                         <div class="d-flex justify-content-between mt-4">
                             <a href="{{ route('employees.index') }}" class="btn btn-secondary">
                                 <i class="fas fa-arrow-left"></i> Powrót
