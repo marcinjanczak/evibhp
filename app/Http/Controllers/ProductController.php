@@ -3,18 +3,20 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
-use App\Services\ItemService;
+use App\Services\ProductService; // Ważne: importujemy właściwą klasę
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 use Illuminate\Http\RedirectResponse;
 
-class ItemController extends Controller
+class ProductController extends Controller
 {
-    protected $itemService;
+    // Zmieniamy nazwę zmiennej i dodajemy typowanie dla pewności
+    protected ProductService $productService;
 
-    public function __construct(ItemService $itemService)
+    // Wstrzykujemy ProductService zamiast ItemService
+    public function __construct(ProductService $productService)
     {
-        $this->itemService = $itemService;
+        $this->productService = $productService;
     }
 
     public function index(): View
@@ -41,7 +43,8 @@ class ItemController extends Controller
             'invoice_pdf' => 'nullable|mimes:pdf|max:5120',
         ]);
 
-        $this->itemService->createProductWithBatch($validated);
+        // Używamy $productService
+        $this->productService->createProductWithBatch($validated);
 
         return redirect()->route('items.index')->with('success', 'Produkt i pierwsza partia dodane.');
     }
@@ -72,14 +75,16 @@ class ItemController extends Controller
             'preview_image' => 'nullable|image|max:5120',
         ]);
 
-        $this->itemService->updateProduct($item, $validated);
+        // Używamy $productService
+        $this->productService->updateProduct($item, $validated);
 
         return redirect()->route('items.index')->with('success', 'Dane produktu zaktualizowane.');
     }
 
     public function destroy(Product $item): RedirectResponse
     {
-        $this->itemService->deleteProduct($item);
+        // Używamy $productService
+        $this->productService->deleteProduct($item);
         return redirect()->route('items.index')->with('success', 'Produkt usunięty.');
     }
 }

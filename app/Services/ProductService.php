@@ -6,7 +6,7 @@ use App\Models\Product;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
-class ItemService
+class ProductService
 {
     public function createProductWithBatch(array $data): Product
     {
@@ -70,5 +70,18 @@ class ItemService
 
             return $product->delete();
         });
+    }
+
+    public function getPaginatedList(string $search = '', int $perPage = 10)
+    {
+        return Product::query()
+            ->with('batches') 
+            ->when($search, function ($query, $search) {
+                $query->where('name', 'like', "%{$search}%")
+                      ->orWhere('type', 'like', "%{$search}%")
+                      ->orWhere('size', 'like', "%{$search}%");
+            })
+            ->orderBy('name', 'asc')
+            ->paginate($perPage);
     }
 }

@@ -14,7 +14,6 @@ class Product extends Model
         return $this->hasMany(Batch::class);
     }
 
-    // Accessor do sumowania stanu: $product->total_stock
     public function getTotalStockAttribute(): int
     {
         return $this->batches()->sum('current_quantity');

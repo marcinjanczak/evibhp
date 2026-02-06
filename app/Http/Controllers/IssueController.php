@@ -19,10 +19,9 @@ class IssueController extends Controller
         $today = Carbon::now();
         $nextMonth = $today->copy()->addMonth();
 
-        // Wydania, których termin zwrotu/wymiany mija w ciągu najbliższego miesiąca
         $expiringIssues = Issue::with(['employee', 'product'])
             ->whereBetween('due_date', [$today, $nextMonth])
-            ->whereNull('returned_at') // Tylko te, które nie zostały jeszcze zwrócone
+            ->whereNull('returned_at') 
             ->orderBy('due_date')
             ->get();
 
@@ -51,7 +50,6 @@ class IssueController extends Controller
 
         $product = Product::with('inventory')->find($validatedData['product_id']);
 
-        // Sprawdzenie stanu magazynowego
         if (!$product->inventory || $product->inventory->quantity < $validatedData['quantity']) {
             return back()->withInput()->with('error', 'Niewystarczająca ilość przedmiotu w magazynie.');
         }
@@ -59,7 +57,6 @@ class IssueController extends Controller
         try {
             DB::beginTransaction();
 
-            // Jeśli użytkownik nie podał daty zwrotu, bierzemy datę ważności z produktu
             $dueDate = $validatedData['due_date'] ?? $product->expiration_date;
 
             Issue::create([
@@ -70,7 +67,6 @@ class IssueController extends Controller
                 'due_date' => $dueDate,
             ]);
 
-            // Odejmowanie z inwentarza
             $product->inventory->decrement('quantity', $validatedData['quantity']);
 
             DB::commit();
@@ -85,7 +81,6 @@ class IssueController extends Controller
 
     public function destroy(Issue $issue): RedirectResponse
     {
-        // Przy usuwaniu wydania, towar wraca na magazyn
         Inventory::where('product_id', $issue->product_id)
             ->increment('quantity', (int) $issue->quantity);
             

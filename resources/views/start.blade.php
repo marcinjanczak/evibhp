@@ -22,7 +22,7 @@
             </a>
         </div>
         <div class="link-box">
-            <a href="/rentals">
+            <a href="/issues">
                 <i class="fas fa-handshake"></i>
                 <span>Wydania</span>
                 <span class="description">Śledź wydania</span>

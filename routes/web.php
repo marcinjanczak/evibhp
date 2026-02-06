@@ -2,12 +2,11 @@
 
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\IssueController;
-use App\Http\Controllers\ItemController;
-use App\Http\Controllers\RentalController;
+use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Start;
 
 Route::get('/', [Start::class, 'index']);
 Route::resource('employees', EmployeeController::class);
-Route::resource('items', ItemController::class);
+Route::resource('items', ProductController::class);
 Route::resource('issues', IssueController::class);
