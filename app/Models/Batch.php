@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Batch extends Model
 {
     protected $fillable = [
-        'product_id', 'batch_number', 'initial_quantity', 
+        'product_id', 'batch_number', 'size','initial_quantity', 
         'current_quantity', 'expiration_date', 'invoice_pdf_path'
     ];
 

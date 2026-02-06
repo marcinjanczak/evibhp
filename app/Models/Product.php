@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Product extends Model
 {
-    protected $fillable = ['name', 'type', 'size', 'preview_image_path'];
+    protected $fillable = ['name', 'type', 'preview_image_path'];
 
     public function batches(): HasMany
     {

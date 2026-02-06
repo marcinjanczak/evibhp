@@ -21,7 +21,6 @@ class ProductTable extends Component
 
     public function render(ProductService $productService)
     {
-        // Zmień kropki i CamelCase na myślniki (kebab-case)
         return view('livewire.products-components.product-table', [
             'items' => $productService->getPaginatedList($this->search, 10)
         ]);

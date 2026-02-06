@@ -4,43 +4,28 @@ namespace App\Services;
 
 use App\Models\Product;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 
 class ProductService
 {
-    public function createProductWithBatch(array $data): Product
+  
+
+    public function createProduct(array $data): Product
     {
         return DB::transaction(function () use ($data) {
-            $imagePath = isset($data['preview_image']) 
-                ? $data['preview_image']->store('previews', 'public') 
-                : null;
+            // Obsługa zdjęcia
+            $imagePath = null;
+            if (isset($data['preview_image']) && $data['preview_image'] instanceof UploadedFile) {
+                $imagePath = $data['preview_image']->store('previews', 'public');
+            }
 
-            $product = Product::create([
+            return \App\Models\Product::create([
                 'name'               => $data['name'],
                 'type'               => $data['type'],
-                'size'               => $data['size'],
                 'preview_image_path' => $imagePath,
             ]);
-
-            $this->addBatch($product, $data);
-
-            return $product;
         });
-    }
-
-    public function addBatch(Product $product, array $data)
-    {
-        $invoicePath = isset($data['invoice_pdf']) 
-            ? $data['invoice_pdf']->store('invoices', 'public') 
-            : null;
-
-        return $product->batches()->create([
-            'batch_number'     => $data['batch_number'] ?? null,
-            'initial_quantity' => $data['quantity'],
-            'current_quantity' => $data['quantity'],
-            'expiration_date'  => $data['expiration_date'],
-            'invoice_pdf_path' => $invoicePath,
-        ]);
     }
 
     public function updateProduct(Product $product, array $data): bool
@@ -78,8 +63,7 @@ class ProductService
             ->with('batches') 
             ->when($search, function ($query, $search) {
                 $query->where('name', 'like', "%{$search}%")
-                      ->orWhere('type', 'like', "%{$search}%")
-                      ->orWhere('size', 'like', "%{$search}%");
+                      ->orWhere('type', 'like', "%{$search}%");
             })
             ->orderBy('name', 'asc')
             ->paginate($perPage);

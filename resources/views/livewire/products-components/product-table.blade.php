@@ -25,7 +25,6 @@
                             <th class="ps-4">Zdjęcie</th>
                             <th>Nazwa</th>
                             <th>Typ</th>
-                            <th>Rozmiar</th>
                             <th>Stan magazynowy</th>
                             <th>Najbliższa ważność</th>
                             <th class="text-end pe-4">Akcje</th>
@@ -48,7 +47,6 @@
                                 </td>
                                 <td class="fw-bold text-dark">{{ $item->name }}</td>
                                 <td class="text-muted">{{ $item->type }}</td>
-                                <td><span class="badge bg-secondary fw-normal">{{ $item->size }}</span></td>
                                 <td>
                                     @php $currentStock = $item->total_stock; @endphp
                                     <span class="badge {{ $currentStock > 0 ? 'bg-success' : 'bg-danger' }}">

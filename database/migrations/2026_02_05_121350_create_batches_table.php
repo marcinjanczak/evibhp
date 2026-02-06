@@ -14,9 +14,10 @@ return new class extends Migration
         Schema::create('batches', function (Blueprint $table) {
             $table->id();
             $table->foreignId('product_id')->constrained()->onDelete('cascade');
-            $table->string('batch_number')->nullable(); // Numer partii
-            $table->integer('initial_quantity'); // Ile kupiono
-            $table->integer('current_quantity'); // Ile zostało
+            $table->string('batch_number')->nullable();
+            $table->string('size', 50);
+            $table->integer('initial_quantity'); 
+            $table->integer('current_quantity'); 
             $table->date('expiration_date')->nullable();
             $table->string('invoice_pdf_path')->nullable();
             $table->timestamps();

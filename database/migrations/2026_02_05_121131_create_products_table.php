@@ -15,11 +15,7 @@ return new class extends Migration
         $table->id();
         $table->string('name');
         $table->string('type');
-        $table->string('size')->nullable();
-        $table->integer('quantity_added')->default(0);
-        $table->string('invoice_pdf_path')->nullable();
         $table->string('preview_image_path')->nullable();
-        $table->date('expiration_date')->nullable();
         $table->timestamps();
     });
 }
