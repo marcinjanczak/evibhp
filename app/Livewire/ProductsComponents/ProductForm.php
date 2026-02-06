@@ -5,6 +5,7 @@ namespace App\Livewire\ProductsComponents;
 use Livewire\Component;
 use Livewire\WithFileUploads; // Niezbędne do plików!
 use Livewire\Attributes\Validate;
+use Livewire\Attributes\On;
 use App\Services\ProductService;
 
 class ProductForm extends Component
@@ -39,6 +40,13 @@ class ProductForm extends Component
         } catch (\Exception $e) {
             $this->addError('base', 'Wystąpił błąd podczas zapisu: ' . $e->getMessage());
         }
+    }
+
+    #[On('reset-product-form')] 
+    public function resetForm()
+    {
+        $this->reset(); 
+        $this->resetValidation(); 
     }
 
     public function render()

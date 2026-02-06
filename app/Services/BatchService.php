@@ -12,13 +12,11 @@ class BatchService
     public function addBatchToProduct(Product $product, array $data): Batch
     {
         return DB::transaction(function () use ($product, $data) {
-            // Obsługa pliku faktury
             $invoicePath = null;
             if (isset($data['invoice_pdf']) && $data['invoice_pdf'] instanceof UploadedFile) {
                 $invoicePath = $data['invoice_pdf']->store('invoices', 'public');
             }
 
-            // Tworzenie partii
             return $product->batches()->create([
                 'batch_number'     => $data['batch_number'] ?? null,
                 'size'             => $data['size'], // Teraz rozmiar jest tutaj!

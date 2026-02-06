@@ -23,4 +23,9 @@ class Employee extends Model
     {
         return $this->hasMany(Issue::class);
     }
+    
+    public function position()
+{
+    return $this->belongsTo(Position::class);
+}
 }

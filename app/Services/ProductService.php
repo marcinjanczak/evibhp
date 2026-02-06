@@ -9,18 +9,15 @@ use Illuminate\Support\Facades\Storage;
 
 class ProductService
 {
-  
-
     public function createProduct(array $data): Product
     {
         return DB::transaction(function () use ($data) {
-            // Obsługa zdjęcia
             $imagePath = null;
             if (isset($data['preview_image']) && $data['preview_image'] instanceof UploadedFile) {
                 $imagePath = $data['preview_image']->store('previews', 'public');
             }
 
-            return \App\Models\Product::create([
+            return Product::create([
                 'name'               => $data['name'],
                 'type'               => $data['type'],
                 'preview_image_path' => $imagePath,

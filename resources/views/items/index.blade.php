@@ -31,3 +31,11 @@
     </div>
 </div>
 @endsection
+
+<script>
+    const myModal = document.getElementById('addProductModal');
+
+    myModal.addEventListener('hidden.bs.modal', () => {
+        Livewire.dispatch('reset-product-form');
+    });
+</script>
