@@ -10,4 +10,4 @@ use App\Http\Controllers\Start;
 Route::get('/', [Start::class, 'index']);
 Route::resource('employees', EmployeeController::class);
 Route::resource('items', ItemController::class);
-Route::resource('rentals', IssueController::class);
+Route::resource('issues', IssueController::class);

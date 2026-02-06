@@ -9,17 +9,11 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Batch extends Model
 {
     protected $fillable = [
-        'product_id',
-        'batch_number',
-        'initial_quantity',
-        'current_quantity',
-        'expiration_date',
-        'invoice_pdf_path',
+        'product_id', 'batch_number', 'initial_quantity', 
+        'current_quantity', 'expiration_date', 'invoice_pdf_path'
     ];
 
-    protected $casts = [
-        'expiration_date' => 'date',
-    ];
+    protected $casts = ['expiration_date' => 'date'];
 
     public function product(): BelongsTo
     {

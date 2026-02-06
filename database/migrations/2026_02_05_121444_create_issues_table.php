@@ -18,6 +18,7 @@ return new class extends Migration
             $table->integer('quantity');
             $table->date('issued_at');
             $table->date('due_date')->nullable();
+            $table->timestamp('returned_at')->nullable();
             $table->timestamps();
         });
     }

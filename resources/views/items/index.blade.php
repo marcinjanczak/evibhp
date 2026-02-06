@@ -1,84 +1,51 @@
 @extends('layouts.app')
 
-@section('title', 'Przedmioty')
-
 @section('content')
-<main class="container mt-4">
+<div class="container mt-4">
     <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2>Lista przedmiotów</h2>
-        <a href="{{ route('items.create') }}" class="btn btn-success">
-            <i class="fas fa-plus"></i> Dodaj nowy przedmiot
-        </a>
+        <h2>Magazyn BHP</h2>
+        <a href="{{ route('items.create') }}" class="btn btn-success">Dodaj Przedmiot</a>
     </div>
 
-    <div class="card shadow-sm">
-        <div class="card-body p-0">
-            <table class="table table-hover mb-0 align-middle">
-                <thead class="bg-light">
-                    <tr>
-                        <th>Zdjęcie</th>
-                        <th>Nazwa</th>
-                        <th>Typ</th>
-                        <th>Rozmiar</th>
-                        <th>Ilość w magazynie</th>
-                        <th>Data używalności</th>
-                        <th class="text-end">Akcje</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @forelse ($items as $item)
-                        <tr>
-                            <td>
-                                @if ($item->preview_image_path)
-                                    <img src="{{ Storage::url($item->preview_image_path) }}"
-                                         alt="{{ $item->name }}" class="img-thumbnail"
-                                         style="width: 60px; height: 60px; object-fit: cover;">
-                                @else
-                                    <div class="bg-light d-flex align-items-center justify-content-center img-thumbnail" 
-                                         style="width: 60px; height: 60px;">
-                                        <i class="fas fa-box text-muted"></i>
-                                    </div>
-                                @endif
-                            </td>
-                            <td class="fw-bold">{{ $item->name }}</td>
-                            <td>{{ $item->type }}</td>
-                            <td><span class="badge bg-secondary">{{ $item->size }}</span></td>
-                            <td>
-                                @php $stock = $item->inventory->quantity ?? 0; @endphp
-                                <span class="badge {{ $stock > 0 ? 'bg-success' : 'bg-danger' }}">
-                                    {{ $stock }} szt.
-                                </span>
-                            </td>
-                            <td>
-                                {{ $item->expiration_date ? $item->expiration_date->format('Y-m-d') : 'Brak' }}
-                            </td>
-                            <td class="text-end">
-                                <div class="d-flex gap-2 justify-content-end px-2">
-                                    <a href="{{ route('items.show', $item->id) }}" class="btn btn-sm btn-outline-info" title="Szczegóły">
-                                        <i class="fas fa-eye"></i>
-                                    </a>
-                                    <a href="{{ route('items.edit', $item->id) }}" class="btn btn-sm btn-outline-primary" title="Edytuj">
-                                        <i class="fas fa-edit"></i>
-                                    </a>
-                                    <form action="{{ route('items.destroy', $item->id) }}" method="POST" class="d-inline">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="btn btn-outline-danger btn-sm"
-                                            onclick="return confirm('Czy na pewno usunąć przedmiot {{ $item->name }}?')" title="Usuń">
-                                            <i class="fas fa-trash"></i>
-                                        </button>
-                                    </form>
-                                </div>
-                            </td>
-                        </tr>
-                    @empty
-                        <tr>
-                            <td colspan="7" class="text-center py-4 text-muted">Brak przedmiotów w magazynie.</td>
-                        </tr>
-                    @endforelse
-                </tbody>
-            </table>
-        </div>
-    </div>
-</main>
+    <table class="table table-hover shadow-sm bg-white rounded">
+        <thead class="table-light">
+            <tr>
+                <th>Zdjęcie</th>
+                <th>Nazwa</th>
+                <th>Rozmiar</th>
+                <th>Stan łączny</th>
+                <th>Najbliższa data</th>
+                <th class="text-end">Akcje</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach ($items as $item)
+            <tr>
+                <td>
+                    <img src="{{ $item->preview_image_path ? Storage::url($item->preview_image_path) : asset('default.png') }}" 
+                         style="width: 50px; height: 50px; object-fit: cover" class="rounded">
+                </td>
+                <td><strong>{{ $item->name }}</strong><br><small class="text-muted">{{ $item->type }}</small></td>
+                <td><span class="badge bg-secondary">{{ $item->size }}</span></td>
+                <td>
+                    @php $total = $item->total_stock; @endphp
+                    <span class="badge {{ $total > 0 ? 'bg-success' : 'bg-danger' }}">
+                        {{ $total }} szt.
+                    </span>
+                </td>
+                <td>
+                    @php 
+                        $nextBatch = $item->batches->where('current_quantity', '>', 0)->sortBy('expiration_date')->first();
+                    @endphp
+                    {{ $nextBatch ? $nextBatch->expiration_date->format('Y-m-d') : '---' }}
+                </td>
+                <td class="text-end">
+                    <a href="{{ route('items.show', $item->id) }}" class="btn btn-sm btn-info text-white"><i class="fas fa-eye"></i></a>
+                    <a href="{{ route('items.edit', $item->id) }}" class="btn btn-sm btn-primary"><i class="fas fa-edit"></i></a>
+                </td>
+            </tr>
+            @endforeach
+        </tbody>
+    </table>
+</div>
 @endsection
