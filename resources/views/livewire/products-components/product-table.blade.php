@@ -10,9 +10,9 @@
             </div>
         </div>
         <div class="col-md-6 text-end">
-            <a href="{{ route('items.create') }}" class="btn btn-success shadow-sm">
-                <i class="fas fa-plus"></i> Dodaj nowy przedmiot
-            </a>
+        <button class="btn btn-success shadow-sm" data-bs-toggle="modal" data-bs-target="#addProductModal">
+            <i class="fas fa-plus"></i> Dodaj nowy przedmiot
+        </button>
         </div>
     </div>
 
