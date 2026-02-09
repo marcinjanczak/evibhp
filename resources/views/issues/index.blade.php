@@ -28,8 +28,7 @@
                         <th class="ps-4">Data Wydania</th>
                         <th>Pracownik</th>
                         <th>Produkt</th>
-                        <th>Szczegóły Partii</th>
-                        <th class="text-center">Ilość</th>
+                        <th>Data końca obowiązynwania </th>
                     </tr>
                 </thead>
                 <tbody>
@@ -69,29 +68,16 @@
                                     @endif
                                     <div>
                                         <a href="{{ route('items.show', $issue->batch->product->id) }}" class="text-decoration-none fw-bold text-dark">
-                                            {{ $issue->batch->product->name }}
+                                            {{ $issue->batch->product->name }}  
                                         </a>
+                                        <div class="small text-muted">Rozmiar: {{ $issue->batch->size }} {{ $issue->quantity }} sztuk</div>
+                                        
                                         <div class="small text-muted">{{ $issue->batch->product->type }}</div>
                                     </div>
                                 </div>
                             </td>
-
-                            {{-- PARTIA --}}
                             <td>
-                                <span class="badge bg-light text-dark border">
-                                    Rozmiar: {{ $issue->batch->size }}
-                                </span>
-                                <div class="small text-muted mt-1">
-                                    Partia: {{ $issue->batch->batch_number ?? '-' }}
-                                </div>
-                            </td>
-
-                            {{-- ILOŚĆ --}}
-                            <td class="text-center">
-                                <span class="badge bg-primary fs-6 px-3 py-2 rounded-pill">
-                                    -{{ $issue->quantity }}
-                                </span>
-                            </td>
+                            {{ $issue->due_date?->format('Y-m-d') }}
                         </tr>
                     @empty
                         <tr>
