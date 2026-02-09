@@ -83,6 +83,19 @@ class IssueForm extends Component
         }
     }
 
+    public function selectProduct($id)
+    {
+        if ($this->product_id == $id) {
+            $this->product_id = null;
+            $this->batch_id = null; 
+            return;
+        }
+
+        $this->product_id = $id;
+        
+        $this->batch_id = null; 
+    }
+
     public function save(IssueService $service)
     {
         $this->validate();
@@ -105,6 +118,15 @@ class IssueForm extends Component
 
     public function render()
     {
+        $productsQuery = \App\Models\Product::with('batches'); // <--- DODAJ with('batches')
+
+        if (!empty($this->searchProduct)) {
+            $productsQuery->where('name', 'like', '%'.$this->searchProduct.'%');
+        }
+
+        $products = $productsQuery->orderBy('name')->get();
+
+
         return view('livewire.issues.issue-form', [
             'employees' => Employee::with('position')
                         ->when($this->searchEmployee, function($q) {
@@ -113,7 +135,7 @@ class IssueForm extends Component
                         ->limit(10)
                         ->get(),
             
-            'products' => Product::orderBy('name')->get(),
+            'products' => $products,
             
             'batches' => $this->product_id 
                 ? Batch::where('product_id', $this->product_id)
