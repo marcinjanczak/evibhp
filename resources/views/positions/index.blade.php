@@ -1,8 +1,19 @@
 @extends('layouts.app')
 
+@section('title', 'Stanowiska')
+
 @section('content')
 <div class="container mt-5">
-    <h2 class="mb-4 fw-bold">Zarządzanie Stanowiskami</h2>
+    
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        
+        <h2 class="fw-bold mb-0">Zarządzanie Stanowiskami</h2>
+        
+        <a href="{{ route('employees.index') }}" class="btn btn-outline-secondary text-nowrap">
+            <i class="fas fa-arrow-left me-1"></i> Pracownicy
+        </a>
+        
+    </div>
     
     <livewire:positions.positions-table />
 

@@ -11,7 +11,19 @@ class PositionForm extends Component
 {
     public ?Position $position = null;
     public $name = '';
+    public $searchProduct = '';
     public $selectedProducts = []; 
+
+    public function toggleProduct($id)
+    {
+        if (in_array($id, $this->selectedProducts)) {
+            $this->selectedProducts = array_diff($this->selectedProducts, [$id]);
+        } else {
+            $this->selectedProducts[] = $id;
+        }
+        
+        $this->selectedProducts = array_values($this->selectedProducts);
+    }
 
     public function save()
     {
@@ -45,10 +57,26 @@ class PositionForm extends Component
         $this->resetValidation();
     }
 
+    public function mount($position = null) 
+    {
+        if ($position) {
+            $this->name = $position->name;
+            $this->selectedProducts = $position->products()->pluck('products.id')->toArray();
+        }
+    }
+
     public function render()
     {
+        $products = Product::query()
+            ->when($this->searchProduct, function($q) {
+                $q->where('name', 'like', '%'.$this->searchProduct.'%')
+                  ->orWhere('type', 'like', '%'.$this->searchProduct.'%');
+            })
+            ->orderBy('name')
+            ->get();
+
         return view('livewire.positions.position-form', [
-            'allProducts' => Product::orderBy('name')->get()
+            'products' => $products
         ]);
     }
 }

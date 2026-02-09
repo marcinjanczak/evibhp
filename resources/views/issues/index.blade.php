@@ -14,7 +14,7 @@
 
         <div>
             <a href="{{ route('issues.create') }}" class="btn btn-success shadow-sm">
-                <i class="fas fa-hand-holding-box me-1"></i> Wydaj Towar
+                Wydaj Towar
             </a>
         </div>
     </div>

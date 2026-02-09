@@ -4,6 +4,8 @@
             <span class="input-group-text bg-white"><i class="fas fa-search"></i></span>
             <input type="text" wire:model.live="search" class="form-control" placeholder="Szukaj stanowiska...">
         </div>
+        
+
         <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#positionModal">
             <i class="fas fa-plus"></i> Dodaj stanowisko
         </button>
