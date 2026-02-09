@@ -70,9 +70,19 @@
                                         <a href="{{ route('items.show', $item->id) }}" class="btn btn-sm btn-light text-primary" title="Szczegóły">
                                             <i class="fas fa-eye"></i>
                                         </a>
-                                        <a href="{{ route('items.edit', $item->id) }}" class="btn btn-sm btn-light text-secondary" title="Edytuj">
+                                        <button 
+                                            wire:click="$dispatch('edit-product', { product: {{ $item->id }} })"
+                                            data-bs-toggle="modal" 
+                                            data-bs-target="#addProductModal"
+                                            class="btn btn-sm btn-light text-secondary" 
+                                            title="Edytuj nazwę/zdjęcie">
                                             <i class="fas fa-edit"></i>
-                                        </a>
+                                        </button>
+
+                                        <button wire:confirm="Czy na pewno usunąć?" wire:click="delete({{ $item->id }})" class="btn btn-sm btn-light text-danger">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                               
                                         </div>
                                 </td>
                             </tr>

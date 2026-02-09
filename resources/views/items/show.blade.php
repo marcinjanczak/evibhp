@@ -3,7 +3,6 @@
 @section('content')
 <div class="container mt-4">
     
-    {{-- Nagłówek Produktu --}}
     <div class="d-flex justify-content-between align-items-center mb-4">
         <div class="d-flex align-items-center">
             @if($item->preview_image_path)
@@ -16,18 +15,26 @@
         </div>
         
         <div class="text-end">
-            <span class="badge bg-primary fs-6 mb-2 d-block">Stan: {{ $item->total_stock }} szt.</span>
-            
-            {{-- PRZYCISK OTWIERAJĄCY MODAL --}}
-            <button type="button" class="btn btn-success shadow-sm" data-bs-toggle="modal" data-bs-target="#addBatchModal">
-                <i class="fas fa-plus"></i> Przyjmij dostawę
-            </button>
+            <a href="{{ route('items.index') }}" class="btn btn-outline-secondary shadow-sm">
+                <i class="fas fa-arrow-left me-1"></i> Wróć do listy przedmiotów
+            </a>
+           
+
+          
         </div>
     </div>
+
+
+
 
     <div class="row">
         <div class="col-md-12">
             <h4 class="mb-3 border-bottom pb-2">Dostępne Partie na magazynie</h4>
+            <div class="text-end">
+             <button type="button" class="btn btn-success shadow-sm" data-bs-toggle="modal" data-bs-target="#addBatchModal">
+                <i class="fas fa-plus"></i> Przyjmij dostawę
+            </button>
+            </div>
             
             <table class="table table-hover align-middle bg-white shadow-sm rounded">
                 <thead class="table-light">
@@ -35,7 +42,6 @@
                         <th>Rozmiar</th>
                         <th>Stan</th>
                         <th>Ważność</th>
-                        <th>Nr Partii</th>
                         <th>Faktura</th>
                     </tr>
                 </thead>
@@ -54,7 +60,6 @@
                                     {{ $batch->expiration_date->format('Y-m-d') }}
                                 @endif
                             </td>
-                            <td>{{ $batch->batch_number ?? '-' }}</td>
                             <td>
                                 @if($batch->invoice_pdf_path)
                                     <a href="{{ Storage::url($batch->invoice_pdf_path) }}" target="_blank" class="btn btn-sm btn-outline-danger">
@@ -79,9 +84,8 @@
     </div>
 </div>
 
-{{-- STRUKTURA MODALA --}}
 <div class="modal fade" id="addBatchModal" tabindex="-1" aria-labelledby="addBatchModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg"> {{-- modal-lg żeby formularz miał miejsce --}}
+    <div class="modal-dialog modal-lg"> 
         <div class="modal-content">
             <div class="modal-header bg-success text-white">
                 <h5 class="modal-title" id="addBatchModalLabel">Przyjęcie nowej dostawy</h5>
@@ -89,7 +93,6 @@
             </div>
             <div class="modal-body">
                 
-                {{-- TU SIEDZI TWÓJ KOMPONENT LIVEWIRE --}}
                 <livewire:products-components.batch-form :product="$item" />
 
             </div>
