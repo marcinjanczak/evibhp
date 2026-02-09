@@ -1,95 +1,114 @@
 @extends('layouts.app')
 
-@section('title', 'Wydania')
-
 @section('content')
-    <main class="container mt-4">
-        {{-- Sekcja powiadomień - zmieniona nazwa z $rentalsMonth na $expiringIssues --}}
-        @if($expiringIssues->isNotEmpty())
-            <div class="alert alert-warning">
-                <h3 class="h5"><i class="fas fa-exclamation-triangle"></i> Koniec daty ważności w tym miesiącu</h3>
-            </div>
-            <table class="table table-hover mb-5">
-                <thead class="bg-light">
+<div class="container mt-5">
+
+    {{-- NAGŁÓWEK --}}
+    <div class="d-flex justify-content-between align-items-center mb-4 border-bottom pb-3">
+        <div>
+            <h2 class="fw-bold text-dark mb-0">
+                <i class="fas fa-history text-primary me-2"></i> Historia Wydań
+            </h2>
+            <div class="text-muted small mt-1">Rejestr wszystkich operacji wydania towaru</div>
+        </div>
+
+        <div>
+            <a href="{{ route('issues.create') }}" class="btn btn-success shadow-sm">
+                <i class="fas fa-hand-holding-box me-1"></i> Wydaj Towar
+            </a>
+        </div>
+    </div>
+
+    {{-- TABELA --}}
+    <div class="card shadow-sm border-0">
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+                <thead class="bg-light text-secondary">
                     <tr>
+                        <th class="ps-4">Data Wydania</th>
                         <th>Pracownik</th>
-                        <th>Przedmiot</th>
-                        <th>Ilość</th>
-                        <th>Data wydania</th>
-                        <th>Data wymiany</th>
-                        <th class="text-end">Akcje</th>
+                        <th>Produkt</th>
+                        <th>Szczegóły Partii</th>
+                        <th class="text-center">Ilość</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($expiringIssues as $issue)
-                    <tr>
-                        {{-- Zmienione na first_name i last_name --}}
-                        <td>{{ $issue->employee->first_name }} {{ $issue->employee->last_name }}</td>
-                        {{-- Zmienione na name --}}
-                        <td>{{ $issue->product->name }}</td>
-                        {{-- Zmienione na quantity --}}
-                        <td>{{ $issue->quantity }}</td>
-                        {{-- Zmienione na issued_at --}}
-                        <td>{{ $issue->issued_at->format('Y-m-d') }}</td>
-                        {{-- Zmienione na due_date --}}
-                        <td>{{ $issue->due_date ? $issue->due_date->format('Y-m-d') : '-' }}</td>
-                        <td>
-                            <div class="d-flex gap-2 justify-content-end">
-                                <a href="{{ route('issues.edit', $issue->id) }}" class="btn btn-sm btn-outline-primary">
-                                    <i class="fas fa-edit"></i>
-                                </a>
-                                <form action="{{ route('issues.destroy', $issue->id) }}" method="POST">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="btn btn-outline-danger btn-sm" onclick="return confirm('Na pewno usunąć?')">
-                                        <i class="fas fa-trash"></i>
-                                    </button>
-                                </form>
-                            </div>
-                        </td>
-                    </tr>
-                    @endforeach
+                    @forelse($issues as $issue)
+                        <tr>
+                            {{-- DATA --}}
+                            <td class="ps-4 text-nowrap">
+                                <div class="fw-bold text-dark">{{ $issue->issued_at->format('Y-m-d') }}</div>
+                            </td>
+
+                            {{-- PRACOWNIK --}}
+                            <td>
+                                <div class="d-flex align-items-center">
+                                    <div>
+                                        <div class="fw-bold">
+                                            {{ $issue->employee->last_name }} {{ $issue->employee->first_name }}
+                                        </div>
+                                        <div class="small text-muted">
+                                            {{ $issue->employee->position->name ?? 'Brak stanowiska' }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+
+                            {{-- PRODUKT --}}
+                            <td>
+                                <div class="d-flex align-items-center">
+                                    @if($issue->batch->product->preview_image_path)
+                                        <img src="{{ Storage::url($issue->batch->product->preview_image_path) }}" 
+                                             class="rounded border me-2" 
+                                             style="width: 40px; height: 40px; object-fit: cover;">
+                                    @else
+                                        <div class="bg-light rounded border d-flex align-items-center justify-content-center me-2 text-muted" 
+                                             style="width: 40px; height: 40px;">
+                                            <i class="fas fa-box"></i>
+                                        </div>
+                                    @endif
+                                    <div>
+                                        <a href="{{ route('items.show', $issue->batch->product->id) }}" class="text-decoration-none fw-bold text-dark">
+                                            {{ $issue->batch->product->name }}
+                                        </a>
+                                        <div class="small text-muted">{{ $issue->batch->product->type }}</div>
+                                    </div>
+                                </div>
+                            </td>
+
+                            {{-- PARTIA --}}
+                            <td>
+                                <span class="badge bg-light text-dark border">
+                                    Rozmiar: {{ $issue->batch->size }}
+                                </span>
+                                <div class="small text-muted mt-1">
+                                    Partia: {{ $issue->batch->batch_number ?? '-' }}
+                                </div>
+                            </td>
+
+                            {{-- ILOŚĆ --}}
+                            <td class="text-center">
+                                <span class="badge bg-primary fs-6 px-3 py-2 rounded-pill">
+                                    -{{ $issue->quantity }}
+                                </span>
+                            </td>
+                        </tr>
+                    @empty
+                        <tr>
+                            <td colspan="5" class="text-center py-5 text-muted">
+                                <i class="fas fa-clipboard-list fa-3x mb-3 opacity-50"></i><br>
+                                Brak historii wydań. Kliknij "Wydaj Towar", aby dodać pierwszy wpis.
+                            </td>
+                        </tr>
+                    @endforelse
                 </tbody>
             </table>
-        @endif
-
-        <h3>Lista wydań</h3>
-        <table class="table table-hover">
-            <thead class="bg-light">
-                <tr>
-                    <th>Pracownik</th>
-                    <th>Przedmiot</th>
-                    <th>Ilość</th>
-                    <th>Data wydania</th>
-                    <th>Data wymiany</th>
-                    <th class="text-end">Akcje</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach ($issues as $issue)
-                <tr>
-                    <td>{{ $issue->employee->first_name }} {{ $issue->employee->last_name }}</td>
-                    <td>{{ $issue->product->name }}</td>
-                    <td>{{ $issue->quantity }}</td>
-                    <td>{{ $issue->issued_at->format('Y-m-d') }}</td>
-                    <td>{{ $issue->due_date ? $issue->due_date->format('Y-m-d') : '-' }}</td>
-                    <td>
-                        <div class="d-flex gap-2 justify-content-end">
-                            <form action="{{ route('issues.destroy', $issue->id) }}" method="POST">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="btn btn-outline-danger btn-sm" onclick="return confirm('Na pewno usunąć?')">
-                                    <i class="fas fa-trash"></i>
-                                </button>
-                            </form>
-                        </div>
-                    </td>
-                </tr>
-                @endforeach
-            </tbody>
-        </table>
-
-        <div class="mt-4">
         </div>
-    </main>
+
+        {{-- PAGINACJA --}}
+        <div class="card-footer bg-white border-0 py-3">
+            {{ $issues->links() }}
+        </div>
+    </div>
+</div>
 @endsection

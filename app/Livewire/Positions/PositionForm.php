@@ -9,37 +9,33 @@ use App\Models\Product;
 
 class PositionForm extends Component
 {
-    public ?Position $position = null; // Jeśli null = tryb dodawania, jeśli obiekt = edycja
+    public ?Position $position = null;
     public $name = '';
-    public $selectedProducts = []; // Tablica ID wybranych produktów
+    public $selectedProducts = []; 
 
     public function save()
     {
         $this->validate(['name' => 'required|string|max:100|unique:positions,name,' . ($this->position->id ?? 'NULL')]);
 
         if ($this->position) {
-            // Aktualizacja
             $this->position->update(['name' => $this->name]);
-            $this->position->products()->sync($this->selectedProducts); // Zapisujemy relacje
+            $this->position->products()->sync($this->selectedProducts);
             session()->flash('success', 'Stanowisko zaktualizowane.');
         } else {
-            // Tworzenie
             $pos = Position::create(['name' => $this->name]);
-            $pos->products()->attach($this->selectedProducts); // Zapisujemy relacje
+            $pos->products()->attach($this->selectedProducts); 
             session()->flash('success', 'Stanowisko dodane.');
         }
 
         return $this->redirectRoute('positions.index', navigate: true);
     }
 
-    // Obsługa edycji (ładowanie danych do formularza)
     #[On('edit-position')] 
     public function loadPosition(int $id)
     {
         $this->position = Position::find($id);
         $this->name = $this->position->name;
-        // Pobieramy ID produktów przypisanych do tego stanowiska
-        $this->selectedProducts = $this->position->products()->pluck('id')->toArray();
+        $this->selectedProducts = $this->position->products()->pluck('products.id')->toArray();
     }
 
     #[On('reset-position-form')]
@@ -52,7 +48,6 @@ class PositionForm extends Component
     public function render()
     {
         return view('livewire.positions.position-form', [
-            // Pobieramy listę wszystkich produktów do wyboru
             'allProducts' => Product::orderBy('name')->get()
         ]);
     }

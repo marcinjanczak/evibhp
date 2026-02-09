@@ -14,28 +14,19 @@ use Illuminate\Http\RedirectResponse;
 
 class IssueController extends Controller
 {
-    public function index(): View
+    public function index()
     {
-        $today = Carbon::now();
-        $nextMonth = $today->copy()->addMonth();
+        // Pobieramy 50 ostatnich wydań
+        $issues = \App\Models\Issue::with(['employee', 'batch.product'])
+                    ->orderBy('created_at', 'desc')
+                    ->paginate(20);
 
-        $expiringIssues = Issue::with(['employee', 'product'])
-            ->whereBetween('due_date', [$today, $nextMonth])
-            ->whereNull('returned_at') 
-            ->orderBy('due_date')
-            ->get();
-
-        $issues = Issue::with(['employee', 'product'])->orderBy('issued_at', 'desc')->get();
-        
-        return view('issues.index', compact('issues', 'expiringIssues'));
+        return view('issues.index', compact('issues'));
     }
 
-    public function create(): View
+    public function create()
     {
-        $employees = Employee::orderBy('last_name', 'asc')->get();
-        $products = Product::with('inventory')->orderBy('type', 'asc')->get();
-
-        return view('issues.create', compact('employees', 'products'));
+        return view('issues.create');
     }
 
     public function store(Request $request): RedirectResponse
