@@ -31,7 +31,6 @@
                         <thead class="bg-light">
                             <tr>
                                 <th class="ps-4">Pracownik</th>
-                                <th>Email</th>
                                 <th class="text-end pe-4">Profil</th>
                             </tr>
                         </thead>
@@ -40,14 +39,9 @@
                                 <tr>
                                     <td class="ps-4">
                                         <div class="d-flex align-items-center">
-                                            <div class="rounded-circle bg-primary text-white d-flex align-items-center justify-content-center me-2 fw-bold" 
-                                                 style="width: 35px; height: 35px; font-size: 0.8rem;">
-                                                {{ substr($employee->first_name, 0, 1) }}{{ substr($employee->last_name, 0, 1) }}
-                                            </div>
                                             <span class="fw-bold">{{ $employee->last_name }} {{ $employee->first_name }}</span>
                                         </div>
                                     </td>
-                                    <td class="text-muted small">{{ $employee->email }}</td>
                                     <td class="text-end pe-4">
                                         {{-- Link do podglądu pracownika (jeśli kiedyś zrobisz taki widok) --}}
                                         <a href="#" class="btn btn-sm btn-light text-primary"><i class="fas fa-eye"></i></a>

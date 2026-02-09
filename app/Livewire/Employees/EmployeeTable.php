@@ -26,8 +26,7 @@ class EmployeeTable extends Component
             ->with('position')
             ->when($this->search, function (Builder $query) {
                 $query->where('last_name', 'like', "%{$this->search}%")
-                      ->orWhere('first_name', 'like', "%{$this->search}%")
-                      ->orWhere('email', 'like', "%{$this->search}%");
+                      ->orWhere('first_name', 'like', "%{$this->search}%");
             })
             ->orderBy('last_name', 'asc')
             ->paginate(10);

@@ -3,16 +3,20 @@
 @section('title', 'Lista Przedmiotów')
 
 @section('content')
-<div class="container mt-4">
+<div class="container mt-5"> {{-- Zmieniłem mt-4 na mt-5, żeby było równo z innymi podstronami --}}
+    
     <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2 class="fw-bold text-primary">Przedmioty</h2>
+        {{-- Usunąłem text-primary, dodałem ikonkę i mb-0 --}}
+        <h2 class="fw-bold mb-0">
+            <i class="fas fa-boxes text-primary me-2"></i> Zarządzanie Produktami
+
+        </h2>
+
     </div>
 
-        <livewire:products-components.product-table />
+    <livewire:products-components.product-table />
 
-    
 </div>
-
 <div class="modal fade" id="addProductModal" tabindex="-1" aria-labelledby="addProductModalLabel" aria-hidden="true" wire:ignore.self>
     <div class="modal-dialog modal-lg">
         <div class="modal-content">

@@ -16,12 +16,19 @@ class IssueController extends Controller
 {
     public function index()
     {
-        // Pobieramy 50 ostatnich wydań
+
+
         $issues = \App\Models\Issue::with(['employee', 'batch.product'])
                     ->orderBy('created_at', 'desc')
                     ->paginate(20);
 
-        return view('issues.index', compact('issues'));
+        $upcomingIssues = Issue::with(['employee', 'batch.product'])
+                    ->whereDate('due_date', '>=', Carbon::now()) 
+                    ->whereDate('due_date', '<=', Carbon::now()->addDays(30)) 
+                    ->orderBy('due_date', 'asc') 
+                    ->get();
+
+        return view('issues.index', compact('issues', 'upcomingIssues'));
     }
 
     public function create()

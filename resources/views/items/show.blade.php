@@ -24,9 +24,6 @@
         </div>
     </div>
 
-
-
-
     <div class="row">
         <div class="col-md-12">
             <h4 class="mb-3 border-bottom pb-2">Dostępne Partie na magazynie</h4>
