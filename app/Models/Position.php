@@ -12,4 +12,9 @@ class Position extends Model
     {
         return $this->hasMany(Employee::class);
     }
+
+    public function products()
+    {
+        return $this->belongsToMany(Product::class, 'position_product');
+    }
 }

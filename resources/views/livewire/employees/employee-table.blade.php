@@ -12,6 +12,7 @@
         </div>
         
         {{-- Przycisk otwierający Modal (zrobimy go w następnym kroku) --}}
+        
         <button class="btn btn-primary shadow-sm" data-bs-toggle="modal" data-bs-target="#addEmployeeModal">
             <i class="fas fa-user-plus"></i> Dodaj pracownika
         </button>
