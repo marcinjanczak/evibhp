@@ -8,6 +8,8 @@ use App\Services\IssueService;
 use App\Models\Employee;
 use App\Models\Product;
 use App\Models\Batch;
+use Carbon\Carbon;
+use App\Models\User;
 
 class IssueForm extends Component
 {
@@ -23,10 +25,18 @@ class IssueForm extends Component
     #[Validate('required|integer|min:1')]
     public $quantity = 1;
 
-    // Przechowujemy ID produktów sugerowanych dla wybranego pracownika
+    #[Validate('nullable|date|after:today')]
+
+    public $due_date = '';
+
+    public $selectedMonths = null;
+
     public $suggestedProductIds = [];
 
-    // Gdy zmienia się pracownik -> sprawdź jego stanowisko i pobierz sugerowane ID
+    public $searchEmployee = '';
+
+    public $selectedEmployeeId = null;
+
     public function updatedEmployeeId($value)
     {
         $this->reset(['product_id', 'batch_id', 'suggestedProductIds']);
@@ -34,16 +44,43 @@ class IssueForm extends Component
         if ($value) {
             $employee = Employee::with('position.products')->find($value);
             if ($employee && $employee->position) {
-                // Pobieramy ID produktów przypisanych do stanowiska tego pracownika
                 $this->suggestedProductIds = $employee->position->products->pluck('id')->toArray();
             }
         }
     }
 
-    // Gdy zmienia się produkt -> resetujemy partię (żeby nie został stary rozmiar)
     public function updatedProductId()
     {
         $this->reset('batch_id');
+    }
+
+    public function setPeriod($months)
+    {
+        $this->selectedMonths = $months;
+        $this->due_date = Carbon::now()->addMonths($months)->format('Y-m-d');
+    }
+
+   public function selectEmployee($id)
+    {
+        if ($this->selectedEmployeeId == $id) {
+            $this->selectedEmployeeId = null;
+            $this->employee_id = null; 
+            $this->suggestedProductIds = [];
+            return;
+        }
+
+        $this->selectedEmployeeId = $id;
+        $this->employee_id = $id; 
+
+        $employee = \App\Models\Employee::with('position')->find($id); 
+
+        if ($employee && $employee->position) {
+            $this->suggestedProductIds = $employee->position->products()
+                ->pluck('products.id') 
+                ->toArray();
+        } else {
+            $this->suggestedProductIds = [];
+        }
     }
 
     public function save(IssueService $service)
@@ -55,10 +92,11 @@ class IssueForm extends Component
                 'employee_id' => $this->employee_id,
                 'batch_id'    => $this->batch_id,
                 'quantity'    => $this->quantity,
+                'due_date'    => $this->due_date,
             ]);
 
             session()->flash('success', 'Towar wydany pomyślnie!');
-            $this->redirectRoute('issues.index'); // Przekierowanie do historii wydań
+            $this->redirectRoute('issues.index'); 
 
         } catch (\Exception $e) {
             $this->addError('quantity', $e->getMessage());
@@ -68,16 +106,19 @@ class IssueForm extends Component
     public function render()
     {
         return view('livewire.issues.issue-form', [
-            'employees' => Employee::with('position')->orderBy('last_name')->get(),
+            'employees' => Employee::with('position')
+                        ->when($this->searchEmployee, function($q) {
+                            $q->where('last_name', 'like', '%'.$this->searchEmployee.'%');
+                        })
+                        ->limit(10)
+                        ->get(),
             
-            // Pobieramy produkty
             'products' => Product::orderBy('name')->get(),
             
-            // Pobieramy partie TYLKO dla wybranego produktu, które mają stan > 0
             'batches' => $this->product_id 
                 ? Batch::where('product_id', $this->product_id)
                        ->where('current_quantity', '>', 0)
-                       ->orderBy('expiration_date') // Najpierw najstarsze (FIFO - First In First Out)
+                       ->orderBy('expiration_date') 
                        ->get() 
                 : collect(),
         ]);

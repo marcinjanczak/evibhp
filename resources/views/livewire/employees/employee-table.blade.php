@@ -32,6 +32,7 @@
                 <tbody>
                     @forelse($employees as $employee)
                         <tr>
+
                             <td class="ps-4">
                                         <div class="fw-bold text-dark">{{ $employee->last_name }} {{ $employee->first_name }}</div>
                                 </div>
@@ -72,7 +73,6 @@
             </table>
         </div>
         
-        {{-- Paginacja --}}
         <div class="card-footer bg-white border-0 py-3">
             {{ $employees->links() }}
         </div>

@@ -25,6 +25,7 @@ class IssueService
                 'batch_id'    => $data['batch_id'],
                 'quantity'    => $data['quantity'],
                 'issued_at'   => now(),
+                'due_date'    => $data['due_date'] ?? null,
             ]);
         });
     }

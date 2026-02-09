@@ -14,7 +14,7 @@ return new class extends Migration
        Schema::create('issues', function (Blueprint $table) {
             $table->id();
             $table->foreignId('employee_id')->constrained();
-            $table->foreignId('batch_id')->constrained(); // Teraz wydajemy z konkretnej partii!
+            $table->foreignId('batch_id')->constrained();
             $table->integer('quantity');
             $table->date('issued_at');
             $table->date('due_date')->nullable();
