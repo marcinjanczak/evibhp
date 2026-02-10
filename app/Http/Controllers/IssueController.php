@@ -2,10 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Inventory;
 use App\Models\Issue;
 use Carbon\Carbon;
-use Illuminate\Http\RedirectResponse;
 use App\Services\IssueService;
 
 class IssueController extends Controller

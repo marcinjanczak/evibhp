@@ -5,7 +5,6 @@
 @section('content')
     <div class="container mt-5">
     
-    {{-- 1. GÓRNA BELKA (NAWIGACJA) --}}
     <div class="d-flex justify-content-between align-items-center mb-4">
         <div>
             <a href="{{ route('employees.index') }}" class="text-decoration-none text-secondary mb-2 d-inline-block">
@@ -13,22 +12,20 @@
             </a>
             <h2 class="fw-bold mb-0">Karta Pracownika</h2>
         </div>
-        <div>
-            {{-- Przycisk edycji pracownika (opcjonalnie) --}}
-            <button class="btn btn-outline-primary me-2">
+        <div> 
+
+        <!-- /// TODO: Dodać imolementacje tego -->
+            <!-- <button class="btn btn-outline-primary me-2">
                 <i class="fas fa-edit"></i> Edytuj dane
             </button>
-            {{-- Przycisk do wydania towaru TEMU pracownikowi --}}
-            {{-- Możesz tu podpiąć link do formularza z pre-selekcją ID --}}
             <button class="btn btn-success">
                 <i class="fas fa-plus-circle me-1"></i> Wydaj towar
-            </button>
+            </button> -->
         </div>
     </div>
 
     <div class="row g-4">
         
-        {{-- 2. LEWA KOLUMNA: WIZYTÓWKA --}}
         <div class="col-md-4 col-xl-3">
             <div class="card shadow-sm border-0 text-center p-4 h-100">
                 <div class="card-body">
@@ -42,7 +39,6 @@
             </div>
         </div>
 
-        {{-- 3. PRAWA KOLUMNA: TABELA WYPOSAŻENIA --}}
         <div class="col-md-8 col-xl-9">
             <div class="card shadow-sm border-0 h-100">
                 <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center">
@@ -55,7 +51,6 @@
                         <thead class="bg-light text-secondary small text-uppercase">
                             <tr>
                                 <th class="ps-4">Produkt</th>
-                                <th>Partia / Rozmiar</th>
                                 <th>Data Wydania</th>
                                 <th>Ważność / Zwrot</th>
                                 <th class="text-end pe-4">Akcja</th>
@@ -63,9 +58,15 @@
                         </thead>
                         <tbody>
                             @forelse($issues as $issue)
-                                @php
-                                    $isOverdue = $issue->due_date && $issue->due_date->isPast();
-                                    $isDueSoon = $issue->due_date && $issue->due_date->diffInDays(now()) < 30 && !$isOverdue;
+                              @php
+                                    $today = \Carbon\Carbon::now()->startOfDay();
+                                    $dueDate = $issue->due_date->startOfDay();
+                                    
+                                    $warningLimit = $today->copy()->addDays(30);
+
+                                    $isOverdue = $dueDate->lt($today);
+
+                                    $isDueSoon = !$isOverdue && $dueDate->lte($warningLimit);
                                 @endphp
                                 <tr class="{{ $isOverdue ? 'bg-danger bg-opacity-10' : '' }}">
                                     
@@ -81,17 +82,10 @@
                                             </div>
                                             <div>
                                                 <div class="fw-bold text-dark">{{ $issue->batch->product->name }}</div>
-                                                <div class="small text-muted">{{ $issue->batch->product->type }}</div>
+                                                <div class="small text-muted">Rozmiar: {{ $issue->batch->size }}</div>
+                                                <div class="small text-muted">Ilość: {{ $issue->quantity }} szt.</div>
                                             </div>
                                         </div>
-                                    </td>
-
-                                    {{-- PARTIA --}}
-                                    <td>
-                                        <span class="badge bg-light text-dark border">
-                                            {{ $issue->batch->size }}
-                                        </span>
-                                        <div class="small text-muted mt-1">Ilość: {{ $issue->quantity }} szt.</div>
                                     </td>
 
                                     {{-- DATA WYDANIA --}}

@@ -10,7 +10,7 @@ class EmployeeService
     public function getPaginatedList(string $search = '', int $perPage = 10)
     {
         return Employee::query()
-            ->with('position') // Eager loading dla wydajności
+            ->with('position') 
             ->when($search, function ($query, $search) {
                 $query->where('last_name', 'like', "%{$search}%")
                       ->orWhere('first_name', 'like', "%{$search}%");
@@ -25,7 +25,7 @@ class EmployeeService
             return Employee::create([
                 'first_name'  => $data['first_name'],
                 'last_name'   => $data['last_name'],
-                'position_id' => $data['position_id'] ?? null, // ZMIANA
+                'position_id' => $data['position_id'] ?? null, 
             ]);
         });
     }

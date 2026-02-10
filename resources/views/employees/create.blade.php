@@ -44,7 +44,6 @@
                                 @enderror
                             </div>
 
-                            {{-- Jeśli masz w modelu position_id, możesz tutaj w przyszłości dodać <select> --}}
 
                             <div class="d-flex justify-content-between mt-4">
                                 <a href="{{ route('employees.index') }}" class="btn btn-secondary">

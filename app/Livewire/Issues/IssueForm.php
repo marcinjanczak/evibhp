@@ -6,10 +6,9 @@ use Livewire\Component;
 use Livewire\Attributes\Validate;
 use App\Services\IssueService;
 use App\Models\Employee;
-use App\Models\Product;
 use App\Models\Batch;
+use App\Models\Product;
 use Carbon\Carbon;
-use App\Models\User;
 
 class IssueForm extends Component
 {
@@ -72,7 +71,7 @@ class IssueForm extends Component
         $this->selectedEmployeeId = $id;
         $this->employee_id = $id; 
 
-        $employee = \App\Models\Employee::with('position')->find($id); 
+        $employee = Employee::with('position')->find($id); 
 
         if ($employee && $employee->position) {
             $this->suggestedProductIds = $employee->position->products()
@@ -118,7 +117,7 @@ class IssueForm extends Component
 
     public function render()
     {
-        $productsQuery = \App\Models\Product::with('batches'); // <--- DODAJ with('batches')
+        $productsQuery = Product::with('batches');
 
         if (!empty($this->searchProduct)) {
             $productsQuery->where('name', 'like', '%'.$this->searchProduct.'%');

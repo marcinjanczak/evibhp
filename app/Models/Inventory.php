@@ -11,7 +11,6 @@ class Inventory extends Model
         'quantity',
     ];
 
-    // Relacja zwrotna: Stan magazynowy należy do Produktu
     public function product(): BelongsTo
     {
         return $this->belongsTo(Product::class);

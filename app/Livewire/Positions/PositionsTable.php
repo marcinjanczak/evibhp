@@ -16,7 +16,7 @@ class PositionsTable extends Component
     public function render()
     {
         $positions = Position::query()
-            ->withCount(['employees', 'products']) // Liczymy pracowników i przypisane produkty
+            ->withCount(['employees', 'products']) 
             ->when($this->search, fn($q) => $q->where('name', 'like', "%{$this->search}%"))
             ->orderBy('name')
             ->paginate(10);

@@ -40,19 +40,6 @@ class ProductController extends Controller
         return view('items.edit', compact('item'));
     }
 
-    public function update(Request $request, Product $item): RedirectResponse
-    {
-        $validated = $request->validate([
-            'name'          => 'required|string|max:255',
-            'type'          => 'required|string|max:100',
-            'preview_image' => 'nullable|image|max:5120',
-        ]);
-
-        $this->productService->updateProduct($item, $validated);
-
-        return redirect()->route('items.index')->with('success', 'Dane produktu zaktualizowane.');
-    }
-
     public function destroy(Product $item): RedirectResponse
     {
         $this->productService->deleteProduct($item);

@@ -12,11 +12,10 @@ class BatchForm extends Component
 {
     use WithFileUploads;
 
-    public Product $product; // Produkt, do którego dodajemy partię
+    public Product $product; 
 
-    // Pola formularza
     #[Validate('required|string|max:50')]
-    public $size = ''; // Rozmiar jest teraz tutaj
+    public $size = '';
 
     #[Validate('nullable|string|max:100')]
     public $batch_number = '';
@@ -33,7 +32,6 @@ class BatchForm extends Component
     public function mount(Product $product)
     {
         $this->product = $product;
-        // Domyślna data ważności (np. +2 lata) dla wygody
         $this->expiration_date = now()->addYears(2)->format('Y-m-d');
     }
 
@@ -50,13 +48,10 @@ class BatchForm extends Component
                 'invoice_pdf'     => $this->invoice_pdf,
             ]);
 
-            // Resetujemy formularz po sukcesie
             $this->reset(['size', 'batch_number', 'quantity', 'invoice_pdf']);
             
-            // Komunikat sukcesu
             session()->flash('success', 'Nowa partia towaru została przyjęta na stan.');
 
-            // Opcjonalnie: odświeżamy stronę, żeby zobaczyć nową partię na liście
             return $this->redirectRoute('items.show', $this->product->id, navigate: true);
 
         } catch (\Exception $e) {

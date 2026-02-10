@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Employee;
-use App\Models\Issue;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 use Illuminate\Http\RedirectResponse;
@@ -12,7 +11,6 @@ class EmployeeController extends Controller
 {
     public function index(): View
     {
-        // Zmieniamy 'nazwisko' na 'last_name'
         $employees = Employee::orderBy('last_name', 'asc')->get();
         return view('employees.index', compact('employees'));
     }
@@ -24,11 +22,10 @@ class EmployeeController extends Controller
 
     public function store(Request $request): RedirectResponse
     {
-        // Walidacja angielskich nazw pól
         $validatedData = $request->validate([
             'first_name' => 'required|string|max:50',
             'last_name' => 'required|string|max:50',
-            'position_id' => 'nullable|exists:positions,id', // jeśli masz już stanowiska
+            'position_id' => 'nullable|exists:positions,id',
         ]);
 
         Employee::create($validatedData);

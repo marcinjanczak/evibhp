@@ -19,7 +19,7 @@ class BatchService
 
             return $product->batches()->create([
                 'batch_number'     => $data['batch_number'] ?? null,
-                'size'             => $data['size'], // Teraz rozmiar jest tutaj!
+                'size'             => $data['size'], 
                 'initial_quantity' => $data['quantity'],
                 'current_quantity' => $data['quantity'],
                 'expiration_date'  => $data['expiration_date'],

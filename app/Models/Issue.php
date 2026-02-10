@@ -3,9 +3,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Issue extends Model
 {
+    use HasFactory;
+    
     protected $guarded = [];
 
     protected $casts = [
@@ -24,7 +27,6 @@ class Issue extends Model
         return $query->whereNotNull('returned_at');
     }
     
-    // Relacje...
     public function employee() { return $this->belongsTo(Employee::class); }
     public function batch() { return $this->belongsTo(Batch::class); }
 }

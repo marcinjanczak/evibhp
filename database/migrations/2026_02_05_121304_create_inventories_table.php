@@ -13,10 +13,9 @@ return new class extends Migration
 {
     Schema::create('inventories', function (Blueprint $table) {
         $table->id();
-        // Laravel sam zgadnie, że chodzi o tabelę 'products' i kolumnę 'id'
         $table->foreignId('product_id')->constrained()->onDelete('cascade');
         $table->integer('quantity')->default(0);
-        $table->timestamps(); // Warto mieć timestampy, żeby wiedzieć kiedy był ostatni update stanu
+        $table->timestamps(); 
     });
 }
     /**
