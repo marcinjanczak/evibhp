@@ -64,10 +64,13 @@ class EmployeeController extends Controller
 
     public function show(Employee $employee): View
     {
-        // Używamy relacji 'issues' z modelu Employee i ładujemy dane produktu
-        // Laravel sam wie, że employee_id to klucz obcy
-        $rentals = $employee->issues()->with('product')->get();
 
-        return view('employees.show', compact('employee', 'rentals'));
+        $issues = $employee->issues()
+                    ->active()
+                    ->with(['batch.product']) 
+                    ->orderBy('due_date', 'asc')
+                    ->get();
+
+        return view('employees.show', compact('employee', 'issues'));
     }
 }

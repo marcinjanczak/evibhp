@@ -1,39 +1,30 @@
 <?php
-
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Builder;
 
 class Issue extends Model
 {
-    protected $fillable = [
-        'employee_id',
-        'batch_id',
-        'quantity',
-        'issued_at',
-        'due_date',
-        'returned_at',
-    ];
+    protected $guarded = [];
 
     protected $casts = [
-        'issued_at' => 'date',
+        'issued_at' => 'datetime',
+        'returned_at' => 'datetime', 
         'due_date' => 'date',
-        'returned_at' => 'date',
     ];
 
-    public function employee(): BelongsTo
+    public function scopeActive(Builder $query)
     {
-        return $this->belongsTo(Employee::class);
+        return $query->whereNull('returned_at');
     }
 
-    public function batch(): BelongsTo
+    public function scopeArchived(Builder $query)
     {
-        return $this->belongsTo(Batch::class);
+        return $query->whereNotNull('returned_at');
     }
-
-    public function product()
-    {
-        return $this->batch->product();
-    }
+    
+    // Relacje...
+    public function employee() { return $this->belongsTo(Employee::class); }
+    public function batch() { return $this->belongsTo(Batch::class); }
 }

@@ -26,14 +26,15 @@ class IssueService
                 'quantity'    => $data['quantity'],
                 'issued_at'   => now(),
                 'due_date'    => $data['due_date'] ?? null,
+                'returned_at' => null,
             ]);
         });
     }
 
-    public function returnIssue(Issue $issue, ?string $note = null): bool
+    public function archiveIssue(Issue $issue, ?string $note = null): bool
     {
-        if ($issue->returned_at) {
-            throw new Exception("Ten przedmiot został już zwrócony.");
+        if ($issue->returned_at !== null) {
+            throw new Exception("To wydanie zostało już zarchiwizowane.");
         }
 
         return DB::transaction(function () use ($issue) {

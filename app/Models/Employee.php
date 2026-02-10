@@ -25,7 +25,8 @@ class Employee extends Model
     }
     
     public function position()
-{
-    return $this->belongsTo(Position::class);
-}
+    {
+        return $this->belongsTo(Position::class);
+    }
+
 }
