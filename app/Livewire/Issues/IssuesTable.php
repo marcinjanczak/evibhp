@@ -12,9 +12,12 @@ class IssuesTable extends Component
 {
     use WithPagination;
 
+    protected $paginationTheme = 'bootstrap'; 
+
     #[On('refresh-issues-table')] 
     public function refresh() 
     {
+        // Odświeżenie komponentu
     }
 
     public function render()
@@ -47,5 +50,11 @@ class IssuesTable extends Component
         } catch (\Exception $e) {
             session()->flash('error', 'Wystąpił błąd: ' . $e->getMessage());
         }
+    }
+
+
+    public function updatedHistoryPage()
+    {
+        $this->dispatch('scroll-to-archive');
     }
 }

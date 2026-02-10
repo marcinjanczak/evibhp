@@ -35,16 +35,10 @@
                         {{-- PRODUKT --}}
                         <td>
                             <div class="d-flex align-items-center">
-                                @if($issue->batch->product->preview_image_path)
                                     <img src="{{ $issue->batch->product->image_url }}" 
                                             class="rounded border me-2" 
                                             style="width: 40px; height: 40px; object-fit: cover;">
-                                @else
-                                    <div class="bg-light rounded border d-flex align-items-center justify-content-center me-2 text-muted" 
-                                            style="width: 40px; height: 40px;">
-                                        <i class="fas fa-box"></i>
-                                    </div>
-                                @endif
+
                                 <div>
                                     <a href="{{ route('items.show', $issue->batch->product->id) }}" class="text-decoration-none fw-bold text-dark">
                                         {{ $issue->batch->product->name }}  
@@ -86,13 +80,6 @@
         {{ $activeIssues->links() }}
     </div> 
 </div>
-
- 
-
-
-
-
-
 
     <div class="accordion shadow-sm" id="accordionHistory">
         <div class="accordion-item border-0">
@@ -146,3 +133,15 @@
         </div>
     </div>
 </div>
+
+@script
+<script>
+    $wire.on('scroll-to-archive', () => {
+        // Znajdź element akordeonu i przewiń do niego
+        const element = document.getElementById('accordionHistory');
+        if (element) {
+            element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+    });
+</script>
+@endscript
