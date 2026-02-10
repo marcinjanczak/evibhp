@@ -25,7 +25,7 @@
 <div class="modal fade" id="addEmployeeModal" tabindex="-1" aria-hidden="true" wire:ignore.self>
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
-            <div class="modal-header bg-primary text-white">
+            <div class="modal-header bg-success text-white">
                 <h5 class="modal-title"><i class="fas fa-user-plus"></i> Nowy pracownik</h5>
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
             </div>

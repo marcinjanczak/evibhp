@@ -10,14 +10,14 @@
                    placeholder="Szukaj pracownika (imię, nazwisko, email)...">
         </div>
         
-        <button class="btn btn-primary shadow-sm" data-bs-toggle="modal" data-bs-target="#addEmployeeModal">
+        <button class="btn btn-success shadow-sm" data-bs-toggle="modal" data-bs-target="#addEmployeeModal">
             <i class="fas fa-user-plus"></i> Dodaj pracownika
         </button>
     </div>
 
     <div class="card shadow-sm border-0 overflow-hidden">
-        <div class="table-responsive">
-            <table class="table table-hover align-middle mb-0">
+        <div class="table-responsive fs-6">
+            <table class="table table-hover align-middle mb-0 ">
                 <thead class="bg-light text-secondary">
                     <tr>
                         <th class="ps-4 py-3">Pracownik</th>

@@ -6,7 +6,7 @@
         </div>
         
 
-        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#positionModal">
+        <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#positionModal">
             <i class="fas fa-plus"></i> Dodaj stanowisko
         </button>
     </div>
