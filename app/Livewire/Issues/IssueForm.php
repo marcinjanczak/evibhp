@@ -9,9 +9,12 @@ use App\Models\Employee;
 use App\Models\Batch;
 use App\Models\Product;
 use Carbon\Carbon;
+use Livewire\WithPagination;
 
 class IssueForm extends Component
 {
+    use WithPagination;
+
     #[Validate('required|exists:employees,id')]
     public $employee_id = '';
 

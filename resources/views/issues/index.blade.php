@@ -3,7 +3,6 @@
 @section('content')
 <div class="container mt-5">
 
-    {{-- NAGŁÓWEK --}}
     <div class="d-flex justify-content-between align-items-center mb-4 border-bottom pb-3">
         <div>
             <h2 class="fw-bold text-dark mb-0">
@@ -19,25 +18,8 @@
         </div>
     </div>
 
-    {{-- SEKCJA POWIADOMIEŃ (Zostawiamy tutaj, bo to osobna logika) --}}
-    @if($upcomingIssues->isNotEmpty())
-        <div class="card border-warning mb-4 shadow-sm">
-             {{-- ... (Twój kod sekcji powiadomień bez zmian) ... --}}
-             {{-- Skróciłem dla czytelności, tutaj zostaje to co miałeś --}}
-             <div class="card-header bg-warning bg-opacity-10 text-dark border-warning">
-                <h5 class="mb-0 fw-bold">
-                    <i class="fas fa-exclamation-triangle me-2 text-warning"></i> 
-                    Wygasają w ciągu 30 dni ({{ $upcomingIssues->count() }})
-                </h5>
-             </div>
-             {{-- ... reszta tabeli upcomingIssues ... --}}
-        </div>
-    @endif
-
-    {{-- NOWY KOMPONENT TABELI --}}
     <livewire:issues.issues-table />
 
-    {{-- KOMPONENT FORMULARZA (MODAL) --}}
     <livewire:issues.issue-form />
 
 </div>
