@@ -10,6 +10,7 @@ use App\Models\Batch;
 use App\Models\Product;
 use Carbon\Carbon;
 use Livewire\WithPagination;
+use Livewire\Attributes\On;
 
 class IssueForm extends Component
 {
@@ -64,7 +65,30 @@ class IssueForm extends Component
         $this->due_date = Carbon::now()->addMonths($months)->format('Y-m-d');
     }
 
-   public function selectEmployee($id)
+    #[On('set-employee-for-modal')] 
+    public function setEmployeeFromOutside($id) 
+    {
+        $employee = Employee::with('position.products')->find($id);
+
+        if (! $employee) {
+            return; 
+        }
+
+        $this->employee_id = $employee->id;
+        $this->selectedEmployeeId = $employee->id;
+
+        $this->searchEmployee = $employee->last_name . ' ' . $employee->first_name;
+
+        if ($employee->position) {
+            $this->suggestedProductIds = $employee->position->products->pluck('id')->toArray();
+        } else {
+            $this->suggestedProductIds = [];
+        }
+
+        $this->reset(['product_id', 'batch_id', 'quantity', 'due_date']);
+    }
+
+    public function selectEmployee($id)
     {
         if ($this->selectedEmployeeId == $id) {
             $this->selectedEmployeeId = null;
@@ -119,6 +143,8 @@ class IssueForm extends Component
             ]);
 
             session()->flash('success', 'Towar wydany pomyślnie!');
+            
+            $this->reset();
             $this->redirectRoute('issues.index'); 
 
         } catch (\Exception $e) {

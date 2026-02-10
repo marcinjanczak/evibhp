@@ -171,6 +171,7 @@
                                     <div class="input-group">
                                         <span class="input-group-text bg-white"><i class="fas fa-calendar-day"></i></span>
                                         <input type="date" wire:model="due_date" class="form-control">
+                                        @error('due_date') <div class="invalid-feedback">{{ $message }}</div> @enderror
                                     </div>
                                 </div>
                             </div>
