@@ -76,7 +76,7 @@
                                             <div class="bg-white border rounded d-flex align-items-center justify-content-center me-3" 
                                                  style="width: 40px; height: 40px;">
 
-                                                 <img src="{{ Storage::url($issue->batch->product->preview_image_path) }}"
+                                                 <img src="{{ $issue->batch->product->image_url }}"
                                                     class="rounded-3 shadow-sm"
                                                     style="width: 50px; height: 50px; object-fit: cover;">
                                             </div>

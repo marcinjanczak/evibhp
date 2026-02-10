@@ -37,6 +37,8 @@ class IssueForm extends Component
 
     public $searchEmployee = '';
 
+    public $searchProduct = '';
+
     public $selectedEmployeeId = null;
 
     public function updatedEmployeeId($value)
@@ -98,6 +100,12 @@ class IssueForm extends Component
         $this->batch_id = null; 
     }
 
+    public function updatedSearchProduct()
+    {
+        $this->product_id = null;
+        $this->batch_id = null;
+    }
+
     public function save(IssueService $service)
     {
         $this->validate();
@@ -118,7 +126,7 @@ class IssueForm extends Component
         }
     }
 
-    public function render()
+   public function render()
     {
         $productsQuery = Product::with('batches');
 
@@ -126,13 +134,15 @@ class IssueForm extends Component
             $productsQuery->where('name', 'like', '%'.$this->searchProduct.'%');
         }
 
-        $products = $productsQuery->orderBy('name')->get();
-
+        $products = $productsQuery->orderBy('name')
+            ->limit(50) 
+            ->get();
 
         return view('livewire.issues.issue-form', [
             'employees' => Employee::with('position')
                         ->when($this->searchEmployee, function($q) {
-                            $q->where('last_name', 'like', '%'.$this->searchEmployee.'%');
+                            $q->where('last_name', 'like', '%'.$this->searchEmployee.'%')
+                              ->orWhere('first_name', 'like', '%'.$this->searchEmployee.'%'); 
                         })
                         ->limit(10)
                         ->get(),

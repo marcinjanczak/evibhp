@@ -36,7 +36,7 @@
                         <td>
                             <div class="d-flex align-items-center">
                                 @if($issue->batch->product->preview_image_path)
-                                    <img src="{{ Storage::url($issue->batch->product->preview_image_path) }}" 
+                                    <img src="{{ $issue->batch->product->image_url }}" 
                                             class="rounded border me-2" 
                                             style="width: 40px; height: 40px; object-fit: cover;">
                                 @else
