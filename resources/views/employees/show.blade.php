@@ -154,24 +154,17 @@
 <livewire:issues.issue-form />
 <script>
     function openIssueModalForEmployee(employeeId) {
-        // 1. Wyślij zdarzenie do Livewire
-        // Sprawdzamy czy Livewire jest dostępny, żeby nie sypało błędami
         if (typeof Livewire !== 'undefined') {
-            // Uwaga: używamy window.Livewire dla pewności
             window.Livewire.dispatch('set-employee-for-modal', { id: employeeId });
         } else {
             console.error('Błąd: Livewire nie został załadowany.');
         }
 
-        // 2. Znajdź element modala w DOM
         const modalElement = document.getElementById('createIssueModal');
 
         if (modalElement) {
-            // 3. TO JEST KLUCZ DO NAPRAWY BŁĘDU:
-            // Zamiast "new bootstrap.Modal(...)", używamy "getOrCreateInstance"
-            // To zapobiega tworzeniu duplikatów i błędów z konfiguracją (backdrop).
             const myModal = bootstrap.Modal.getOrCreateInstance(modalElement, {
-                backdrop: 'static', // Opcjonalnie: wymuś tło
+                backdrop: 'static', 
                 keyboard: false     // Opcjonalnie: wyłącz zamykanie ESC
             });
             

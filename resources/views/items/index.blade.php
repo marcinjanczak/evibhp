@@ -8,7 +8,7 @@
     
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h2 class="fw-bold mb-0">
-            <i class="fas fa-boxes text-primary me-2"></i> Zarządzanie Produktami
+            <i class="fas fa-boxes text-primary me-2"></i> Zarządzanie Przdemiotami
         </h2>
 
     </div>

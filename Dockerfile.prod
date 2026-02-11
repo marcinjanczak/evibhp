@@ -1,0 +1,41 @@
+# 1. Baza: PHP 8.2 FPM
+FROM php:8.4-fpm
+
+# 2. Instalacja zależności systemowych
+RUN apt-get update && apt-get install -y \
+    git \
+    curl \
+    libpng-dev \
+    libonig-dev \
+    libxml2-dev \
+    zip \
+    unzip \
+    libzip-dev \
+    # Dodajemy Node.js (wersja 20)
+    && curl -fsSL https://deb.nodesource.com/setup_20.x | bash - \
+    && apt-get install -y nodejs
+
+# 3. Instalacja rozszerzeń PHP
+RUN docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd zip
+
+# 4. Instalacja Composera
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+
+# 5. Ustawienie katalogu roboczego
+WORKDIR /var/www
+
+# 6. Kopiowanie plików projektu
+COPY . /var/www
+
+# 7. Instalacja zależności PHP (Produkcyjna - bez dev)
+RUN composer install --optimize-autoloader --no-dev
+
+# 8. Instalacja zależności JS i budowanie assetów (Vite)
+RUN npm install
+RUN npm run build
+
+# 9. Uprawnienia dla folderów storage i cache
+RUN chown -R www-data:www-data /var/www/storage /var/www/bootstrap/cache
+
+# 10. Start PHP-FPM
+CMD ["php-fpm"]
