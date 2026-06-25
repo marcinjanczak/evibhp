@@ -25,7 +25,7 @@
                         {{-- Tabela Pracowników --}}
                         <div class="table-responsive border rounded bg-white" style="max-height: 200px; overflow-y: auto;">
                             <table class="table table-hover mb-0">
-                                <thead class="table-light sticky-top">
+                                <thead class="bg-light text-secondary sticky-top">
                                     <tr>
                                         <th>Imię i Nazwisko</th>
                                         <th>Stanowisko</th>
@@ -78,6 +78,7 @@
                                 @forelse($sortedProducts as $prod)
                                     @php
                                         $isSuggested = in_array($prod->id, $suggestedProductIds);
+                                        $isAlreadyIssued = in_array($prod->id, $alreadyIssuedProductIds);
                                         $isSelected = $product_id == $prod->id;
                                         $totalStock = $prod->batches ? $prod->batches->sum('current_quantity') : 0;
                                         $hasStock = $totalStock > 0;
@@ -96,6 +97,9 @@
                                                 <small class="text-muted">({{ $prod->type }})</small>
                                                 @if($isSuggested)
                                                     <span class="badge bg-warning text-dark small"><i class="fas fa-star"></i> Sugerowany</span>
+                                                @endif
+                                                @if($isAlreadyIssued)
+                                                    <span class="badge bg-info text-white small"><i class="fas fa-info-circle"></i> Posiada ten przedmiot</span>
                                                 @endif
                                             </div>
 
@@ -125,7 +129,8 @@
 
                     {{-- === SEKCJA 3: SZCZEGÓŁY WYDANIA (Partia, Ilość, Data) === --}}
                     @if($product_id)
-                        <div class="card p-3 mb-3 shadow-sm border-0 animate__animated animate__fadeIn">
+                        <div class="card p-3 mb-3 shadow-sm border-0 animate__animated animate__fadeIn"
+                             x-data x-init="setTimeout(() => $el.scrollIntoView({ behavior: 'smooth', block: 'center' }), 100)">
                             <label class="form-label fw-bold">3. Szczegóły wydania:</label>
                             
                             <div class="row g-3">
@@ -170,7 +175,7 @@
                                     {{-- Input daty --}}
                                     <div class="input-group">
                                         <span class="input-group-text bg-white"><i class="fas fa-calendar-day"></i></span>
-                                        <input type="date" wire:model="due_date" class="form-control">
+                                        <input type="date" wire:model="due_date" class="form-control @error('due_date') is-invalid @enderror">
                                         @error('due_date') <div class="invalid-feedback">{{ $message }}</div> @enderror
                                     </div>
                                 </div>
@@ -184,20 +189,12 @@
             <div class="modal-footer bg-light">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Anuluj</button>
                 
-                {{-- Przycisk Zapisz i Dodaj Kolejny --}}
-                <button type="button" wire:click="save(true)" class="btn btn-primary">
-                    <span wire:loading.remove wire:target="save(true)">
-                        <i class="fas fa-plus-circle me-1"></i> Zapisz i kolejny
+                {{-- Przycisk Zapisz --}}
+                <button type="button" wire:click="save" class="btn btn-success">
+                    <span wire:loading.remove wire:target="save">
+                        <i class="fas fa-check me-1"></i> Zapisz
                     </span>
-                    <span wire:loading wire:target="save(true)">Zapisywanie...</span>
-                </button>
-
-                {{-- Przycisk Zapisz i Zamknij --}}
-                <button type="button" wire:click="save(false)" class="btn btn-success">
-                    <span wire:loading.remove wire:target="save(false)">
-                        <i class="fas fa-check me-1"></i> Zapisz i zamknij
-                    </span>
-                    <span wire:loading wire:target="save(false)">Przetwarzanie...</span>
+                    <span wire:loading wire:target="save">Przetwarzanie...</span>
                 </button>
             </div>
 

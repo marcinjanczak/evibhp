@@ -3,7 +3,7 @@
 @section('title', 'Szczegóły pracownika')
 
 @section('content')
-    <div class="container mt-5">
+    <div>
     
     <div class="d-flex justify-content-between align-items-center mb-4">
         <div>
@@ -13,14 +13,6 @@
             <h2 class="fw-bold mb-0">Karta Pracownika</h2>
         </div>
         <div> 
-
-        <!-- /// TODO: Dodać imolementacje tego -->
-            <!-- <button class="btn btn-outline-primary me-2">
-                <i class="fas fa-edit"></i> Edytuj dane
-            </button>
-            <button class="btn btn-success">
-                <i class="fas fa-plus-circle me-1"></i> Wydaj towar
-            </button> -->
 
             <button class="btn btn-success shadow-sm" 
                     onclick="openIssueModalForEmployee('{{ $employee->id }}')">
@@ -35,7 +27,7 @@
             <div class="card shadow-sm border-0 text-center p-4 h-100">
                 <div class="card-body">
                     <h4 class="fw-bold mb-1">{{ $employee->first_name }} {{ $employee->last_name }}</h4>
-                    <p class="text-muted mb-3">{{ $employee->position->name ?? 'Brak stanowiska' }}</p>
+                    <livewire:employees.assign-position :employee="$employee" />
                     <div class="bg-light rounded p-2 border">
                         <div class="h4 fw-bold text-primary">{{ $issues->count() }}</div>
                         <div class="small text-muted" style="font-size: 0.7rem;">PRZEDMIOTÓW</div>
@@ -53,7 +45,7 @@
 
                 <div class="table-responsive">
                     <table class="table table-hover align-middle mb-0">
-                        <thead class="bg-light text-secondary small text-uppercase">
+                        <thead class="bg-light text-secondary">
                             <tr>
                                 <th class="ps-4">Produkt</th>
                                 <th>Data Wydania</th>

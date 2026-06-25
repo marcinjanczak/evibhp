@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container mt-4">
+<div>
     
     <div class="d-flex justify-content-between align-items-center mb-4">
         <div class="d-flex align-items-center">
@@ -34,7 +34,7 @@
             </div>
             
             <table class="table table-hover align-middle bg-white shadow-sm rounded">
-                <thead class="table-light">
+                <thead class="bg-light text-secondary">
                     <tr>
                         <th>Rozmiar</th>
                         <th>Stan</th>

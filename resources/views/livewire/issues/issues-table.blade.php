@@ -1,4 +1,26 @@
 <div class="card shadow-sm border-0">
+    <div class="card-header bg-white border-bottom border-light py-3">
+        <div class="row g-2 align-items-center">
+            <div class="col-md-3">
+                <input type="text" wire:model.live.debounce.300ms="searchEmployee" class="form-control form-control-sm" placeholder="Szukaj pracownika...">
+            </div>
+            <div class="col-md-3">
+                <input type="text" wire:model.live.debounce.300ms="searchProduct" class="form-control form-control-sm" placeholder="Szukaj produktu...">
+            </div>
+            <div class="col-md-3">
+                <div class="input-group input-group-sm">
+                    <span class="input-group-text bg-light text-muted border-end-0">Od</span>
+                    <input type="date" wire:model.live="searchDateFrom" class="form-control border-start-0">
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="input-group input-group-sm">
+                    <span class="input-group-text bg-light text-muted border-end-0">Do</span>
+                    <input type="date" wire:model.live="searchDateTo" class="form-control border-start-0">
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="table-responsive">
         <table class="table table-hover align-middle mb-0">
             <thead class="bg-light text-secondary">
@@ -129,7 +151,7 @@
                     
                     <div class="table-responsive">
                         <table class="table table-hover align-middle mb-0 text-muted">
-                            <thead class="bg-light">
+                            <thead class="bg-light text-secondary">
                                 <tr>
                                     <th class="ps-4">Wydano</th>
                                     <th>Zwrócono</th>

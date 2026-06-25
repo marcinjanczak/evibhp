@@ -14,6 +14,19 @@ class IssuesTable extends Component
 
     protected $paginationTheme = 'bootstrap'; 
 
+    public $searchEmployee = '';
+    public $searchProduct = '';
+    public $searchDateFrom = '';
+    public $searchDateTo = '';
+
+    public function updating($field)
+    {
+        if (in_array($field, ['searchEmployee', 'searchProduct', 'searchDateFrom', 'searchDateTo'])) {
+            $this->resetPage();
+            $this->resetPage('historyPage');
+        }
+    }
+
     #[On('refresh-issues-table')] 
     public function refresh() 
     {
@@ -22,13 +35,35 @@ class IssuesTable extends Component
 
     public function render()
     {
+        $queryFilter = function ($q) {
+            if ($this->searchEmployee) {
+                $q->whereHas('employee', function ($q2) {
+                    $q2->where('last_name', 'like', '%' . $this->searchEmployee . '%')
+                       ->orWhere('first_name', 'like', '%' . $this->searchEmployee . '%');
+                });
+            }
+            if ($this->searchProduct) {
+                $q->whereHas('batch.product', function ($q2) {
+                    $q2->where('name', 'like', '%' . $this->searchProduct . '%');
+                });
+            }
+            if ($this->searchDateFrom) {
+                $q->where('issued_at', '>=', $this->searchDateFrom);
+            }
+            if ($this->searchDateTo) {
+                $q->where('issued_at', '<=', $this->searchDateTo . ' 23:59:59');
+            }
+        };
+
         $activeIssues = Issue::active()
-            ->with(['employee', 'batch.product'])
+            ->with(['employee.position', 'batch.product'])
+            ->where($queryFilter)
             ->orderBy('created_at', 'desc')
             ->paginate(20);
 
         $archivedIssues = Issue::archived()
             ->with(['employee', 'batch.product'])
+            ->where($queryFilter)
             ->orderBy('returned_at', 'desc') 
             ->paginate(10, ['*'], 'historyPage'); 
 

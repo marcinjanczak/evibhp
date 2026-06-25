@@ -13,7 +13,7 @@
 
     <div class="card shadow-sm border-0">
         <table class="table table-hover align-middle mb-0">
-            <thead class="bg-light">
+            <thead class="bg-light text-secondary">
                 <tr>
                     <th class="ps-4">Nazwa Stanowiska</th>
                     <th>Pracowników</th>
@@ -23,20 +23,15 @@
             </thead>
             <tbody>
                 @forelse($positions as $position)
-                    <tr>
+                    <tr onclick="window.location='{{ route('positions.show', $position->id) }}'" style="cursor: pointer;" class="position-relative">
                         <td class="ps-4 fw-bold">{{ $position->name }}</td>
                         <td><span class="badge bg-secondary">{{ $position->employees_count }}</span></td>
                         <td>
                             <span class="badge bg-success">{{ $position->products_count }}</span>
                             <small class="text-muted ms-1">przypisanych</small>
                         </td>
-                        <td class="text-end pe-4">
+                        <td class="text-end pe-4" onclick="event.stopPropagation();">
                             <div class="btn-group">
-                                {{-- NOWY PRZYCISK PODGLĄDU --}}
-                                <a href="{{ route('positions.show', $position->id) }}" class="btn btn-sm btn-light text-secondary" title="Szczegóły">
-                                    <i class="fas fa-eye"></i>
-                                </a>
-
                                 <button wire:click="$dispatch('edit-position', { id: {{ $position->id }} })" 
                                         class="btn btn-sm btn-light text-primary" 
                                         data-bs-toggle="modal" data-bs-target="#positionModal">

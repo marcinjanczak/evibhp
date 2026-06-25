@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container mt-4">
+<div>
     
     {{-- NAGŁÓWEK --}}
     <div class="d-flex justify-content-between align-items-center mb-4 border-bottom pb-3">
@@ -22,42 +22,7 @@
         
         {{-- KOLUMNA LEWA: PRACOWNICY --}}
         <div class="col-md-7">
-            <div class="card shadow-sm border-0 mb-4">
-                <div class="card-header bg-white py-3">
-                    <h5 class="mb-0 fw-bold text-dark"><i class="fas fa-users text-secondary me-2"></i> Przypisani Pracownicy</h5>
-                </div>
-                <div class="card-body p-0">
-                    <table class="table table-hover align-middle mb-0">
-                        <thead class="bg-light">
-                            <tr>
-                                <th class="ps-4">Pracownik</th>
-                                <th class="text-end pe-4">Profil</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @forelse($position->employees as $employee)
-                                <tr>
-                                    <td class="ps-4">
-                                        <div class="d-flex align-items-center">
-                                            <span class="fw-bold">{{ $employee->last_name }} {{ $employee->first_name }}</span>
-                                        </div>
-                                    </td>
-                                    <td class="text-end pe-4">
-                                        {{-- Link do podglądu pracownika (jeśli kiedyś zrobisz taki widok) --}}
-                                        <a href="#" class="btn btn-sm btn-light text-primary"><i class="fas fa-eye"></i></a>
-                                    </td>
-                                </tr>
-                            @empty
-                                <tr>
-                                    <td colspan="3" class="text-center py-4 text-muted">
-                                        Brak pracowników przypisanych do tego stanowiska.
-                                    </td>
-                                </tr>
-                            @endforelse
-                        </tbody>
-                    </table>
-                </div>
-            </div>
+            <livewire:positions.position-employees :position="$position" />
         </div>
 
         {{-- KOLUMNA PRAWA: SUGEROWANY SPRZĘT --}}

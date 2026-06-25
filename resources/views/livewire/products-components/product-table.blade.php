@@ -32,7 +32,7 @@
                     </thead>
                     <tbody>
                         @forelse ($items as $item)
-                            <tr>
+                            <tr onclick="window.location='{{ route('items.show', $item->id) }}'" style="cursor: pointer;" class="position-relative">
                                 <td class="ps-4">
                                     @if ($item->preview_image_path)
                                         <img src="{{ Storage::url($item->preview_image_path) }}"
@@ -65,11 +65,8 @@
                                         <span class="text-muted small">Brak</span>
                                     @endif
                                 </td>
-                                <td class="text-end pe-4">
+                                <td class="text-end pe-4" onclick="event.stopPropagation();">
                                     <div class="btn-group">
-                                        <a href="{{ route('items.show', $item->id) }}" class="btn btn-sm btn-light text-primary" title="Szczegóły">
-                                            <i class="fas fa-eye"></i>
-                                        </a>
                                         <button 
                                             wire:click="$dispatch('edit-product', { product: {{ $item->id }} })"
                                             data-bs-toggle="modal" 
