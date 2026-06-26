@@ -19,7 +19,13 @@
 
             <div class="col-md-6 mb-3">
                 <label class="form-label">Data Ważności</label>
-                <input type="date" wire:model="expiration_date" class="form-control">
+                <input type="date" wire:model="expiration_date" class="form-control mb-2">
+                <div class="d-flex gap-2 flex-wrap">
+                    <button type="button" class="btn btn-sm btn-outline-secondary" wire:click="setExpirationMonths(6)">+6 m-cy</button>
+                    <button type="button" class="btn btn-sm btn-outline-secondary" wire:click="setExpirationMonths(12)">+12 m-cy</button>
+                    <button type="button" class="btn btn-sm btn-outline-secondary" wire:click="setExpirationMonths(24)">+24 m-ce</button>
+                    <button type="button" class="btn btn-sm btn-outline-secondary" wire:click="setExpirationMonths(36)">+36 m-cy</button>
+                </div>
                 @error('expiration_date') <span class="text-danger small">{{ $message }}</span> @enderror
             </div>
 

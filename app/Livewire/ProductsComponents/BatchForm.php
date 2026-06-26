@@ -35,6 +35,11 @@ class BatchForm extends Component
         $this->expiration_date = now()->addYears(2)->format('Y-m-d');
     }
 
+    public function setExpirationMonths($months)
+    {
+        $this->expiration_date = now()->addMonths($months)->format('Y-m-d');
+    }
+
     public function save(BatchService $batchService)
     {
         $this->validate();
