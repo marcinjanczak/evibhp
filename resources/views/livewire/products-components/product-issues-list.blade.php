@@ -28,7 +28,9 @@
                     <tr>
                         <td><div class="fw-bold">{{ $issue->issued_at->format('Y-m-d') }}</div></td>
                         <td>
-                            {{ $issue->employee->first_name }} {{ $issue->employee->last_name }}
+                            <a href="{{ route('employees.show', $issue->employee->id) }}" class="text-decoration-none">
+                                {{ $issue->employee->first_name }} {{ $issue->employee->last_name }}
+                            </a>
                         </td>
                         <td>{{ $issue->quantity }} szt.</td>
                         <td><span class="badge bg-secondary">{{ $issue->batch->size ?? '-' }}</span></td>

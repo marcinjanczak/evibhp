@@ -1,15 +1,23 @@
 <div>
     <div class="row mb-4">
-        <div class="col-md-6">
+        <div class="col-md-5 mb-2 mb-md-0">
             <div class="input-group">
                 <span class="input-group-text bg-white"><i class="fas fa-search text-muted"></i></span>
                 <input type="text" 
                        wire:model.live.debounce.300ms="search" 
                        class="form-control" 
-                       placeholder="Szukaj po nazwie, typie lub rozmiarze...">
+                       placeholder="Szukaj po nazwie lub typie...">
             </div>
         </div>
-        <div class="col-md-6 text-end">
+        <div class="col-md-3 mb-2 mb-md-0">
+            <select wire:model.live="category" class="form-select text-secondary">
+                <option value="">Wszystkie kategorie</option>
+                @foreach($categories as $cat)
+                    <option value="{{ $cat }}">{{ $cat }}</option>
+                @endforeach
+            </select>
+        </div>
+        <div class="col-md-4 text-end">
         <button class="btn btn-success shadow-sm" data-bs-toggle="modal" data-bs-target="#addProductModal">
             <i class="fas fa-plus"></i> Dodaj nowy przedmiot
         </button>
