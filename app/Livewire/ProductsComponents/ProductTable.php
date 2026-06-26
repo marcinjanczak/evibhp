@@ -33,4 +33,16 @@ class ProductTable extends Component
             'categories' => Product::select('type')->distinct()->pluck('type')->filter()->values()
         ]);
     }
+
+    public function delete($id, ProductService $productService)
+    {
+        $product = Product::findOrFail($id);
+        
+        try {
+            $productService->deleteProduct($product);
+            session()->flash('success', 'Przedmiot został pomyślnie usunięty.');
+        } catch (\Exception $e) {
+            session()->flash('error', 'Wystąpił błąd podczas usuwania przedmiotu.');
+        }
+    }
 }
