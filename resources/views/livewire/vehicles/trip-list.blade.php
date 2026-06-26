@@ -55,7 +55,7 @@
                             </td>
                             <td>
                                 @if($trip->status == 'in_progress')
-                                    <span class="badge bg-warning text-dark"><i class="fas fa-spinner fa-spin"></i> W trakcie</span>
+                                    <span class="badge bg-warning text-dark">W trakcie</span>
                                 @else
                                     <span class="badge bg-success"><i class="fas fa-check"></i> Zakończony</span>
                                 @endif

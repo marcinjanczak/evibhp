@@ -47,6 +47,7 @@
                         <th>Stan</th>
                         <th>Ważność</th>
                         <th>Faktura</th>
+                        <th class="text-end">Akcje</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -73,10 +74,20 @@
                                     <span class="text-muted">-</span>
                                 @endif
                             </td>
+                            <td class="text-end">
+                                @if($batch->current_quantity > 0)
+                                    <button type="button" class="btn btn-sm btn-primary shadow-sm"
+                                            onclick="window.Livewire.dispatch('open-issue-batch-modal', { batchId: {{ $batch->id }} })"
+                                            data-bs-toggle="modal" 
+                                            data-bs-target="#issueBatchModal">
+                                        <i class="fas fa-hand-holding-box"></i> Wydaj z tej partii
+                                    </button>
+                                @endif
+                            </td>
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="5" class="text-center py-4 text-muted">
+                            <td colspan="6" class="text-center py-4 text-muted">
                                 <i class="fas fa-box-open fa-2x mb-2"></i><br>
                                 Brak towaru na stanie. Kliknij przycisk u góry, aby przyjąć dostawę.
                             </td>
@@ -127,5 +138,8 @@
         </div>
     </div>
 </div>
+
+<!-- Modal do wydania z konkretnej partii -->
+<livewire:products-components.issue-batch-modal />
 
 @endsection

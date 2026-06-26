@@ -58,13 +58,18 @@ class ProductService
         });
     }
 
-    public function getPaginatedList(string $search = '', int $perPage = 10)
+    public function getPaginatedList(string $search = '', int $perPage = 10, string $category = '')
     {
         return Product::query()
             ->with('batches') 
             ->when($search, function ($query, $search) {
-                $query->where('name', 'like', "%{$search}%")
+                $query->where(function ($q) use ($search) {
+                    $q->where('name', 'like', "%{$search}%")
                       ->orWhere('type', 'like', "%{$search}%");
+                });
+            })
+            ->when($category, function ($query, $category) {
+                $query->where('type', $category);
             })
             ->orderBy('name', 'asc')
             ->paginate($perPage);
