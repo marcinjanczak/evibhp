@@ -34,11 +34,17 @@
                     <div class="d-flex align-items-center justify-content-between">
                         
                         <div class="d-flex align-items-center gap-3">
-                            <div class="rounded-circle d-flex align-items-center justify-content-center flex-shrink-0
-                                {{ $isSelected ? 'bg-primary text-white' : 'bg-secondary bg-opacity-10 text-secondary' }}"
-                                style="width: 40px; height: 40px; font-weight: bold;">
-                                {{ substr($product->name, 0, 1) }}
-                            </div>
+                            @if($product->preview_image_path)
+                                <img src="{{ Storage::url($product->preview_image_path) }}" 
+                                     class="rounded-circle border flex-shrink-0" 
+                                     style="width: 40px; height: 40px; object-fit: cover;">
+                            @else
+                                <div class="rounded-circle d-flex align-items-center justify-content-center flex-shrink-0
+                                    {{ $isSelected ? 'bg-primary text-white' : 'bg-secondary bg-opacity-10 text-secondary' }}"
+                                    style="width: 40px; height: 40px; font-weight: bold;">
+                                    {{ substr($product->name, 0, 1) }}
+                                </div>
+                            @endif
 
                             <div>
                                 <h6 class="mb-0 fw-bold text-dark">{{ $product->name }}</h6>

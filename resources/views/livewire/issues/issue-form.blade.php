@@ -93,14 +93,29 @@
                                         <div class="d-flex align-items-center justify-content-between">
                                             {{-- Lewa strona --}}
                                             <div class="d-flex align-items-center gap-2">
-                                                <div class="fw-bold">{{ $prod->name }}</div>
-                                                <small class="text-muted">({{ $prod->type }})</small>
-                                                @if($isSuggested)
-                                                    <span class="badge bg-warning text-dark small"><i class="fas fa-star"></i> Sugerowany</span>
+                                                {{-- ZDJĘCIE PRODUKTU --}}
+                                                @if($prod->preview_image_path)
+                                                    <img src="{{ Storage::url($prod->preview_image_path) }}" 
+                                                         class="rounded border" 
+                                                         style="width: 40px; height: 40px; object-fit: cover;">
+                                                @else
+                                                    <div class="bg-light rounded border d-flex align-items-center justify-content-center text-muted" 
+                                                         style="width: 40px; height: 40px;">
+                                                        <i class="fas fa-box"></i>
+                                                    </div>
                                                 @endif
-                                                @if($isAlreadyIssued)
-                                                    <span class="badge bg-info text-white small"><i class="fas fa-info-circle"></i> Posiada ten przedmiot</span>
-                                                @endif
+                                                
+                                                <div class="ms-2">
+                                                    <div class="fw-bold">{{ $prod->name }} <small class="text-muted fw-normal">({{ $prod->type }})</small></div>
+                                                    <div class="d-flex gap-1 mt-1">
+                                                        @if($isSuggested)
+                                                            <span class="badge bg-warning text-dark small"><i class="fas fa-star"></i> Sugerowany</span>
+                                                        @endif
+                                                        @if($isAlreadyIssued)
+                                                            <span class="badge bg-info text-white small"><i class="fas fa-info-circle"></i> Posiada ten przedmiot</span>
+                                                        @endif
+                                                    </div>
+                                                </div>
                                             </div>
 
                                             {{-- Prawa strona --}}
