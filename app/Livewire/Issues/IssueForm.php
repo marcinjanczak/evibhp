@@ -28,8 +28,11 @@ class IssueForm extends Component
     #[Validate('required|integer|min:1')]
     public $quantity = 1;
 
-    #[Validate('nullable|date|after:today')]
-
+    #[Validate('required|date|after:today', message: [
+        'required' => 'Podanie daty zwrotu jest wymagane.',
+        'date' => 'Podana wartość musi być prawidłową datą.',
+        'after' => 'Data zwrotu musi być późniejsza niż dzisiaj.'
+    ])]
     public $due_date = '';
 
     public $selectedMonths = null;
@@ -42,6 +45,23 @@ class IssueForm extends Component
 
     public $selectedEmployeeId = null;
 
+    public array $alreadyIssuedProductIds = [];
+
+    private function loadAlreadyIssuedProducts(?Employee $employee)
+    {
+        if ($employee) {
+            $this->alreadyIssuedProductIds = $employee->issues()
+                ->active()
+                ->with('batch')
+                ->get()
+                ->pluck('batch.product_id')
+                ->unique()
+                ->toArray();
+        } else {
+            $this->alreadyIssuedProductIds = [];
+        }
+    }
+
     public function updatedEmployeeId($value)
     {
         $this->reset(['product_id', 'batch_id', 'suggestedProductIds']);
@@ -51,6 +71,9 @@ class IssueForm extends Component
             if ($employee && $employee->position) {
                 $this->suggestedProductIds = $employee->position->products->pluck('id')->toArray();
             }
+            $this->loadAlreadyIssuedProducts($employee);
+        } else {
+            $this->loadAlreadyIssuedProducts(null);
         }
     }
 
@@ -85,6 +108,8 @@ class IssueForm extends Component
             $this->suggestedProductIds = [];
         }
 
+        $this->loadAlreadyIssuedProducts($employee);
+
         $this->reset(['product_id', 'batch_id', 'quantity', 'due_date']);
     }
 
@@ -109,6 +134,8 @@ class IssueForm extends Component
         } else {
             $this->suggestedProductIds = [];
         }
+
+        $this->loadAlreadyIssuedProducts($employee);
     }
 
     public function selectProduct($id)
@@ -145,7 +172,7 @@ class IssueForm extends Component
             session()->flash('success', 'Towar wydany pomyślnie!');
             
             $this->reset();
-            $this->redirectRoute('issues.index'); 
+            $this->redirect(url()->previous()); 
 
         } catch (\Exception $e) {
             $this->addError('quantity', $e->getMessage());

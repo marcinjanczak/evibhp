@@ -62,7 +62,7 @@
             </thead>
             <tbody>
                 @forelse($employees as $employee)
-                    <tr>
+                    <tr onclick="window.location='{{ route('employees.show', $employee->id) }}'" style="cursor: pointer;" class="position-relative">
                         {{-- PRACOWNIK --}}
                         <td class="ps-4">
                             <div class="fw-bold text-dark">{{ $employee->last_name }} {{ $employee->first_name }}</div>
@@ -99,11 +99,9 @@
                         </td>
 
                         {{-- AKCJE --}}
-                        <td class="text-end pe-4">
+                        <td class="text-end pe-4" onclick="event.stopPropagation();">
                             <div class="btn-group">
-                                <a href="{{ route('employees.show', $employee->id) }}" class="btn btn-sm btn-light">
-                                    <i class="fas fa-eye"></i>
-                                </a>
+                                {{-- Ikona oka usunięta, cały wiersz jest klikalny --}}
                             </div>
                         </td>
                     </tr>

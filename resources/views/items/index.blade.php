@@ -4,7 +4,7 @@
 
 @section('content')
 {{-- Dodałem klasę 'pb-5' (Padding Bottom 5) oraz 'min-vh-100' dla pewności --}}
-<div class="container mt-5 pb-5"> 
+<div> 
     
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h2 class="fw-bold mb-0">

@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container mt-4">
+<div>
     
     <div class="d-flex justify-content-between align-items-center mb-4">
         <div class="d-flex align-items-center">
@@ -15,6 +15,13 @@
         </div>
         
         <div class="text-end">
+            <button type="button" 
+                    class="btn btn-warning shadow-sm me-2" 
+                    onclick="window.Livewire.dispatch('edit-product', { product: {{ $item->id }} })"
+                    data-bs-toggle="modal" 
+                    data-bs-target="#editProductModal">
+                <i class="fas fa-edit me-1"></i> Edytuj nazwę / zdjęcie
+            </button>
             <a href="{{ route('items.index') }}" class="btn btn-outline-secondary shadow-sm">
                 <i class="fas fa-arrow-left me-1"></i> Wróć do listy przedmiotów
             </a>
@@ -34,7 +41,7 @@
             </div>
             
             <table class="table table-hover align-middle bg-white shadow-sm rounded">
-                <thead class="table-light">
+                <thead class="bg-light text-secondary">
                     <tr>
                         <th>Rozmiar</th>
                         <th>Stan</th>
@@ -79,8 +86,15 @@
             </table>
         </div>
     </div>
-</div>
 
+    <!-- Historia wydań -->
+    <div class="row mt-5">
+        <div class="col-md-12">
+            <h4 class="mb-3 border-bottom pb-2">Historia wydań tego przedmiotu</h4>
+            <livewire:products-components.product-issues-list :product="$item" />
+        </div>
+    </div>
+</div>
 <div class="modal fade" id="addBatchModal" tabindex="-1" aria-labelledby="addBatchModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg"> 
         <div class="modal-content">
@@ -96,4 +110,22 @@
         </div>
     </div>
 </div>
+
+<!-- Modal do edycji produktu -->
+<div class="modal fade" id="editProductModal" tabindex="-1" aria-labelledby="editProductModalLabel" aria-hidden="true" wire:ignore.self>
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header bg-warning text-dark">
+                <h5 class="modal-title" id="editProductModalLabel">
+                    <i class="fas fa-edit me-2"></i> Edycja produktu
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <livewire:products-components.product-form />
+            </div>
+        </div>
+    </div>
+</div>
+
 @endsection

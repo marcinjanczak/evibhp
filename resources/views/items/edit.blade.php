@@ -3,7 +3,7 @@
 @section('title', 'Edytuj Przedmiot')
 
 @section('content')
-    <div class="container mt-4">
+    <div>
         <div class="row">
             <div class="col-md-12">
                 <div class="card shadow-sm">
