@@ -18,6 +18,11 @@ class Product extends Model
         return $this->hasMany(Batch::class);
     }
 
+    public function issues()
+    {
+        return $this->hasManyThrough(Issue::class, Batch::class);
+    }
+
     public function getTotalStockAttribute(): int
     {
         return $this->batches()->sum('current_quantity');

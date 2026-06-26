@@ -1,9 +1,14 @@
 <div>
     <div class="d-flex justify-content-between align-items-center mb-3">
         <h5 class="mb-0 text-secondary">Ewidencja wyjazdów</h5>
-        <button class="btn btn-primary shadow-sm" data-bs-toggle="modal" data-bs-target="#startTripModal">
-            <i class="fas fa-play"></i> Zgłoś wyjazd
-        </button>
+        <div>
+            <button class="btn btn-success shadow-sm me-2" data-bs-toggle="modal" data-bs-target="#exportTripsModal">
+                <i class="fas fa-file-excel"></i> Eksportuj do Excela
+            </button>
+            <button class="btn btn-primary shadow-sm" data-bs-toggle="modal" data-bs-target="#startTripModal">
+                <i class="fas fa-play"></i> Zgłoś wyjazd
+            </button>
+        </div>
     </div>
 
     <div class="card shadow-sm border-0">
@@ -283,6 +288,11 @@
                             @error('return_time_h') <span class="text-danger small d-block">{{ $message }}</span> @enderror
                             @error('return_time_m') <span class="text-danger small d-block">{{ $message }}</span> @enderror
                         </div>
+                        <div class="col-md-12">
+                            <label class="form-label">Uwagi do wyjazdu (opcjonalnie)</label>
+                            <textarea wire:model="end_remarks" class="form-control" rows="3" placeholder="Zanotuj np. awarię, tankowanie, itp."></textarea>
+                            @error('end_remarks') <span class="text-danger small">{{ $message }}</span> @enderror
+                        </div>
                     </div>
                 </div>
                 <div class="modal-footer px-0 pb-0 mt-3 border-top-0 bg-white">
@@ -291,6 +301,46 @@
                         <i class="fas fa-check"></i> Zapisz powrót
                     </button>
                 </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Export Modal -->
+    <div wire:ignore.self class="modal fade" id="exportTripsModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form wire:submit.prevent="exportTrips">
+                    <div class="modal-header bg-success text-white">
+                        <h5 class="modal-title">
+                            <i class="fas fa-file-excel"></i> Eksportuj wyjazdy pojazdu
+                        </h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Pojazd <span class="text-danger">*</span></label>
+                            <select wire:model="export_vehicle_id" class="form-select" required>
+                                <option value="">-- Wybierz pojazd --</option>
+                                @foreach(\App\Models\Vehicle::orderBy('license_plate')->get() as $v)
+                                    <option value="{{ $v->id }}">{{ $v->license_plate }} ({{ $v->make }})</option>
+                                @endforeach
+                            </select>
+                            @error('export_vehicle_id') <span class="text-danger small">{{ $message }}</span> @enderror
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Miesiąc i rok <span class="text-danger">*</span></label>
+                            <input type="month" wire:model="export_month" class="form-control" required>
+                            @error('export_month') <span class="text-danger small">{{ $message }}</span> @enderror
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Anuluj</button>
+                        <button type="submit" class="btn btn-success">
+                            <i class="fas fa-download"></i> Pobierz plik CSV
+                        </button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>

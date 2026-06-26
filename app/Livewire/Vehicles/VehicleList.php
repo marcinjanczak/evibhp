@@ -4,6 +4,7 @@ namespace App\Livewire\Vehicles;
 
 use Livewire\Component;
 use App\Models\Vehicle;
+use Livewire\Attributes\On;
 
 class VehicleList extends Component
 {
@@ -51,6 +52,7 @@ class VehicleList extends Component
         $this->reset(['make', 'license_plate']);
         session()->flash('success', 'Pojazd dodany pomyślnie!');
         $this->dispatch('close-modal');
+        $this->dispatch('vehicle-updated');
     }
 
     public function editVehicle($id)
@@ -77,6 +79,7 @@ class VehicleList extends Component
         $this->reset(['edit_id', 'edit_make', 'edit_license_plate']);
         session()->flash('success', 'Pojazd zaktualizowany!');
         $this->dispatch('close-modal-edit');
+        $this->dispatch('vehicle-updated');
     }
 
     public function deleteVehicle($id)
@@ -89,7 +92,11 @@ class VehicleList extends Component
         
         $vehicle->delete();
         session()->flash('success', 'Pojazd został usunięty.');
+        $this->dispatch('vehicle-updated');
     }
+
+    #[On('trip-updated')]
+    public function refreshVehicles() {}
 
     public function render()
     {

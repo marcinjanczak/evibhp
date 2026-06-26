@@ -172,7 +172,7 @@ class IssueForm extends Component
             session()->flash('success', 'Towar wydany pomyślnie!');
             
             $this->reset();
-            $this->redirectRoute('issues.index'); 
+            $this->redirect(url()->previous()); 
 
         } catch (\Exception $e) {
             $this->addError('quantity', $e->getMessage());

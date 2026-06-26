@@ -19,7 +19,30 @@
 
             <div class="col-md-6 mb-3">
                 <label class="form-label">Typ / Kategoria <span class="text-danger">*</span></label>
-                <input type="text" wire:model="type" class="form-control">
+                
+                @if(!$isNewType && count($existingTypes) > 0)
+                    <select wire:model.live="type" class="form-select">
+                        <option value="">-- Wybierz kategorię --</option>
+                        @foreach($existingTypes as $existingType)
+                            @if(!empty($existingType))
+                                <option value="{{ $existingType }}">{{ $existingType }}</option>
+                            @endif
+                        @endforeach
+                        <option value="NEW" class="text-success fw-bold">➕ Dodaj nową kategorię...</option>
+                    </select>
+                @endif
+
+                @if($isNewType || count($existingTypes) == 0)
+                    <div class="input-group">
+                        <input type="text" wire:model="type" class="form-control" placeholder="Wpisz nazwę nowej kategorii...">
+                        @if(count($existingTypes) > 0)
+                            <button class="btn btn-outline-secondary" type="button" wire:click="$set('isNewType', false); $set('type', '')" title="Wróć do listy">
+                                <i class="fas fa-undo"></i>
+                            </button>
+                        @endif
+                    </div>
+                @endif
+                
                 @error('type') <span class="text-danger small">{{ $message }}</span> @enderror
             </div>
 
@@ -33,12 +56,22 @@
                     {{-- Przypadek 1: Wgrano nowe zdjęcie (tymczasowe) --}}
                     @if ($preview_image)
                         <p class="small text-success mb-1">Nowe zdjęcie:</p>
-                        <img src="{{ $preview_image->temporaryUrl() }}" class="img-thumbnail" style="height: 100px;">
+                        <div class="d-flex align-items-center">
+                            <img src="{{ $preview_image->temporaryUrl() }}" class="img-thumbnail me-3" style="height: 100px;">
+                            <button type="button" wire:click="$set('preview_image', null)" class="btn btn-sm btn-outline-danger">
+                                <i class="fas fa-times"></i> Anuluj nową grafikę
+                            </button>
+                        </div>
                     
                     {{-- Przypadek 2: Edycja - brak nowego, ale jest stare w bazie --}}
                     @elseif ($product && $product->preview_image_path)
                         <p class="small text-muted mb-1">Obecne zdjęcie:</p>
-                        <img src="{{ Storage::url($product->preview_image_path) }}" class="img-thumbnail" style="height: 100px; opacity: 0.7">
+                        <div class="d-flex align-items-center">
+                            <img src="{{ Storage::url($product->preview_image_path) }}" class="img-thumbnail me-3" style="height: 100px;">
+                            <button type="button" wire:click="removeImage" wire:confirm="Czy na pewno chcesz usunąć to zdjęcie?" class="btn btn-sm btn-outline-danger">
+                                <i class="fas fa-trash"></i> Usuń zdjęcie z bazy
+                            </button>
+                        </div>
                     @endif
                 </div>
             </div>

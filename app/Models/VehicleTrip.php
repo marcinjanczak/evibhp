@@ -20,6 +20,7 @@ class VehicleTrip extends Model
         'return_date',
         'return_time',
         'status',
+        'remarks',
     ];
 
     protected $casts = [

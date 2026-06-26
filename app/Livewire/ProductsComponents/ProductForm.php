@@ -18,8 +18,17 @@ class ProductForm extends Component
 
     public $name = '';
     public $type = '';
+    public $isNewType = false;
     
     public $preview_image;
+
+    public function updatedType($value)
+    {
+        if ($value === 'NEW') {
+            $this->isNewType = true;
+            $this->type = '';
+        }
+    }
 
     protected function rules()
     {
@@ -80,8 +89,22 @@ class ProductForm extends Component
         }
     }
 
+    public function removeImage(ProductService $service)
+    {
+        if ($this->product && $this->product->preview_image_path) {
+            $service->removeImage($this->product);
+            $this->product->preview_image_path = null;
+        }
+        $this->preview_image = null;
+        session()->flash('success', 'Zdjęcie usunięte.');
+    }
+
     public function render()
     {
-        return view('livewire.products-components.product-form');
+        $existingTypes = Product::select('type')->distinct()->orderBy('type')->pluck('type');
+        
+        return view('livewire.products-components.product-form', [
+            'existingTypes' => $existingTypes
+        ]);
     }
 }
