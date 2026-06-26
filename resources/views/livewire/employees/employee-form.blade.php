@@ -32,7 +32,9 @@
         <div class="modal-footer px-0 pb-0 border-top-0 mt-3">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Anuluj</button>
             <button type="submit" class="btn btn-primary px-4">
-                <span wire:loading.remove><i class="fas fa-save"></i> Zapisz</span>
+                <span wire:loading.remove>
+                    <i class="fas fa-save"></i> {{ $employee ? 'Zaktualizuj' : 'Zapisz' }}
+                </span>
                 <span wire:loading>Zapisywanie...</span>
             </button>
         </div>

@@ -76,4 +76,16 @@ class EmployeeTable extends Component
         'employees' => $employees
     ]);
 }
+
+    public function delete($id, \App\Services\EmployeeService $employeeService)
+    {
+        $employee = Employee::findOrFail($id);
+        
+        try {
+            $employeeService->deleteEmployee($employee);
+            session()->flash('success', 'Pracownik został pomyślnie usunięty.');
+        } catch (\Exception $e) {
+            session()->flash('error', 'Wystąpił błąd podczas usuwania pracownika.');
+        }
+    }
 }

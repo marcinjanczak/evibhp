@@ -13,7 +13,12 @@
             <h2 class="fw-bold mb-0">Karta Pracownika</h2>
         </div>
         <div> 
-
+            <button class="btn btn-warning shadow-sm me-2" 
+                    onclick="window.Livewire.dispatch('edit-employee', { id: {{ $employee->id }} })"
+                    data-bs-toggle="modal" 
+                    data-bs-target="#addEmployeeModal">
+                <i class="fas fa-edit me-1"></i> Edytuj dane
+            </button>
             <button class="btn btn-success shadow-sm" 
                     onclick="openIssueModalForEmployee('{{ $employee->id }}')">
                 <i class="fas fa-plus-circle me-1"></i> Wydaj towar
@@ -138,6 +143,20 @@
                         </tbody>
                     </table>
                 </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="addEmployeeModal" tabindex="-1" aria-hidden="true" wire:ignore.self>
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header bg-warning text-dark">
+                <h5 class="modal-title"><i class="fas fa-user-edit"></i> Edycja pracownika</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <livewire:employees.employee-form />
             </div>
         </div>
     </div>

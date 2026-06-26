@@ -10,6 +10,8 @@ use App\Models\Position;
 
 class EmployeeForm extends Component
 {
+    public ?\App\Models\Employee $employee = null;
+
     #[Validate('required|string|max:50')]
     public $first_name = '';
 
@@ -24,13 +26,23 @@ class EmployeeForm extends Component
         $this->validate();
 
         try {
-            $service->createEmployee([
-                'first_name'  => $this->first_name,
-                'last_name'   => $this->last_name,
-                'position_id' => $this->position_id ?: null,
-            ]);
+            if ($this->employee) {
+                $service->updateEmployee($this->employee, [
+                    'first_name'  => $this->first_name,
+                    'last_name'   => $this->last_name,
+                    'position_id' => $this->position_id ?: null,
+                ]);
+                $message = 'Dane pracownika zostały zaktualizowane.';
+            } else {
+                $service->createEmployee([
+                    'first_name'  => $this->first_name,
+                    'last_name'   => $this->last_name,
+                    'position_id' => $this->position_id ?: null,
+                ]);
+                $message = 'Pracownik został dodany.';
+            }
 
-            session()->flash('success', 'Pracownik został dodany.');
+            session()->flash('success', $message);
             
             return $this->redirectRoute('employees.index', navigate: true);
 
@@ -43,6 +55,16 @@ class EmployeeForm extends Component
     public function resetForm()
     {
         $this->reset();
+        $this->resetValidation();
+    }
+
+    #[On('edit-employee')]
+    public function editEmployee($id)
+    {
+        $this->employee = \App\Models\Employee::findOrFail($id);
+        $this->first_name = $this->employee->first_name;
+        $this->last_name = $this->employee->last_name;
+        $this->position_id = $this->employee->position_id;
         $this->resetValidation();
     }
 

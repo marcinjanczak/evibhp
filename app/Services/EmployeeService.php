@@ -29,4 +29,18 @@ class EmployeeService
             ]);
         });
     }
+
+    public function updateEmployee(Employee $employee, array $data): bool
+    {
+        return $employee->update([
+            'first_name'  => $data['first_name'],
+            'last_name'   => $data['last_name'],
+            'position_id' => $data['position_id'] ?? null,
+        ]);
+    }
+
+    public function deleteEmployee(Employee $employee): ?bool
+    {
+        return $employee->delete();
+    }
 }

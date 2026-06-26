@@ -101,7 +101,18 @@
                         {{-- AKCJE --}}
                         <td class="text-end pe-4" onclick="event.stopPropagation();">
                             <div class="btn-group">
-                                {{-- Ikona oka usunięta, cały wiersz jest klikalny --}}
+                                <button wire:click="$dispatch('edit-employee', { id: {{ $employee->id }} })" 
+                                        class="btn btn-sm btn-light text-primary" 
+                                        data-bs-toggle="modal" data-bs-target="#addEmployeeModal"
+                                        title="Edytuj pracownika">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <button wire:confirm="Czy na pewno usunąć tego pracownika?" 
+                                        wire:click="delete({{ $employee->id }})" 
+                                        class="btn btn-sm btn-light text-danger"
+                                        title="Usuń pracownika">
+                                    <i class="fas fa-trash"></i>
+                                </button>
                             </div>
                         </td>
                     </tr>
